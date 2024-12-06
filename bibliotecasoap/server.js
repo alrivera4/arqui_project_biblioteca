@@ -131,79 +131,174 @@ const loanService = {
       }
   },
   
-          
-          GenerarReportePrestamosActivos: (args) => {
-            console.log(args);
-          
-            db.query('SELECT p.prestamo_id, u.nombre AS usuario, l.titulo AS libro, p.fecha_prestamo, p.fecha_devolucion, p.estado FROM prestamos p ' +
-                    'JOIN usuarios u ON p.usuario_id = u.usuario_id ' +
-                    'JOIN libros l ON p.libro_id = l.libro_id WHERE p.estado = "activo"', (err, results) => {
-              if (err) {
-                throw err;
-              }
-          
-              let reportes = results.map((prestamo) => {
-                return `ID Préstamo: ${prestamo.prestamo_id}, Usuario: ${prestamo.usuario}, Libro: ${prestamo.libro}, Fecha de Préstamo: ${prestamo.fecha_prestamo}, Fecha de Devolución: ${prestamo.fecha_devolucion}, Estado: ${prestamo.estado}`;
-              });
-          
-              return { reportes: reportes.join('\n') };
-            });
-          },
-          
+  GenerarReportePrestamosActivos: async (args) => {
+    try {
+        console.log(args);
 
-          GenerarHistorialUsuario: (args) => {
-            console.log(args);
-          
-            const { usuarioId } = args;
-          
-            db.query('SELECT p.prestamo_id, l.titulo AS libro, p.fecha_prestamo, p.fecha_devolucion, p.estado, p.multa ' +
-                    'FROM prestamos p JOIN libros l ON p.libro_id = l.libro_id ' +
-                    'WHERE p.usuario_id = ? ORDER BY p.fecha_prestamo DESC', [usuarioId], (err, results) => {
-              if (err) {
-                throw err;
-              }
-          
-              let historial = results.map((prestamo) => {
-                return `ID Préstamo: ${prestamo.prestamo_id}, Libro: ${prestamo.libro}, Fecha de Préstamo: ${prestamo.fecha_prestamo}, Fecha de Devolución: ${prestamo.fecha_devolucion}, Estado: ${prestamo.estado}, Multa: ${prestamo.multa}`;
-              });
-          
-              return { historial: historial.join('\n') };
-            });
-          },
-          
+        // Desestructurar los filtros de los parámetros recibidos
+        const { usuarioId, libroTitulo, fechaInicio, fechaFin, estado } = args;
+
+        // Consulta base para obtener los préstamos activos
+        let query = `
+            SELECT p.prestamo_id, u.nombre AS usuario, l.titulo AS libro, 
+                   p.fecha_prestamo, p.fecha_devolucion, p.estado 
+            FROM prestamos p
+            JOIN usuarios u ON p.usuario_id = u.usuario_id
+            JOIN libros l ON p.libro_id = l.libro_id
+            WHERE p.estado = $1
+        `;
+        let params = ['activo'];  // Parámetro inicial para filtrar por préstamos activos
+
+        // Agregar filtros adicionales si se proporcionan
+        if (usuarioId) {
+            query += ' AND u.usuario_id = $' + (params.length + 1);
+            params.push(usuarioId);
+        }
+        if (libroTitulo) {
+            query += ' AND l.titulo ILIKE $' + (params.length + 1);  // Usar ILIKE para búsqueda insensible a mayúsculas/minúsculas
+            params.push('%' + libroTitulo + '%');
+        }
+        if (fechaInicio) {
+            query += ' AND p.fecha_prestamo >= $' + (params.length + 1);
+            params.push(fechaInicio);
+        }
+        if (fechaFin) {
+            query += ' AND p.fecha_devolucion <= $' + (params.length + 1);
+            params.push(fechaFin);
+        }
+        if (estado) {
+            query += ' AND p.estado = $' + (params.length + 1);
+            params.push(estado);
+        }
+
+        // Ejecutar la consulta con los parámetros dinámicos
+        const results = await db.query(query, params);
+
+        // Mapear los resultados y generar el reporte
+        const reportes = results.rows.map((prestamo) => {
+            return `ID Préstamo: ${prestamo.prestamo_id}, Usuario: ${prestamo.usuario}, Libro: ${prestamo.libro}, Fecha de Préstamo: ${prestamo.fecha_prestamo}, Fecha de Devolución: ${prestamo.fecha_devolucion}, Estado: ${prestamo.estado}`;
+        });
+
+        // Retornar el reporte
+        return { estado: 'Exitoso', reportes: reportes.join('\n') };
+
+    } catch (err) {
+        console.error('Error al generar el reporte de préstamos activos:', err);
+        return { estado: 'Error', mensaje: 'No se pudo generar el reporte' };
+    }
+},
 
 
-          RegistrarUsuario: (args) => {
-            console.log(args);
-          
-            const { nombre, correo, contrasenia, tipoUsuario } = args;
-          
-            // Insertar el nuevo usuario
-            db.query('INSERT INTO usuarios (nombre, correo, contrasenia, tipo_usuario) VALUES (?, ?, ?, ?)', 
-            [nombre, correo, contrasenia, tipoUsuario], (err, results) => {
-              if (err) {
-                throw err;
-              }
-          
-              return { usuarioId: results.insertId, estado: 'Registrado' };
-            });
-          },
-          
+  GenerarHistorialUsuario: async (args) => {
+    try {
+      console.log(args);
+  
+      const { usuarioId } = args;
+  
+      // Consulta para obtener el historial de préstamos del usuario
+      const query = `
+        SELECT p.prestamo_id, l.titulo AS libro, p.fecha_prestamo, 
+               p.fecha_devolucion, p.estado, p.multa
+        FROM prestamos p
+        JOIN libros l ON p.libro_id = l.libro_id
+        WHERE p.usuario_id = $1
+        ORDER BY p.fecha_prestamo DESC
+      `;
 
-          SuspenderUsuario: (args) => {
-            console.log(args);
-          
-            const { usuarioId } = args;
-          
-            // Suspender al usuario
-            db.query('UPDATE usuarios SET estado = "suspendido" WHERE usuario_id = ?', [usuarioId], (err) => {
-              if (err) {
-                throw err;
-              }
-          
-              return { estado: 'Suspendido' };
+      const results = await db.query(query, [usuarioId]); // Parámetro seguro
+  
+      // Mapear los resultados y generar el historial
+      const historial = results.rows.map((prestamo) => {
+        return `ID Préstamo: ${prestamo.prestamo_id}, Libro: ${prestamo.libro}, Fecha de Préstamo: ${prestamo.fecha_prestamo}, Fecha de Devolución: ${prestamo.fecha_devolucion}, Estado: ${prestamo.estado}, Multa: ${prestamo.multa}`;
+      });
+  
+      // Retornar el historial 
+      return { estado: 'Exitoso', historial: historial.join('\n') };
+  
+    } catch (err) {
+      console.error('Error al generar el historial del usuario:', err);
+      return { estado: 'Error', mensaje: 'No se pudo generar el historial' };
+    }
+  },
+  
+
+  RegistrarUsuario: (args, callback) => {
+    console.log("Datos recibidos:", args);
+    
+    const { nombre, correo, contrasenia, tipoUsuario } = args;
+
+    db.query(
+        'INSERT INTO usuarios (nombre, correo, contrasenia, tipo_usuario) VALUES ($1, $2, $3, $4) RETURNING usuario_id', 
+        [nombre, correo, contrasenia, tipoUsuario], 
+        (err, results) => {
+            if (err) {
+                console.error("Error al registrar usuario:", err);
+
+                // Llamar al callback con un error
+                return callback({
+                    success: false,
+                    message: "Error al registrar usuario",
+                    error: err.message
+                });
+            }
+
+            console.log("Usuario registrado con ID:", results.rows[0].usuario_id);
+
+            // Llamar al callback con la respuesta de éxito
+            callback(null, {
+                success: true,
+                usuarioId: results.rows[0].usuario_id,
+                estado: 'Registrado'
             });
-          }
+        }
+    );
+},
+
+SuspenderUsuario :async (args) => {
+  try {
+      console.log("Datos recibidos para suspensión:", args);
+
+      const { usuarioId } = args;
+
+      // Iniciar transacción para garantizar consistencia
+      await db.query('BEGIN');  // Esperar la transacción
+      console.log("Transacción iniciada.");
+
+      // Suspender los préstamos del usuario
+      await db.query(
+          'UPDATE prestamos SET estado = $1 WHERE usuario_id = $2 AND estado = $3',
+          ['suspendido', usuarioId, 'activo']
+      );
+      console.log("Préstamos actualizados.");
+
+      // Suspender al usuario
+      await db.query(
+          'UPDATE usuarios SET estado = $1 WHERE usuario_id = $2',
+          ['suspendido', usuarioId]
+      );
+      console.log("Usuario suspendido.");
+
+      // Confirmar transacción
+      await db.query('COMMIT');
+      console.log("Transacción confirmada.");
+
+      // Retornar un objeto de éxito
+      return {
+          usuarioId: usuarioId,
+          estado: 'Suspendido',
+          mensaje: 'Usuario suspendido exitosamente y préstamos finalizados.'
+      };
+
+  } catch (err) {
+      // Si hay un error en alguna parte del proceso, revertir la transacción
+      console.error("Error en el proceso de suspensión:", err);
+      await db.query('ROLLBACK');
+      return { error: "Error al suspender usuario y actualizar préstamos." };  // Error
+  }
+}
+
+
+
           
     },
   },
