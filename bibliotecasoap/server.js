@@ -9,7 +9,7 @@ const db = new Client({
     host: 'localhost', // Dirección del servidor PostgreSQL
     user: 'postgres', // Usuario de la base de datos
     password: 'admin', // Contraseña del usuario
-    database: 'biblioteca', // Nombre de la base de datos
+    database: 'biblioteca_proj', // Nombre de la base de datos
     port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
 });
 
@@ -225,11 +225,11 @@ const loanService = {
   RegistrarUsuario: (args, callback) => {
     console.log("Datos recibidos:", args);
     
-    const { nombre, correo, contrasenia, tipoUsuario } = args;
+    const { nombre, usuario, correo, contrasenia, tipoUsuario } = args;
 
     db.query(
-        'INSERT INTO usuarios (nombre, correo, contrasenia, tipo_usuario) VALUES ($1, $2, $3, $4) RETURNING usuario_id', 
-        [nombre, correo, contrasenia, tipoUsuario], 
+        'INSERT INTO usuarios (nombre, usuario, correo, contrasenia, tipo_usuario) VALUES ($1, $2, $3, $4, $5) RETURNING usuario_id', 
+        [nombre, usuario, correo, contrasenia, tipoUsuario], 
         (err, results) => {
             if (err) {
                 console.error("Error al registrar usuario:", err);
