@@ -22,6 +22,7 @@ public class Usuario {
     private Long usuarioId;
 
     private String nombre;
+    private String usuario;
     private String correo;
     private String contrasenia;
     private String tipoUsuario;  // estudiante, profesor, administrador
@@ -44,6 +45,14 @@ public class Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getCorreo() {

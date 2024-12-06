@@ -9,7 +9,7 @@ const db = new Client({
     host: 'localhost', // Dirección del servidor PostgreSQL
     user: 'postgres', // Usuario de la base de datos
     password: 'admin', // Contraseña del usuario
-    database: 'biblioteca_proj', // Nombre de la base de datos
+    database: 'biblioteca', // Nombre de la base de datos
     port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
 });
 
@@ -131,12 +131,13 @@ const loanService = {
       }
   },
   
-  GenerarReportePrestamosActivos: async (args) => {
+  GenerarReportePrestamosActivos: async (args = {}) => {
     try {
-        console.log(args);
+        args = args || {}; // Asegurarse de que args no sea null
+        console.log('Parámetros recibidos:', args);
 
-        // Desestructurar los filtros de los parámetros recibidos
-        const { usuarioId, libroTitulo, fechaInicio, fechaFin, estado } = args;
+        // Desestructurar los filtros con valores predeterminados
+        const { usuarioId = null, libroTitulo = null, fechaInicio = null, fechaFin = null, estado = null } = args;
 
         // Consulta base para obtener los préstamos activos
         let query = `
@@ -147,7 +148,7 @@ const loanService = {
             JOIN libros l ON p.libro_id = l.libro_id
             WHERE p.estado = $1
         `;
-        let params = ['activo'];  // Parámetro inicial para filtrar por préstamos activos
+        let params = ['activo']; // Parámetro inicial para filtrar por préstamos activos
 
         // Agregar filtros adicionales si se proporcionan
         if (usuarioId) {
@@ -155,7 +156,7 @@ const loanService = {
             params.push(usuarioId);
         }
         if (libroTitulo) {
-            query += ' AND l.titulo ILIKE $' + (params.length + 1);  // Usar ILIKE para búsqueda insensible a mayúsculas/minúsculas
+            query += ' AND l.titulo ILIKE $' + (params.length + 1);
             params.push('%' + libroTitulo + '%');
         }
         if (fechaInicio) {

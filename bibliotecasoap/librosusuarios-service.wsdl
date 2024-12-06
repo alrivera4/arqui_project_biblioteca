@@ -42,6 +42,7 @@
     
     <message name="RegistrarUsuarioRequest">
         <part name="nombre" type="xsd:string"/>
+        <part name="usuario" type="xsd:string"/>
         <part name="correo" type="xsd:string"/>
         <part name="tipoUsuario" type="xsd:string"/>
     </message>
