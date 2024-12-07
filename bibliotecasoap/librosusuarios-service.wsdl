@@ -59,6 +59,15 @@
     <message name="SuspenderUsuarioResponse">
         <part name="estado" type="xsd:string"/>
     </message>
+
+    <message name="ValidarUsuarioRequest">
+        <part name="usuario" type="xsd:string"/>
+        <part name="contraseña" type="xsd:string"/>
+    </message>
+    
+    <message name="ValidarUsuarioResponse">
+        <part name="estado" type="xsd:string"/>
+    </message>
     
     <!-- Operaciones del servicio -->
     <portType name="LoanServicePortType">
@@ -90,6 +99,11 @@
         <operation name="SuspenderUsuario">
             <input message="web:SuspenderUsuarioRequest"/>
             <output message="web:SuspenderUsuarioResponse"/>
+        </operation>
+
+        <operation name="ValidarUsuario">
+            <input message="web:ValidarUsuarioRequest"/>
+            <output message="web:ValidarUsuarioResponse"/>
         </operation>
     </portType>
     
@@ -149,6 +163,15 @@
         
         <operation name="SuspenderUsuario">
             <soap:operation soapAction="SuspenderUsuario"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+         <operation name="ValidarUsuario">
+            <soap:operation soapAction="ValidarUsuario"/>
             <input>
                 <soap:body use="literal"/>
             </input>

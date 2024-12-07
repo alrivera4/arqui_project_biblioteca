@@ -1,6 +1,7 @@
 const express = require('express');
 const soap = require('soap');
 const fs = require('fs');
+const cors = require('cors');  // Importar el paquete cors
 
 
 const { Client } = require('pg'); // Importar el cliente de PostgreSQL
@@ -27,6 +28,9 @@ module.exports = db; // Exportar la conexión para usarla en otros archivos
 const app = express();
 const port = 8000;
 
+// Habilitar CORS en todas las rutas
+app.use(cors());  
+
 // Ruta al archivo WSDL
 const wsdlFile = fs.readFileSync('librosusuarios-service.wsdl', 'utf8');
 
@@ -34,6 +38,43 @@ const wsdlFile = fs.readFileSync('librosusuarios-service.wsdl', 'utf8');
 const loanService = {
   LoanService: {
     LoanServicePort: {
+
+        ValidarUsuario: async (args) => {
+            try {
+              console.log("Datos recibidos para validación de usuario:", args);
+          
+              const { usuario, contrasenia } = args; // Aquí se reciben ambos valores: usuario y contrasenia
+          
+              // Verificar si el usuario existe en la base de datos
+              const query = 'SELECT * FROM usuarios WHERE usuario = $1 AND contrasenia = $2'; // Usar usuario y contrasenia
+              const result = await db.query(query, [usuario, contrasenia]);
+          
+              if (result.rows.length === 0) {
+                // Si no se encuentra al usuario, retornar un mensaje de error
+                return {
+                  estado: 'Error',
+                  mensaje: 'Usuario o contraseña incorrectos',
+                  usuario: '', // No se incluye el usuario si no fue encontrado
+                };
+              }
+          
+              // Si el usuario existe, retornar un mensaje de éxito junto con el nombre de usuario
+              return {
+                estado: 'Exitoso',
+                mensaje: 'Usuario validado con éxito',
+                usuario: result.rows[0].usuario, // Aquí se incluye el nombre de usuario encontrado
+              };
+            } catch (err) {
+              console.error('Error al validar el usuario:', err);
+              return {
+                estado: 'Error',
+                mensaje: 'Error al validar el usuario',
+                usuario: '', // No se incluye el usuario en caso de error
+              };
+            }
+          },
+          
+    
       RegistrarPrestamo: async (args) => {
         try {
             console.log(args);
@@ -247,9 +288,10 @@ const loanService = {
 
             // Llamar al callback con la respuesta de éxito
             callback(null, {
-                success: true,
-                usuarioId: results.rows[0].usuario_id,
-                estado: 'Registrado'
+                //success: true,
+                //usuarioId: results.rows[0].usuario_id,
+                estado: 'Registrado',
+                mensaje: 'Usuario registrado correctamente'
             });
         }
     );
