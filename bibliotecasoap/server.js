@@ -46,7 +46,7 @@ const loanService = {
               const { usuario, contrasenia } = args; // Aquí se reciben ambos valores: usuario y contrasenia
           
               // Verificar si el usuario existe en la base de datos
-              const query = 'SELECT * FROM usuarios WHERE usuario = $1 AND contrasenia = $2'; // Usar usuario y contrasenia
+              const query = 'SELECT usuario, tipo_usuario FROM usuarios WHERE usuario = $1 AND contrasenia = $2'; // Usar usuario y contrasenia
               const result = await db.query(query, [usuario, contrasenia]);
           
               if (result.rows.length === 0) {
@@ -63,6 +63,7 @@ const loanService = {
                 estado: 'Exitoso',
                 mensaje: 'Usuario validado con éxito',
                 usuario: result.rows[0].usuario, // Aquí se incluye el nombre de usuario encontrado
+                tipoUsuario: result.rows[0].tipo_usuario, // Aquí se incluye el tipo de usuario encontrado
               };
             } catch (err) {
               console.error('Error al validar el usuario:', err);

@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  
+jwt:
+  secret: miClaveSecretaJWT123
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: libros-service
+          uri: lb://msvc-libros
+          predicates:
+            - Path=/api/libros/**
+        - id: usuarios-service
+          uri: lb://msvc-usuarios
+          predicates:
+            - Path=/api/usuarios/**
+        - id: prestamos-service
+          uri: lb://msvc-prestamos
+          predicates:
+            - Path=/api/usuarios/{id}/prestamos
+          filters:
+            - RewritePath=/api/usuarios/(?<id>.*)/prestamos, /api/usuarios/${id}/prestamos
+         
+          
+
+  eureka:
+    client:
+        register-with-eureka: true
+        fetch-registry: true
+    instance:
+        prefer-ip-address: true
