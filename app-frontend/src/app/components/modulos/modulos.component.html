@@ -1,1 +1,56 @@
-<p>modulos works!</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Aquí se incluye el enlace para cargar la fuente Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  
+</head>
+  <div class="container-fluid">
+
+  <!-- Franja azul con Navbar -->
+  <!-- Navbar -->
+<div class="navbar">
+  <div class="logo">Mi Aplicación</div>
+  <div class="menu-links">
+    <a href="#">Libros</a>
+    <a href="#">Usuarios</a>
+    <a href="#">Préstamos y Devoluciones</a>
+    <a href="#">Reportes</a>
+    <button class="logout-btn">Cerrar sesión</button>
+  </div>
+</div>
+
+<div class="user-section">
+  <div class="user-info">
+    <!-- Avatar del usuario -->
+    <div class="user-avatar">
+      <i class="fa fa-user"></i>
+    </div>
+
+    <!-- Información del usuario (Formulario) -->
+    <div class="form-container">
+      <div class="user-name">Juan Pérez</div>
+      <form action="#" method="POST">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="Juan Pérez" readonly>
+
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" value="juan.perez@example.com" readonly>
+
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" value="123-456-7890" readonly>
+
+        <button type="submit">Guardar cambios</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+</div>
