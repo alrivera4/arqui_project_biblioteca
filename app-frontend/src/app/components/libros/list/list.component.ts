@@ -8,6 +8,8 @@ import { LibroService } from 'src/app/services/libro.service';
 })
 export class ListComponent implements OnInit {
   libros: any[] = [];
+  modalTitle: string = '';
+  actionButtonText: string = '';
 
   constructor(private libroService: LibroService) {}
 
@@ -30,4 +32,17 @@ export class ListComponent implements OnInit {
       });
     }
   }
+
+  obtenerLibros(): void {
+    this.libroService.getLibros().subscribe((data) => {
+      this.libros = data;
+      
+      // Añadimos console.log() para ver los datos que llegan
+      console.log('Libros obtenidos:', this.libros);
+      
+      // También puedes hacer un console.log para ver solo las cantidades disponibles
+      console.log('Cantidad disponible de cada libro:', this.libros.map(libro => libro.cantidad_disponible));
+    });
+  }
 }
+

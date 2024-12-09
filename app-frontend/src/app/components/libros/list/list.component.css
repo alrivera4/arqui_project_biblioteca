@@ -1,75 +1,137 @@
-/* Contenedor para el botón de agregar libro */
+/* Ajusta el margen superior del botón */
 .add-button-container {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  /* Botón de agregar libro */
-  .btn-add {
-    padding: 10px 20px;
-    border-radius: 10px; /* Bordes redondeados */
-    font-size: 16px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .btn-add i {
-    margin-right: 8px;
-  }
-  
-  /* Estilo general para la tabla */
-  .table-container {
-    margin-top: 10px;
-    max-height: 400px;  /* Limita la altura de la tabla */
-    overflow-y: auto;   /* Habilita el desplazamiento si la tabla excede la altura */
-  }
-  
-  .table {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .thead-dark {
-    background-color: #343a40;
-    color: white;
-  }
-  
-  .table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-  }
-  
-  /* Estilo para los botones dentro de la tabla */
-  .btn {
-    border-radius: 5px;
-    font-size: 14px;
-    padding: 6px 12px;
-    margin-right: 10px;
-    transition: all 0.3s ease;
-  }
-  
-  .btn:hover {
-    transform: scale(1.05);
-  }
-  
-  /* Botones específicos */
-  .btn-warning {
-    background-color: #f0ad4e;
-    border-color: #f0ad4e;
-  }
-  
-  .btn-warning:hover {
-    background-color: #ec971f;
-    border-color: #d58512;
-  }
-  
-  .btn-danger {
-    background-color: #d9534f;
-    border-color: #d9534f;
-  }
-  
-  .btn-danger:hover {
-    background-color: #c9302c;
-    border-color: #ac2925;
-  }
-  
+  margin-top: 30px; /* Espacio adicional desde el navbar */
+  margin-bottom: 20px; /* Espacio con la tabla */
+  text-align: left;
+}
+
+/* Botón de agregar libro con bordes redondeados */
+.btn-add {
+  padding: 12px 18px; /* Tamaño del botón */
+  border-radius: 8px; /* Bordes redondeados */
+  font-size: 16px;
+  display: inline-block;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra para mejor visibilidad */
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.btn-add:hover {
+  transform: scale(1.05); /* Efecto al pasar el mouse */
+  background-color: #28a745; /* Color de fondo al pasar el mouse */
+}
+
+/* Espaciado entre el navbar y el contenido */
+.container-fluid {
+  padding-top: 60px; /* Ajusta el espacio entre el navbar y los elementos */
+}
+
+
+/* Espaciado entre la tabla y otros elementos */
+.table-container {
+  margin-top: 30px;     /* Espacio por encima de la tabla */
+  max-height: 400px;    /* Limita la altura de la tabla */
+  overflow-y: auto;     /* Habilita el desplazamiento si la tabla excede la altura */
+}
+
+/* Tabla */
+.table {
+  width: 70%;            /* 70% del ancho de su contenedor */
+  margin: 0 auto;        /* Centra la tabla horizontalmente */
+  border-collapse: collapse; /* Elimina los bordes internos */
+  margin-bottom: 20px;
+  border-collapse: collapse; /* Elimina los bordes internos */
+  border: 1px solid #e0e0e0; /* Borde sutil para la tabla */
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado de la tabla */
+.thead-dark {
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
+}
+
+/* Filas de la tabla */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f8f9fa; /* Fondo suave para las filas impares */
+}
+
+/* Fila al pasar el mouse */
+.table tbody tr:hover {
+  background-color: #f1f1f1; /* Color de fondo más destacado al pasar el mouse */
+  cursor: pointer;
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+/* Estilo para las celdas de la tabla */
+.table td, .table th {
+  vertical-align: middle;
+  text-align: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd; /* Agrega un borde sutil entre filas */
+}
+
+/* Borde redondeado en las celdas */
+.table th, .table td {
+  border-radius: 8px;
+}
+
+/* Borde inferior más suave */
+.table td {
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Estilo para los botones dentro de la tabla */
+.btn {
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 8px 16px;
+  margin-right: 8px;
+  border: none;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto hover en los botones */
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón de edición */
+.btn-warning {
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+
+.btn-warning:hover {
+  background-color: #ec971f;
+  border-color: #d58512;
+}
+
+/* Botón de eliminar */
+.btn-danger {
+  background-color: #d9534f;
+  border-color: #d9534f;
+}
+
+.btn-danger:hover {
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
+
+/* Espaciado entre los botones dentro de la tabla */
+.table td button {
+  margin-right: 10px; /* Mejora el espaciado */
+}
+
+/* Estilo de las celdas de la tabla con botones */
+.table td button:first-child {
+  margin-left: 10px;
+}

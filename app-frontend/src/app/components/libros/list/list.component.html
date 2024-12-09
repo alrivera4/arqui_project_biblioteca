@@ -1,44 +1,51 @@
-<h2>Lista de Libros</h2>
-
+<head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
 <app-navbar></app-navbar>
 
 <div class="container-fluid">
-  <router-outlet></router-outlet>
+
+  <div class="add-button-container">
+    <a class="btn btn-success btn-add" routerLink="/libros/add">Agregar Nuevo Libro</a>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>ISBN</th>
+          <th>Categoría</th>
+          <th>Cantidad</th>
+          <th>Publicación</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let libro of libros">
+          <td>{{ libro.id }}</td>
+          <td>{{ libro.titulo }}</td>
+          <td>{{ libro.autor }}</td>
+          <td>{{ libro.isbn }}</td>
+          <td>{{ libro.categoria }}</td>
+          <td>{{ libro.cantidadDisponible }}</td>
+          <td>{{ libro.fecha_publicacion }}</td>
+          <td>
+            <!-- Botón de editar con ícono de lápiz -->
+            <button class="btn btn-primary" [routerLink]="['/libros/edit', libro.id]">
+              <i class="fas fa-edit"></i>
+            </button>
+    
+            <!-- Botón de eliminar con ícono de basurero -->
+            <button class="btn btn-danger" (click)="deleteLibro(libro.id)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
 </div>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Título</th>
-      <th>Autor</th>
-      <th>ISBN</th>
-      <th>Categoría</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let libro of libros">
-      <td>{{ libro.id }}</td>
-      <td>{{ libro.titulo }}</td>
-      <td>{{ libro.autor }}</td>
-      <td>{{ libro.isbn }}</td>
-      <td>{{ libro.categoria }}</td>
-      <td>
-        <button class="btn btn-primary" [routerLink]="['/libros/edit', libro.id]">
-          Editar
-        </button>
-        <button class="btn btn-danger" (click)="deleteLibro(libro.id)">
-          Eliminar
-        </button>
-        <!-- En tu componente de lista -->
-<a [routerLink]="['/libros/add']">Agregar Libro</a>
-
-<!-- Para editar un libro -->
-<a [routerLink]="['/libros/edit', libro.id]">Editar</a>
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a class="btn btn-success" routerLink="/add">Agregar Nuevo Libro</a>
