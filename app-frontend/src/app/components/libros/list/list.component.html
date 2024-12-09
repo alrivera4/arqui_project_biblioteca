@@ -1,0 +1,44 @@
+<h2>Lista de Libros</h2>
+
+<app-navbar></app-navbar>
+
+<div class="container-fluid">
+  <router-outlet></router-outlet>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>ISBN</th>
+      <th>Categoría</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let libro of libros">
+      <td>{{ libro.id }}</td>
+      <td>{{ libro.titulo }}</td>
+      <td>{{ libro.autor }}</td>
+      <td>{{ libro.isbn }}</td>
+      <td>{{ libro.categoria }}</td>
+      <td>
+        <button class="btn btn-primary" [routerLink]="['/libros/edit', libro.id]">
+          Editar
+        </button>
+        <button class="btn btn-danger" (click)="deleteLibro(libro.id)">
+          Eliminar
+        </button>
+        <!-- En tu componente de lista -->
+<a [routerLink]="['/libros/add']">Agregar Libro</a>
+
+<!-- Para editar un libro -->
+<a [routerLink]="['/libros/edit', libro.id]">Editar</a>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+<a class="btn btn-success" routerLink="/add">Agregar Nuevo Libro</a>

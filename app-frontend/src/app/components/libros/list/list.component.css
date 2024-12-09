@@ -1,0 +1,75 @@
+/* Contenedor para el botón de agregar libro */
+.add-button-container {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Botón de agregar libro */
+  .btn-add {
+    padding: 10px 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    font-size: 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btn-add i {
+    margin-right: 8px;
+  }
+  
+  /* Estilo general para la tabla */
+  .table-container {
+    margin-top: 10px;
+    max-height: 400px;  /* Limita la altura de la tabla */
+    overflow-y: auto;   /* Habilita el desplazamiento si la tabla excede la altura */
+  }
+  
+  .table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .thead-dark {
+    background-color: #343a40;
+    color: white;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Estilo para los botones dentro de la tabla */
+  .btn {
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 6px 12px;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Botones específicos */
+  .btn-warning {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+  }
+  
+  .btn-warning:hover {
+    background-color: #ec971f;
+    border-color: #d58512;
+  }
+  
+  .btn-danger {
+    background-color: #d9534f;
+    border-color: #d9534f;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+  }
+  

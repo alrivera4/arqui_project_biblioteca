@@ -7,6 +7,10 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistroUsuarioComponent } from './components/registro-usuario/registro-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModulosComponent } from './components/modulos/modulos.component';
+import { ListComponent } from './components/libros/list/list.component';
+import { AddComponent } from './components/libros/add/add.component';
+import { EditComponent } from './components/libros/edit/edit.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -16,6 +20,10 @@ import { ModulosComponent } from './components/modulos/modulos.component';
     LoginComponent,
     RegistroUsuarioComponent,
     ModulosComponent,
+    ListComponent,
+    AddComponent,
+    EditComponent,
+    NavbarComponent,
   ],
   imports: [
     HttpClientModule,

@@ -14,16 +14,16 @@
 
   <!-- Franja azul con Navbar -->
   <!-- Navbar -->
-<div class="navbar">
-  <div class="logo">Mi Aplicación</div>
-  <div class="menu-links">
-    <a href="#">Libros</a>
-    <a href="#">Usuarios</a>
-    <a href="#">Préstamos y Devoluciones</a>
-    <a href="#">Reportes</a>
-    <button class="logout-btn">Cerrar sesión</button>
+  <div class="navbar">
+    <div class="logo">Mi Aplicación</div>
+    <div class="menu-links">
+      <a [routerLink]="['/libros']">Libros</a>
+      <a routerLink="/usuarios">Usuarios</a>
+      <a routerLink="/prestamos">Préstamos y Devoluciones</a>
+      <a routerLink="/reportes">Reportes</a>
+      <button class="logout-btn">Cerrar sesión</button>
+    </div>
   </div>
-</div>
 
 <div class="user-section">
   <div class="user-info">
@@ -50,7 +50,5 @@
     </div>
   </div>
 </div>
-
-
-
+<router-outlet></router-outlet>
 </div>
