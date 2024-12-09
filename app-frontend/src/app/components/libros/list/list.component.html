@@ -1,9 +1,32 @@
 <head>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
+
 <app-navbar></app-navbar>
 
 <div class="container-fluid">
+  <!-- Formulario de búsqueda -->
+  <div>
+    <label for="searchQuery">Buscar por Título, Autor, ISBN o Categoría:</label>
+    <input
+      type="text"
+      id="searchQuery"
+      [(ngModel)]="searchQuery"
+      name="searchQuery"
+      (input)="searchQuery.trim() && searchQuery ? null : null"  
+      placeholder="Buscar..."
+    />
+  </div>
+
+  <!-- Mensaje cuando no hay resultados -->
+  <div *ngIf="filteredLibros.length === 0 && searchQuery.length > 0">
+    <p>No se encontraron libros que coincidan con tu búsqueda.</p>
+  </div>
+
+  <!-- Mostrar todos los libros si no hay búsqueda -->
+  <div *ngIf="filteredLibros.length === 0 && searchQuery.length === 0">
+    <p>No hay libros disponibles.</p>
+  </div>
 
   <div class="add-button-container">
     <a class="btn btn-success btn-add" routerLink="/libros/add">Agregar Nuevo Libro</a>
@@ -24,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let libro of libros">
+        <tr *ngFor="let libro of filteredLibros">
           <td>{{ libro.id }}</td>
           <td>{{ libro.titulo }}</td>
           <td>{{ libro.autor }}</td>
@@ -37,7 +60,7 @@
             <button class="btn btn-primary" [routerLink]="['/libros/edit', libro.id]">
               <i class="fas fa-edit"></i>
             </button>
-    
+
             <!-- Botón de eliminar con ícono de basurero -->
             <button class="btn btn-danger" (click)="deleteLibro(libro.id)">
               <i class="fas fa-trash-alt"></i>
@@ -46,6 +69,5 @@
         </tr>
       </tbody>
     </table>
-    
   </div>
 </div>

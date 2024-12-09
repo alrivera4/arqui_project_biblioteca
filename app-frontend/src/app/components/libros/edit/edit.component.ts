@@ -34,15 +34,8 @@ export class EditComponent implements OnInit {
   }
 
   updateLibro(): void {
-    this.libroService.updateLibro(this.libro.id, this.libro).subscribe({
-      next: (response) => {
-        console.log('Respuesta del servidor:', response); // Muestra "Libro actualizado con éxito"
-        
-      },
-      error: (err) => {
-        console.error('Error al actualizar el libro:', err);
-      },
+    this.libroService.createLibro(this.libro).subscribe(() => {
+      this.router.navigate(['/libros']); // Redirige a la lista de libros
     });
   }
-  
 }

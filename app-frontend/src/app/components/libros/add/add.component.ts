@@ -17,10 +17,25 @@ export class AddComponent {
     fecha_publicacion: '',
   };
 
+  libros: any[] = []; // Almacena todos los libros
+  filteredLibros: any[] = []; // Almacena los libros filtrados
+  searchQuery: string = ''; // Término de búsqueda
+
   constructor(private libroService: LibroService, private router: Router) {}
+
+  ngOnInit(): void {
+    // Cargar todos los libros al inicio
+    this.libroService.getLibros().subscribe((libros) => {
+      this.libros = libros;
+      this.filteredLibros = libros;
+    });
+  }
+
   addLibro(): void {
     this.libroService.createLibro(this.libro).subscribe(() => {
       this.router.navigate(['/libros']); // Redirige a la lista de libros
     });
   }
+
+  
 }
