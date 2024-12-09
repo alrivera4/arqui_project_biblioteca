@@ -33,8 +33,8 @@ export class LibroService {
 }
 
 
-  // Eliminar un libro
-  deleteLibro(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
-  }
+deleteLibro(id: number): Observable<any> {
+  return this.http.delete(`http://localhost:8001/api/libros/${id}`, { responseType: 'text' });
+}
+
 }
