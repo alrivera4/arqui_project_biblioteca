@@ -11,8 +11,10 @@ import { ListComponent } from './components/libros/list/list.component';
 import { AddComponent } from './components/libros/add/add.component';
 import { EditComponent } from './components/libros/edit/edit.component';
 import { NavbarComponent } from './navbar/navbar.component';
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LibrosPrestamosHistorialComponent } from './libros-prestamos-historial/libros-prestamos-historial.component';
+import { ReportesComponent } from './reportes/reportes.component';
+import { ReportesModule } from './reportes/reportes.module';
 
 @NgModule({
   declarations: [
@@ -24,13 +26,16 @@ import { NavbarComponent } from './navbar/navbar.component';
     AddComponent,
     EditComponent,
     NavbarComponent,
+    LibrosPrestamosHistorialComponent,
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ReportesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

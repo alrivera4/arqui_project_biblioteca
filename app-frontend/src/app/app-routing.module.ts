@@ -7,7 +7,7 @@ import { AuthGuard } from './auth.guard';
 import { ListComponent } from './components/libros/list/list.component';
 import { AddComponent } from './components/libros/add/add.component';
 import { EditComponent } from './components/libros/edit/edit.component';
-
+import { LibrosPrestamosHistorialComponent } from './libros-prestamos-historial/libros-prestamos-historial.component';
 
 const routes: Routes = [
   { path: 'registro', component: RegistroUsuarioComponent },
@@ -28,6 +28,8 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: '/libros', pathMatch: 'full' }, 
+  { path: 'libros-prestamos-historial', component: LibrosPrestamosHistorialComponent },
+
 ];
 
 

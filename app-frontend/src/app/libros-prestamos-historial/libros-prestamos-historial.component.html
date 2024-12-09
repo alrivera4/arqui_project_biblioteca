@@ -1,0 +1,58 @@
+<div class="container mt-4">
+    <h2>Inventario de Libros</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Autor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let libro of libros">
+          <td>{{ libro.id }}</td>
+          <td>{{ libro.titulo }}</td>
+          <td>{{ libro.autor }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h2>Préstamos</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Libro</th>
+          <th>Usuario</th>
+          <th>Fecha de Préstamo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prestamo of prestamos">
+          <td>{{ prestamo.id }}</td>
+          <td>{{ prestamo.libro.titulo }}</td>
+          <td>{{ prestamo.usuario.nombre }}</td>
+          <td>{{ prestamo.fechaPrestamo | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h2>Usuarios</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.id }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.correo }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
