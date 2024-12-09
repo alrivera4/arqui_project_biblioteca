@@ -9,6 +9,7 @@ import com.espe.msvc.prestamos.models.PrestamoSimplificadoDTO;
 import com.espe.msvc.prestamos.services.PrestamoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/usuario")
 public class PrestamoController {
 
     @Autowired
@@ -33,4 +34,11 @@ public class PrestamoController {
         }
         return ResponseEntity.ok(prestamos);
     }
+    
+    /* endpoint para listar todos los préstamos
+    @GetMapping("/prestamos")
+    public ResponseEntity<List<PrestamoSimplificadoDTO>> obtenerTodosPrestamos() {
+        List<PrestamoSimplificadoDTO> prestamos = prestamoService.obtenerTodosPrestamos();
+        return new ResponseEntity<>(prestamos, HttpStatus.OK);
+    }*/
 }

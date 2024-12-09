@@ -22,12 +22,8 @@ spring:
         - id: prestamos-service
           uri: lb://msvc-prestamos
           predicates:
-            - Path=/api/usuarios/{id}/prestamos
-          filters:
-            - RewritePath=/api/usuarios/(?<id>.*)/prestamos, /api/usuarios/${id}/prestamos
-         
+            - Path=/api/usuario/{id}/prestamos/**
           
-
   eureka:
     client:
         register-with-eureka: true

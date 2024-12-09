@@ -3,47 +3,37 @@ package com.apigateway.Security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Value;
+import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    // Generar una clave secreta segura de 256 bits para HS256
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    // Método para generar un token JWT
+    // Método para generar el token
     public String generateToken(String username) {
-        // Configura la expiración del token (por ejemplo, 1 hora)
-        long expirationTime = 1000 * 60 * 60;  // 1 hora
-        Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
-
         return Jwts.builder()
-                .setSubject(username)  // El nombre de usuario que va en el token
-                .setIssuedAt(new Date())  // Fecha de emisión
-                .setExpiration(expirationDate)  // Fecha de expiración
-                .signWith(SignatureAlgorithm.HS256, secret)  // Firma con la clave secreta
-                .compact();  // Genera el token en formato compactado
+                .setSubject(username)
+                .signWith(SECRET_KEY)  // Usando la clave generada
+                .compact();
     }
 
-    // Método para validar un token JWT
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    // Método para extraer los Claims (información) del token
+    // Método para extraer las claims del token
     public Claims extractClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)  // Usando la misma clave para validar
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
-    // Método para obtener el nombre de usuario desde el token
-    public String getUsername(String token) {
-        return extractClaims(token).getSubject();
+    // Método para verificar si el token ha expirado
+    public Boolean isTokenExpired(String token) {
+        return extractClaims(token).getExpiration().before(new Date());
     }
 }
+

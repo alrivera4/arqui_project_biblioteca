@@ -35,4 +35,18 @@ public class PrestamoService {
             )
         ).toList();
     }
+    
+    public List<PrestamoSimplificadoDTO> obtenerTodosPrestamos() {
+        // Obtener lista de todos los prestamos desde el repositorio
+        List<Prestamo> prestamos = prestamoRepository.findAll();
+
+        // Mapear cada entidad Prestamo al DTO PrestamoSimplificadoDTO
+        return prestamos.stream().map(prestamo -> 
+            new PrestamoSimplificadoDTO(
+                prestamo.getLibro().getTitulo(),
+                prestamo.getFechaPrestamo(),
+                prestamo.getEstado()
+            )
+        ).toList();
+    }
 }

@@ -8,6 +8,7 @@ package com.apigateway.Security;
  *
  * @author USER
  */
+
 public class UserCredentials {
     
     private String username;
