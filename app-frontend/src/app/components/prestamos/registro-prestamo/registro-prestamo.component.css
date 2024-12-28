@@ -1,0 +1,17 @@
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  label {
+    margin-top: 10px;
+  }
+  
+ 
+  
+  /*button:hover {
+    background-color: #0056b3;
+  }*/
+  

@@ -22,7 +22,8 @@ spring:
         - id: prestamos-service
           uri: lb://msvc-prestamos
           predicates:
-            - Path=/api/usuario/{id}/prestamos/**
+            #- Path=/api/usuario/{id}/prestamos/**
+            - Path=/api/usuario/prestamos/**
           
   eureka:
     client:

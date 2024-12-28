@@ -1,0 +1,86 @@
+<app-navbar></app-navbar>
+<br><br><br>
+<div class="d-grid gap-2 d-md-block">
+  <button
+    type="button"
+    class="btn btn-primary mt-3 mb-3 ms-3 me-3"
+    [routerLink]="['/prestamos/registro']"
+  >
+    Registrar préstamo
+  </button>
+</div>
+
+<!-- Botones para Filtro -->
+<div class="d-flex justify-content-end mb-3 me-3">
+  <button class="btn btn-success me-2" (click)="filtrarActivos()">Mostrar Activos</button>
+  <button class="btn btn-secondary" (click)="mostrarTodos()">Mostrar Todos</button>
+</div>
+
+<!-- Lista de Préstamos -->
+<div class="container mt-4">
+  <h3 class="text-center mb-4">Lista de Préstamos</h3>
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>ID Prestamo</th>
+        <th>Libro</th>
+        <th>Estado</th>
+        <th>Fecha Préstamo</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prestamo of prestamosFiltrados">
+        <td>{{ prestamo.prestamoId }}</td>
+        <td>{{ prestamo.libro }}</td>
+        <td>{{ prestamo.estado }}</td>
+        <td>{{ prestamo.fechaPrestamo }}</td>
+        <td>
+          <button
+            *ngIf="prestamo.estado === 'activo'"
+            (click)="abrirFormulario(prestamo.prestamoId)"
+            class="btn btn-success btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#devolucionModal"
+          >
+            Registrar Devolución
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal para Registrar Devolución -->
+<div class="modal fade" id="devolucionModal" tabindex="-1" aria-labelledby="devolucionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="devolucionModalLabel">Registrar Devolución</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="registrarDevolucion()">
+          <div class="mb-3">
+            <label for="fechaDevolucion" class="form-label">Fecha de Devolución:</label>
+            <input
+              id="fechaDevolucion"
+              type="date"
+              [(ngModel)]="devolucion.fechaDevolucion"
+              name="fechaDevolucion"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success me-2">Registrar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mensaje -->
+<p *ngIf="mensaje" class="alert alert-info mt-4 text-center">{{ mensaje }}</p>

@@ -77,6 +77,8 @@ export class LoginComponent {
   }
 
   registrarUsuario() {
-    this.router.navigate(['/registro']);
+    this.router.navigate(['/usuarios/registro']);
   }
 }
+
+

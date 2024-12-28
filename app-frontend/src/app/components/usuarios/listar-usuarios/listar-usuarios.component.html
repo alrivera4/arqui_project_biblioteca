@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+<br><br><br>
+
+<div class="d-grid gap-2 d-md-block">
+    <button
+      type="button"
+      class="btn btn-primary mt-3 mb-3 ms-3 me-3"
+      [routerLink]="['/usuarios/registro']"
+    >
+      Registrar usuario
+    </button>
+  </div>
+
+<div class="container mt-4">
+    <h2>Listado de Usuarios</h2>
+    <p *ngIf="mensaje" class="text-danger">{{ mensaje }}</p>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Tipo de Usuario</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+        
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.correo }}</td>
+          <td>{{ usuario.tipoUsuario }}</td>
+          <td>{{ usuario.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

@@ -12,6 +12,7 @@ const db = new Client({
     password: 'admin', // Contraseña del usuario
     database: 'biblioteca', // Nombre de la base de datos
     port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
+    statement_timeout: 5000, // Tiempo límite para las consultas (5 segundos)
 });
 
 db.connect((err) => {
@@ -124,6 +125,7 @@ const loanService = {
             return { estado: 'Error', mensaje: 'Ocurrió un error al registrar el préstamo.' };
         }
     },
+
     
         
     RegistrarDevolucion: async (args) => {
@@ -297,6 +299,7 @@ const loanService = {
         }
     );
 },
+
 
 SuspenderUsuario :async (args) => {
   try {

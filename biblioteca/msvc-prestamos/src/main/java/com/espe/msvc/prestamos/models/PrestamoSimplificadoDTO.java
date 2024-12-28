@@ -10,17 +10,31 @@ package com.espe.msvc.prestamos.models;
  */
 public class PrestamoSimplificadoDTO {
 
+    private Long prestamoId;
     private String libro; // Título del libro
     private String fechaPrestamo; // Fecha del préstamo
     private String estado; // Estado del préstamo (ejemplo: "Devuelto", "Activo")
 
-    public PrestamoSimplificadoDTO(String libro, String fechaPrestamo, String estado) {
+   
+    
+     public PrestamoSimplificadoDTO(Long prestamoId, String libro, String fechaPrestamo, String estado) {
+        this.prestamoId=prestamoId;
         this.libro = libro;
         this.fechaPrestamo = fechaPrestamo;
         this.estado = estado;
     }
 
     // Getters y setters
+    
+     public Long getPrestamoId() {
+        return prestamoId;
+    }
+
+    public void setPrestamoId(Long prestamoId) {
+        this.prestamoId = prestamoId;
+    }
+    
+    
     public String getLibro() {
         return libro;
     }

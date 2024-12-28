@@ -35,10 +35,10 @@ public class PrestamoController {
         return ResponseEntity.ok(prestamos);
     }
     
-    /* endpoint para listar todos los préstamos
+    //endpoint para listar todos los préstamos
     @GetMapping("/prestamos")
     public ResponseEntity<List<PrestamoSimplificadoDTO>> obtenerTodosPrestamos() {
         List<PrestamoSimplificadoDTO> prestamos = prestamoService.obtenerTodosPrestamos();
         return new ResponseEntity<>(prestamos, HttpStatus.OK);
-    }*/
+    }
 }

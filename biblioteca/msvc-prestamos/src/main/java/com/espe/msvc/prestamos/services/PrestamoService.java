@@ -29,6 +29,7 @@ public class PrestamoService {
         // Mapear cada entidad Prestamo al DTO PrestamoSimplificadoDTO
         return prestamos.stream().map(prestamo -> 
             new PrestamoSimplificadoDTO(
+                prestamo.getPrestamoId(),
                 prestamo.getLibro().getTitulo(),
                 prestamo.getFechaPrestamo(),
                 prestamo.getEstado()
@@ -43,6 +44,7 @@ public class PrestamoService {
         // Mapear cada entidad Prestamo al DTO PrestamoSimplificadoDTO
         return prestamos.stream().map(prestamo -> 
             new PrestamoSimplificadoDTO(
+                prestamo.getPrestamoId(),
                 prestamo.getLibro().getTitulo(),
                 prestamo.getFechaPrestamo(),
                 prestamo.getEstado()
