@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modulos',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./modulos.component.css']
 })
 export class ModulosComponent {
+
+   constructor( private router: Router) {}
+  
+    cerrarSesion(): void {
+      this.router.navigate(['/login']);
+    }
 
 }
