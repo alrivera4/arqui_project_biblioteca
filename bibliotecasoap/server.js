@@ -40,7 +40,7 @@ const loanService = {
   LoanService: {
     LoanServicePort: {
 
-        ValidarUsuario: async (args) => {
+        /*ValidarUsuario: async (args) => {
             try {
               console.log("Datos recibidos para validación de usuario:", args);
           
@@ -74,7 +74,112 @@ const loanService = {
                 usuario: '', // No se incluye el usuario en caso de error
               };
             }
+          },*/
+          /*ValidarUsuario: async (args) => {
+            try {
+              console.log("Datos recibidos para validación de usuario:", args);
+          
+              const { usuario, contrasenia } = args; // Aquí se reciben ambos valores: usuario y contrasenia
+          
+              // Verificar si el usuario existe en la base de datos y traer más campos
+              const query = `
+                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario
+                FROM usuarios
+                WHERE usuario = $1 AND contrasenia = $2
+              `; // Asegúrate de que estos campos existen en tu tabla
+              const result = await db.query(query, [usuario, contrasenia]);
+          
+              if (result.rows.length === 0) {
+                return {
+                  estado: 'Error',
+                  mensaje: 'Usuario o contraseña incorrectos',
+                  usuario: '',
+                };
+              }
+          
+              // Si el usuario existe, devolver todos los datos necesarios
+              return {
+                estado: 'Exitoso',
+                mensaje: 'Usuario validado con éxito',
+                usuarioId: result.rows[0].usuario_id,
+                usuario: result.rows[0].usuario,
+                nombre: result.rows[0].nombre,
+                correo: result.rows[0].correo,
+                contrasenia: result.rows[0].contrasenia,
+                tipoUsuario: result.rows[0].tipo_usuario,
+              };
+            } catch (err) {
+              console.error('Error al validar el usuario:', err);
+              return {
+                estado: 'Error',
+                mensaje: 'Error al validar el usuario',
+                usuario: '',
+              };
+            }
+          },*/
+      
+          ValidarUsuario: async (args) => {
+            try {
+              console.log("Datos recibidos para validación de usuario:", args);
+          
+              const { usuario, contrasenia } = args;
+          
+              // Verificar si el usuario existe en la base de datos
+              const usuarioQuery = `
+                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario
+                FROM usuarios
+                WHERE usuario = $1
+              `;
+              const usuarioResult = await db.query(usuarioQuery, [usuario]);
+          
+              if (usuarioResult.rows.length === 0) {
+                // Usuario no existe
+                return {
+                  estado: 'UsuarioNoExiste',
+                  mensaje: 'El usuario no está registrado.',
+                  usuario: '',
+                };
+              }
+          
+              // Verificar si la contraseña es correcta
+              const contraseniaCorrectaQuery = `
+                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario
+                FROM usuarios
+                WHERE usuario = $1 AND contrasenia = $2
+              `;
+              const contraseniaResult = await db.query(contraseniaCorrectaQuery, [usuario, contrasenia]);
+          
+              if (contraseniaResult.rows.length === 0) {
+                // Contraseña incorrecta
+                return {
+                  estado: 'ContraseniaIncorrecta',
+                  mensaje: 'La contraseña es incorrecta.',
+                  usuario: '',
+                };
+              }
+          
+              // Usuario y contraseña correctos
+              const user = contraseniaResult.rows[0];
+              return {
+                estado: 'Exitoso',
+                mensaje: 'Usuario validado con éxito.',
+                usuarioId: user.usuario_id,
+                usuario: user.usuario,
+                nombre: user.nombre,
+                correo: user.correo,
+                tipoUsuario: user.tipo_usuario,
+              };
+            } catch (err) {
+              console.error('Error al validar el usuario:', err.message || 'Error desconocido');
+              return {
+                estado: 'Error',
+                mensaje: 'Error al validar el usuario.',
+                usuario: '',
+              };
+            }
           },
+          
+          
           
     
       RegistrarPrestamo: async (args) => {

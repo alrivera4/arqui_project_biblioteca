@@ -60,7 +60,7 @@
   
   /* Estilo para la sección del usuario */
   .user-section {
-    margin-top: 80px; /* Deja espacio debajo del navbar */
+    margin-top: 30px; /* Deja espacio debajo del navbar */
     display: flex;
     justify-content: center;
     align-items: center; /* Centrado vertical y horizontal */
@@ -146,5 +146,16 @@
   
   .user-info button:hover {
     background-color: #005bb5;
+  }
+  
+  .notification {
+    position: fixed; /* Fija la posición en la pantalla */
+    top: 20px; /* Distancia desde la parte superior */
+    right: 20px; /* Distancia desde la derecha */
+    z-index: 1050; /* Asegura que se muestre encima de otros elementos */
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   

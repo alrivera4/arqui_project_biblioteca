@@ -49,6 +49,7 @@ public class Prestamo {
         this.prestamoId = prestamoId;
     }
 
+    
     public Usuario getUsuario() {
         return usuario;
     }

@@ -36,3 +36,16 @@
     </div>
   </div>
 </div>
+
+<!-- Notificación dinámica -->
+<div 
+  *ngIf="notification" 
+  [ngClass]="{
+    'alert': true,
+    'alert-success': notification.type === 'success',
+    'alert-danger': notification.type === 'error'
+  }" 
+  class="notification">
+  {{ notification.message }}
+</div>
+

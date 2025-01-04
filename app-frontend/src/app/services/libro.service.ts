@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LibroService {
-  private apiUrl = 'http://localhost:8001/api/libros'; // Cambia la URL si es necesario
+  private apiUrl = 'http://localhost:8080/api/libros'; // Cambia la URL si es necesario
 
   private librosSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); // BehaviorSubject para manejar el estado
   libros$: Observable<any[]> = this.librosSubject.asObservable(); // Observable para exponer la lista
@@ -36,8 +36,9 @@ export class LibroService {
 
   // Actualizar un libro existente
   updateLibro(id: number, libro: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, libro, { responseType: 'text' });
-  }
+    return this.http.put(`${this.apiUrl}/${libro.libroId}`, libro, { responseType: 'text' });
+}
+
 
   deleteLibro(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`, { responseType: 'text' as 'json' }).pipe(

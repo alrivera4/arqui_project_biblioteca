@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+declare var bootstrap: any; // Importar Bootstrap para usar la API
+
 @Component({
   selector: 'app-devolucion-libro',
   templateUrl: './devolucion-libro.component.html',
@@ -17,6 +19,7 @@ export class DevolucionLibroComponent implements OnInit {
   mostrarFormulario: boolean = false;
 
   constructor(private http: HttpClient) {}
+  notification: { message: string; type: string } | null = null;
 
   ngOnInit() {
     this.cargarPrestamos();
@@ -30,6 +33,16 @@ export class DevolucionLibroComponent implements OnInit {
       }, error => {
         console.error('Error al cargar préstamos', error);
       });
+  }
+
+  // Método para mostrar notificación
+  showNotification(message: string, type: string): void {
+    this.notification = { message, type };
+
+    // La notificación desaparece después de 3 segundos
+    setTimeout(() => {
+      this.notification = null;
+    }, 3000);
   }
 
   filtrarActivos() {
@@ -68,12 +81,16 @@ export class DevolucionLibroComponent implements OnInit {
       responseType: 'text'
     }).subscribe(response => {
       console.log(response);
-      this.mensaje = 'Devolución registrada exitosamente';
+      this.showNotification('Devolución registrada exitosamente', 'success');
       this.mostrarFormulario = false; // Ocultar formulario después del registro
       this.cargarPrestamos(); // Recargar la lista de préstamos
+      // Cerrar el modal utilizando Bootstrap
+      const modalElement = document.getElementById('devolucionModal');
+      const modal = bootstrap.Modal.getInstance(modalElement); // Obtener la instancia del modal
+      modal.hide(); // Cerrar el modal
     }, error => {
       console.error(error);
-      this.mensaje = 'Error al registrar la devolución';
+      this.showNotification ('Error al registrar la devolución', 'error');
     });
   }
 

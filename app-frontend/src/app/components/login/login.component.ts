@@ -14,12 +14,25 @@ export class LoginComponent {
   username= '';
   password= '';
 
+  notification: { message: string; type: string } | null = null;
+
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
       usuario: ['', Validators.required],
       contrasenia: ['', Validators.required],
     });
   }
+
+   // Método para mostrar notificaciones
+   showNotification(message: string, type: string): void {
+    this.notification = { message, type };
+
+    // La notificación desaparece después de 3 segundos
+    setTimeout(() => {
+      this.notification = null;
+    }, 3000);
+  }
+
 
   onLogin() {
     if (this.loginForm.valid) {
@@ -45,32 +58,40 @@ export class LoginComponent {
       this.http.post('http://localhost:8000/soap', soapBody, { headers, responseType: 'text' })
         .subscribe({
           next: (response: any) => {
-            console.log('Respuesta SOAP completa:', response);
+            //console.log('Respuesta SOAP completa:', response);
+
+             // Procesar respuesta y guardar datos
+            const usuarioDatos = this.authService.parseSoapResponse(response);
+            //console.log('Datos completos del usuario:', usuarioDatos);
+
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(response, 'text/xml');
   
             const estado = xmlDoc.querySelector('estado')?.textContent || xmlDoc.querySelector('web\\:estado')?.textContent;
             const mensaje = xmlDoc.querySelector('mensaje')?.textContent || xmlDoc.querySelector('web\\:mensaje')?.textContent;
             const usuarioValidado = xmlDoc.querySelector('usuario')?.textContent || xmlDoc.querySelector('web\\:usuario')?.textContent;
-            const tipoUsuario = xmlDoc.getElementsByTagName('web:tipoUsuario')[0].textContent;// Capturamos tipoUsuario
+            const tipoUsuario = xmlDoc.querySelector('tipoUsuario')?.textContent || xmlDoc.querySelector('web\\:tipoUsuario')?.textContent;
+            
 
-            if (estado === 'Exitoso' && usuarioValidado === usuario) {
-              alert(`Login exitoso. Tipo de usuario: ${tipoUsuario}`);
+            if (estado == 'Exitoso' && usuarioValidado == usuario) {
+              this.showNotification(`Login exitoso. Tipo de usuario: ${tipoUsuario}`, 'success');
 
               if (tipoUsuario) {
                 // Guardar el tipo de usuario en el almacenamiento local
                 this.authService.setTipoUsuario(tipoUsuario);
-                this.router.navigate(['/modulos']);
-              } else {
-                alert('Error al procesar la respuesta del servidor.');
+                setTimeout(() => {
+                  this.router.navigate(['/modulos']);
+                }, 3000);
               }
-            } else {
-              alert(`Credenciales inválidas: ${mensaje || 'Error desconocido'}`);
-            }
-          },
+          } else if (estado == 'ContraseniaIncorrecta') {
+            this.showNotification(`Credenciales inválidas: ${mensaje || 'Error desconocido'}`, 'error');
+          } else if (estado == 'UsuarioNoExiste') {
+            this.showNotification(`El usuario ${usuario} no está registrado`, 'error');
+          }
+        },
           error: (err) => {
             console.error('Error en el login: ', err);
-            alert('Error en el login: ' + err.message);
+            this.showNotification('Error en el login: ' + err.message || 'Error desconocido', 'error');
           }
         });
     }
@@ -80,5 +101,4 @@ export class LoginComponent {
     this.router.navigate(['/usuarios/registro']);
   }
 }
-
 

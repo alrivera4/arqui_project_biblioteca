@@ -108,7 +108,7 @@ public class LibroController {
         libroExistente.setIsbn(libroActualizado.getIsbn());
         libroExistente.setCategoria(libroActualizado.getCategoria());
         libroExistente.setCantidadDisponible(libroActualizado.getCantidadDisponible());
-        libroExistente.setFecha_publicacion(libroActualizado.getFecha_publicacion());
+        libroExistente.setFechaPublicacion(libroActualizado.getFechaPublicacion());
 
         // Guardar los cambios
         libroService.guardarLibro(libroExistente);

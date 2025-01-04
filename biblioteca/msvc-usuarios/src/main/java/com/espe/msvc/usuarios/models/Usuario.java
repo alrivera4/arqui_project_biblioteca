@@ -29,7 +29,7 @@ public class Usuario {
     private String estado;  // activo, inactivo
 
     // Getters y setters
-    
+
     public Long getUsuarioId() {
         return usuarioId;
     }
@@ -37,6 +37,7 @@ public class Usuario {
     public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
     }
+
 
     public String getNombre() {
         return nombre;

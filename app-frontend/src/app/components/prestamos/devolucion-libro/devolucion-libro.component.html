@@ -84,3 +84,14 @@
 
 <!-- Mensaje -->
 <p *ngIf="mensaje" class="alert alert-info mt-4 text-center">{{ mensaje }}</p>
+  <!-- Notificación dinámica -->
+  <div 
+  *ngIf="notification" 
+  [ngClass]="{
+    'alert': true,
+    'alert-success': notification.type === 'success',
+    'alert-danger': notification.type === 'error'
+  }" 
+  class="notification">
+  {{ notification.message }}
+  </div>

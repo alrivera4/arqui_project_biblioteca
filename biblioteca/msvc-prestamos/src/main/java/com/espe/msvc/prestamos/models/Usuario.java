@@ -26,10 +26,10 @@ public class Usuario {
     private String contrasenia;
     private String tipoUsuario;  // estudiante, profesor, administrador
     private String estado;  // activo, inactivo
-    private String fechaRegistro;
+    
 
     // Getters y setters
-    
+
     public Long getUsuarioId() {
         return usuarioId;
     }
@@ -38,6 +38,8 @@ public class Usuario {
         this.usuarioId = usuarioId;
     }
 
+   
+    
     public String getNombre() {
         return nombre;
     }
@@ -78,11 +80,5 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public String getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(String fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
+    
 }

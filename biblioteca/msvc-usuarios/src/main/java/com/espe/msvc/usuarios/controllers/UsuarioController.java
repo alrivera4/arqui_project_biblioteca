@@ -66,7 +66,7 @@ public class UsuarioController {
         usuarioExistente.setNombre(usuarioActualizado.getNombre());
         usuarioExistente.setCorreo(usuarioActualizado.getCorreo());
         usuarioExistente.setTipoUsuario(usuarioActualizado.getTipoUsuario());
-        usuarioExistente.setEstado(usuarioActualizado.getEstado());
+        //usuarioExistente.setEstado(usuarioActualizado.getEstado());
 
         // Guardar los cambios
         usuarioService.guardarUsuario(usuarioExistente);

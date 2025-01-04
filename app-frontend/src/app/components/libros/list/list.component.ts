@@ -11,14 +11,10 @@ export class ListComponent implements OnInit {
   libros: any[] = []; // Todos los libros
   searchQuery: string = ''; // Término de búsqueda
   notification: { message: string, type: string } | null = null; // Notificación de éxito o error
+  
   constructor(private libroService: LibroService, private router: Router) {}
 
   ngOnInit(): void {
-    // Suscribirse al observable para obtener los libros actualizados
-    this.libroService.libros$.subscribe((data) => {
-      this.libros = data;
-    });
-    
     // Inicialmente cargamos los libros
     this.getLibros();
   }
@@ -27,7 +23,8 @@ export class ListComponent implements OnInit {
   getLibros(): void {
     this.libroService.getLibros().subscribe({
       next: (data) => {
-        this.libros = data;
+        // Ordenar los libros por 'libroId' antes de asignarlos
+        this.libros = data.sort((a, b) => a.libroId - b.libroId); // Ordena de menor a mayor
       },
       error: (error) => {
         console.error('Error al obtener los libros:', error);
@@ -37,27 +34,26 @@ export class ListComponent implements OnInit {
 
   // Método para filtrar los libros según el término de búsqueda
   get filteredLibros() {
-    if (this.searchQuery.trim() === '') {
-      return this.libros;
-    } else {
-      return this.libros.filter((libro) => {
-        return (
-          libro.titulo.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          libro.autor.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          libro.isbn.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          libro.categoria.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
-      });
-    }
+    let librosFiltrados = this.libros.filter((libro) => {
+      return (
+        libro.titulo.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        libro.autor.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        libro.isbn.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        libro.categoria.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    });
+
+    // Ordenar los libros filtrados por 'libroId' de menor a mayor
+    return librosFiltrados.sort((a, b) => a.libroId - b.libroId);
   }
 
   // Método para eliminar un libro
-  deleteLibro(id: number): void {
+  deleteLibro(libroId: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar este libro?')) {
-      this.libroService.deleteLibro(id).subscribe({
+      this.libroService.deleteLibro(libroId).subscribe({
         next: () => {
           // Eliminar el libro de la lista localmente para evitar una nueva llamada al servidor
-          this.libros = this.libros.filter(libro => libro.id !== id);
+          this.libros = this.libros.filter(libro => libro.libroId !== libroId);
           this.showNotification('El libro ha sido eliminado correctamente.', 'success');
         },
         error: (error) => {

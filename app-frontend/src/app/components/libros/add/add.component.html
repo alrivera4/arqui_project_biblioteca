@@ -83,16 +83,16 @@
   </div>
 
   <div class="form-group">
-    <label for="fecha_publicacion">Fecha de Publicación</label>
+    <label for="fechaPublicacion">Fecha de Publicación</label>
     <input
       type="date"
-      id="fecha_publicacion"
-      [(ngModel)]="libro.fecha_publicacion"
-      name="fecha_publicacion"
+      id="fechaPublicacion"
+      [(ngModel)]="libro.fechaPublicacion"
+      name="fechaPublicacion"
       required
-      #fecha_publicacion="ngModel"
+      #fechaPublicacion="ngModel"
     />
-    <div *ngIf="fecha_publicacion.invalid && fecha_publicacion.touched" class="error-message">
+    <div *ngIf="fechaPublicacion.invalid && fechaPublicacion.touched" class="error-message">
       La fecha de publicación es obligatoria.
     </div>
   </div>

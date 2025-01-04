@@ -24,7 +24,7 @@ public class PrestamoService {
 
     public List<PrestamoSimplificadoDTO> obtenerHistorialPrestamos(Long usuarioId) {
         // Obtener lista de entidades Prestamo desde el repositorio
-        List<Prestamo> prestamos = prestamoRepository.findByUsuario_UsuarioId(usuarioId);
+        List<Prestamo> prestamos = prestamoRepository.findByUsuario_usuarioId(usuarioId);
 
         // Mapear cada entidad Prestamo al DTO PrestamoSimplificadoDTO
         return prestamos.stream().map(prestamo -> 

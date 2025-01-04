@@ -18,25 +18,26 @@ public class Libro {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long libroId;
     private String titulo;
     private String autor;
     private String isbn;
     private String categoria;
     private int cantidadDisponible;
-    private String fecha_publicacion;
+    private String fechaPublicacion;
     //private Date fecha_publicacion;
     
     // Getters y setters
 
-    public Long getId() {
-        return id;
+    public Long getLibroId() {
+        return libroId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLibroId(Long libroId) {
+        this.libroId = libroId;
     }
 
+  
     public String getTitulo() {
         return titulo;
     }
@@ -77,13 +78,13 @@ public class Libro {
         this.cantidadDisponible = cantidadDisponible;
     }
 
-    public String getFecha_publicacion() {
-        return fecha_publicacion;
+    public String getFechaPublicacion() {
+        return fechaPublicacion;
     }
 
-    public void setFecha_publicacion(String fecha_publicacion) {
-        this.fecha_publicacion = fecha_publicacion;
+    public void setFechaPublicacion(String fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
     }
-    
+
 }
 

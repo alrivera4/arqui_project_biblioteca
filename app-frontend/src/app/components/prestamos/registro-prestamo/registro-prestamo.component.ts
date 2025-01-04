@@ -17,6 +17,7 @@ export class RegistroPrestamoComponent implements OnInit {
     fechaDevolucion: ''
   };
   mensaje: string = '';
+  notification: { message: string; type: string } | null = null;
 
   constructor(private http: HttpClient
     , private router: Router
@@ -40,6 +41,16 @@ export class RegistroPrestamoComponent implements OnInit {
       }, error => {
         console.error('Error al cargar usuarios', error);
       });
+  }
+
+  // Método para mostrar notificación
+  showNotification(message: string, type: string): void {
+    this.notification = { message, type };
+
+    // La notificación desaparece después de 3 segundos
+    setTimeout(() => {
+      this.notification = null;
+    }, 3000);
   }
 
   registrarPrestamo() {
@@ -74,10 +85,14 @@ export class RegistroPrestamoComponent implements OnInit {
       responseType: 'text'
     }).subscribe(response => {
       console.log(response);
-      this.mensaje = 'Préstamo registrado exitosamente';
+      this.showNotification('Préstamo registrado exitosamente', 'success');
+      // Esperar 3 segundos para mostrar la notificación y luego redirigir
+      setTimeout(() => {
+        this.router.navigate(['/prestamos']);
+      }, 3000);
     }, error => {
       console.error(error);
-      this.mensaje = 'Error al registrar el préstamo';
+      this.showNotification ( 'Error al registrar el préstamo', 'error');
     });
   }
 

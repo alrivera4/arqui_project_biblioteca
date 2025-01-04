@@ -3,52 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Aquí se incluye el enlace para cargar la fuente Roboto -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-  
 </head>
+<body>
   <div class="container-fluid">
 
-  <!-- Franja azul con Navbar -->
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="logo menu-links"><a [routerLink]="['/modulos']">Mi Biblioteca</a></div>
-    <div class="menu-links">
-      <a [routerLink]="['/libros']">Libros</a>
-      <a routerLink="/usuarios">Usuarios</a>
-      <a routerLink="/prestamos">Préstamos y Devoluciones</a>
-      <a routerLink="/reportes">Reportes</a>
-      <button class="logout-btn" type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+    <!-- Franja azul con Navbar -->
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="logo menu-links"><a [routerLink]="['/modulos']">Mi Biblioteca</a></div>
+      <div class="menu-links">
+        <a [routerLink]="['/libros']">Libros</a>
+        <a routerLink="/usuarios">Usuarios</a>
+        <a routerLink="/prestamos">Préstamos y Devoluciones</a>
+        <a routerLink="/reportes">Reportes</a>
+        <button class="logout-btn" type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+      </div>
     </div>
+
+    <div class="user-section">
+      <div class="user-info">
+        <!-- Avatar del usuario -->
+        <div class="user-avatar">
+          <i class="fa fa-user"></i>
+        </div>
+
+        <!-- Información del usuario (Formulario) -->
+        <div class="form-container">
+          <div class="user-name">{{ usuarioDatos.usuario || 'Usuario no identificado' }}</div>
+          <form action="#" method="POST">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" [(ngModel)]="usuarioDatos.nombre">
+
+            <label for="tipoUsuario">Tipo de Usuario</label>
+            <input type="text" id="tipoUsuario" name="tipoUsuario" [value]="usuarioDatos.tipoUsuario || 'No disponible'" readonly>
+
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" [(ngModel)]="usuarioDatos.correo"> 
+
+
+            <button type="button"  (click)="guardarCambios()">Guardar cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
   </div>
+</body>
+</html>
 
-<div class="user-section">
-  <div class="user-info">
-    <!-- Avatar del usuario -->
-    <div class="user-avatar">
-      <i class="fa fa-user"></i>
-    </div>
-
-    <!-- Información del usuario (Formulario) -->
-    <div class="form-container">
-      <div class="user-name">Juan Pérez</div>
-      <form action="#" method="POST">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" value="Juan Pérez" readonly>
-
-        <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" value="juan.perez@example.com" readonly>
-
-        <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" value="123-456-7890" readonly>
-
-        <button type="submit">Guardar cambios</button>
-      </form>
-    </div>
-  </div>
+<!-- Notificación dinámica -->
+<div 
+  *ngIf="notification" 
+  [ngClass]="{
+    'alert': true,
+    'alert-success': notification.type === 'success',
+    'alert-danger': notification.type === 'error'
+  }" 
+  class="notification">
+  {{ notification.message }}
 </div>
-<router-outlet></router-outlet>
-</div>
+

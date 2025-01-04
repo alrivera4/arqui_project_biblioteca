@@ -36,10 +36,10 @@ export class EditComponent implements OnInit {
   }
 
   updateLibro(): void {
-    this.libroService.createLibro(this.libro).subscribe(() => {
+    this.libroService.updateLibro(this.libro.id, this.libro).subscribe(() => {
       this.router.navigate(['/libros']); // Redirige a la lista de libros
     });
-  }
+}
 
   cancelEdit(): void {
     this.router.navigate(['/libros']); // Redirige al listado de libros

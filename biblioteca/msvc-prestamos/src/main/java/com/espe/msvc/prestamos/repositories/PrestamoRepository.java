@@ -16,5 +16,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PrestamoRepository extends JpaRepository<Prestamo, Long> {
-    List<Prestamo> findByUsuario_UsuarioId(Long usuarioId);
+    List<Prestamo> findByUsuario_usuarioId(Long usuarioId);
 }

@@ -14,7 +14,7 @@ export class AddComponent {
     isbn: '',
     categoria: '',
     cantidadDisponible: '',
-    fecha_publicacion: '',
+    fechaPublicacion: '',
   };
   
   notification: { message: string; type: string } | null = null;
@@ -64,7 +64,7 @@ export class AddComponent {
       !this.libro.isbn ||
       !this.libro.categoria ||
       !this.libro.cantidadDisponible ||
-      !this.libro.fecha_publicacion
+      !this.libro.fechaPublicacion
     ) {
       this.errorMessage = 'Todos los campos son obligatorios.';
       return;
