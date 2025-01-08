@@ -54,13 +54,36 @@
   
     <div class="mb-3">
       <label for="fechaPrestamo" class="form-label">Fecha Préstamo:</label>
-      <input type="date" id="fechaPrestamo" [(ngModel)]="prestamo.fechaPrestamo" name="fechaPrestamo" class="form-control" required />
+      <input
+        type="date"
+        id="fechaPrestamo"
+        [(ngModel)]="prestamo.fechaPrestamo"
+        name="fechaPrestamo"
+        class="form-control"
+        required
+        #fechaPrestamo="ngModel"
+      />
+      <div *ngIf="!esFechaPrestamoValida() && fechaPrestamo.touched" class="error-message">
+        La fecha no es válida.
+      </div>
     </div>
-  
+    
     <div class="mb-3">
       <label for="fechaDevolucion" class="form-label">Fecha Devolución:</label>
-      <input type="date" id="fechaDevolucion" [(ngModel)]="prestamo.fechaDevolucion" name="fechaDevolucion" class="form-control" required />
+      <input
+        type="date"
+        id="fechaDevolucion"
+        [(ngModel)]="prestamo.fechaDevolucion"
+        name="fechaDevolucion"
+        class="form-control"
+        required
+        #fechaDevolucion="ngModel"
+      />
+      <div *ngIf="!esFechaDevolucionValida() && fechaDevolucion.touched" class="error-message">
+        La Fecha no es válida
+      </div>
     </div>
+    
   
     <!-- Contenedor para los botones de registrar y cancelar -->
     <div class="d-flex justify-content-center gap-3">

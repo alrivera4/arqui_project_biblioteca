@@ -12,6 +12,7 @@ export class ModulosComponent implements OnInit {
 
   usuarioDatos: any;
   notification: { message: string; type: string } | null = null;
+  esAdministrador: boolean = false;
 
   constructor(
     private router: Router,
@@ -21,6 +22,10 @@ export class ModulosComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarUsuarioDatos();
+    // Determina si el usuario es administrador
+    const tipoUsuario = this.authService.getTipoUsuario(); // Asegúrate de que este método existe en AuthService
+    this.esAdministrador = tipoUsuario === 'administrador';
+    console.log('Tipo de usuario:', tipoUsuario, 'Es administrador:', this.esAdministrador);
   }
 
   // Método para cargar los datos del usuario

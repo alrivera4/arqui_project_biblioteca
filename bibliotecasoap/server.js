@@ -323,10 +323,12 @@ const loanService = {
 
         // Ejecutar la consulta con los parámetros dinámicos
         const results = await db.query(query, params);
+        console.log('Resultados de la consulta:', results.rows);
 
         // Mapear los resultados y generar el reporte
         const reportes = results.rows.map((prestamo) => {
-            return `ID Préstamo: ${prestamo.prestamo_id}, Usuario: ${prestamo.usuario}, Libro: ${prestamo.libro}, Fecha de Préstamo: ${prestamo.fecha_prestamo}, Fecha de Devolución: ${prestamo.fecha_devolucion}, Estado: ${prestamo.estado}`;
+            return ` ID Préstamo: ${prestamo.prestamo_id}, Usuario: ${prestamo.usuario}, Libro: ${prestamo.libro}, Fecha de Préstamo: ${prestamo.fecha_prestamo}, Fecha de Devolución: ${prestamo.fecha_devolucion}, Estado: ${prestamo.estado}`;
+           
         });
 
         // Retornar el reporte

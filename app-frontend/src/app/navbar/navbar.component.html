@@ -2,9 +2,9 @@
     <div class="logo menu-links"><a [routerLink]="['/modulos']">Mi Biblioteca</a></div>
     <div class="menu-links">
       <a [routerLink]="['/libros']">Libros</a>
-      <a routerLink="/usuarios">Usuarios</a>
+      <a routerLink="/usuarios" *ngIf="esAdministrador">Usuarios</a>
       <a routerLink="/prestamos">Préstamos y Devoluciones</a>
-      <a routerLink="/reportes">Reportes</a>
+      <a routerLink="/reportes" *ngIf="esAdministrador">Reportes</a>
       <button class="logout-btn" type="button" (click)="cerrarSesion()">Cerrar sesión</button>
     </div>
   </div>

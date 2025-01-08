@@ -14,6 +14,7 @@ import { RegistroPrestamoComponent } from './components/prestamos/registro-prest
 import { DevolucionLibroComponent } from './components/prestamos/devolucion-libro/devolucion-libro.component';
 import { RegistroUsuarioComponent } from './components/usuarios/registro-usuario/registro-usuario.component';
 import { ListarUsuariosComponent } from './components/usuarios/listar-usuarios/listar-usuarios.component';
+import { PrestamosActivosComponent } from './components/reportes/prestamos-activos/prestamos-activos.component';
 
 
 
@@ -30,7 +31,8 @@ import { ListarUsuariosComponent } from './components/usuarios/listar-usuarios/l
     RegistroPrestamoComponent,
     DevolucionLibroComponent,
     RegistroUsuarioComponent,
-    ListarUsuariosComponent
+    ListarUsuariosComponent,
+    PrestamosActivosComponent
   
   ],
   imports: [

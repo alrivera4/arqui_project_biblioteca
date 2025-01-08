@@ -61,7 +61,6 @@ export class AuthService {
     return { usuario, tipoUsuario };
   }
 }*/
-
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -75,12 +74,12 @@ export class AuthService {
   constructor() {}
 
   // Obtener datos almacenados
-  getTipoUsuario(): string | null {
-    return localStorage.getItem(this.tipoUsuarioKey);
+  getTipoUsuario(): string {
+    return localStorage.getItem(this.tipoUsuarioKey) || ''; // Retorna una cadena vacía si no hay valor
   }
 
-  getUsuario(): string | null {
-    return localStorage.getItem(this.usuarioKey);
+  getUsuario(): string {
+    return localStorage.getItem(this.usuarioKey) || ''; // Retorna una cadena vacía si no hay valor
   }
 
   getUsuarioDatos(): any {
@@ -121,18 +120,20 @@ export class AuthService {
     return this.getTipoUsuario() === 'profesor';
   }
 
+  // Comprobar si el usuario está autenticado
+  estaAutenticado(): boolean {
+    return this.getUsuario() !== '' && this.getTipoUsuario() !== '';
+  }
+
   // Procesar respuesta SOAP
-  parseSoapResponse(soapResponse: string): { usuario: string; tipoUsuario: string } {
+  parseSoapResponse(soapResponse: string): { usuario: string; tipoUsuario: string, usuarioId: string, nombre: string, correo: string } {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(soapResponse, 'text/xml');
 
+    // Extraer datos del XML, proporcionando un valor por defecto de cadena vacía si es null o undefined
     const usuario = xmlDoc.getElementsByTagName('web:usuario')[0]?.textContent || '';
     const tipoUsuario = xmlDoc.getElementsByTagName('web:tipoUsuario')[0]?.textContent || '';
-    const usuarioId = xmlDoc.getElementsByTagName('web:usuarioId')[0]?.textContent || '';  
-    
-  
-
-    // Recopilar datos adicionales
+    const usuarioId = xmlDoc.getElementsByTagName('web:usuarioId')[0]?.textContent || '';
     const correo = xmlDoc.getElementsByTagName('web:correo')[0]?.textContent || '';
     const nombre = xmlDoc.getElementsByTagName('web:nombre')[0]?.textContent || '';
 
@@ -140,12 +141,14 @@ export class AuthService {
     this.setUsuario(usuario);
     this.setTipoUsuario(tipoUsuario);
 
-    // Guardar otros datos del usuario
-    const datosCompletos = {usuarioId, nombre, usuario, correo, tipoUsuario};
+    // Guardar los datos completos del usuario
+    const datosCompletos = { usuarioId, nombre, usuario, correo, tipoUsuario };
     this.setUsuarioDatos(datosCompletos);
-    //console.log('Datos del usuario guardados:', datosCompletos); // Mostrar datos en consola
 
-    return { usuario, tipoUsuario };
+    return { usuario, tipoUsuario, usuarioId, nombre, correo };
   }
 }
+
+
+
 

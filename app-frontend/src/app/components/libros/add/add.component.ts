@@ -55,6 +55,19 @@ export class AddComponent {
     );
   }
 
+  // Método para verificar si la fecha ingresada es válida
+  esFechaValida(): boolean {
+    if (!this.libro.fechaPublicacion) {
+      return true; // No validar si el campo está vacío (será manejado por "required").
+    }
+
+    const fechaIngresada = new Date(this.libro.fechaPublicacion);
+    const fechaActual = new Date();
+
+    // Compara la fecha ingresada con la fecha actual
+    return fechaIngresada <= fechaActual;
+  }
+
 
   addLibro(): void {
     // Verificación simple de validación de campos antes de enviar

@@ -52,6 +52,45 @@ export class RegistroPrestamoComponent implements OnInit {
       this.notification = null;
     }, 3000);
   }
+  // Método para verificar si la fecha de préstamo es válida
+  esFechaPrestamoValida(): boolean {
+    if (!this.prestamo.fechaPrestamo) {
+      return true; // No validar si el campo está vacío (será manejado por "required").
+    }
+
+    const fechaPrestamo = new Date(this.prestamo.fechaPrestamo);
+    const fechaDevolucion = this.prestamo.fechaDevolucion ? new Date(this.prestamo.fechaDevolucion) : null;
+    const fechaActual = new Date();
+
+    // Validar que la fecha de préstamo no sea mayor a la fecha actual
+    if (fechaPrestamo > fechaActual) {
+      return false;
+    }
+
+    // Validar que la fecha de préstamo no sea mayor a la fecha de devolución
+    if (fechaDevolucion && fechaPrestamo > fechaDevolucion) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Método para verificar si la fecha de devolución es válida
+  esFechaDevolucionValida(): boolean {
+    if (!this.prestamo.fechaDevolucion) {
+      return true; // No validar si el campo está vacío (será manejado por "required").
+    }
+
+    const fechaDevolucion = new Date(this.prestamo.fechaDevolucion);
+    const fechaPrestamo = this.prestamo.fechaPrestamo ? new Date(this.prestamo.fechaPrestamo) : null;
+
+    // Validar que la fecha de devolución sea mayor a la fecha de préstamo
+    if (fechaPrestamo && fechaDevolucion <= fechaPrestamo) {
+      return false;
+    }
+
+    return true; // Puede ser mayor a la fecha actual, por lo que no es necesario validarlo contra la fecha actual
+  }
 
   registrarPrestamo() {
     if (!this.prestamo.usuarioId || !this.prestamo.libroId || !this.prestamo.fechaPrestamo || !this.prestamo.fechaDevolucion) {

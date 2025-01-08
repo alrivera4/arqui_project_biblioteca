@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+<br><br><br>
+<h2 class="text-center">Reporte de Préstamos Activos</h2>
+<!-- Filtros -->
+<div class="container mt-4">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>
+            Usuario
+            <input
+              type="text"
+              [(ngModel)]="filtros.usuarioId"
+              (input)="aplicarFiltros()"
+              class="form-control form-control-sm"
+              placeholder="Filtrar Usuario"
+            />
+          </th>
+          <th>
+            Libro
+            <input
+              type="text"
+              [(ngModel)]="filtros.libroTitulo"
+              (input)="aplicarFiltros()"
+              class="form-control form-control-sm"
+              placeholder="Filtrar Libro"
+            />
+          </th>
+          <th>
+            Fecha Préstamo
+            <input
+              type="date"
+              [(ngModel)]="filtros.fechaInicio"
+              (input)="aplicarFiltros()"
+              class="form-control form-control-sm"
+            />
+          </th>
+          <th>
+            Fecha Devolución
+            <input
+              type="date"
+              [(ngModel)]="filtros.fechaFin"
+              (input)="aplicarFiltros()"
+              class="form-control form-control-sm"
+            />
+          </th>
+          <th>
+            Estado
+            <select [(ngModel)]="filtros.estado" (change)="aplicarFiltros()" class="form-control form-control-sm">
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prestamo of prestamosFiltrados">
+          <td>{{ prestamo.id }}</td>
+          <td>{{ prestamo.usuario }}</td>
+          <td>{{ prestamo.libro }}</td>
+          <td>{{ prestamo.fechaPrestamo }}</td>
+          <td>{{ prestamo.fechaDevolucion }}</td>
+          <td>{{ prestamo.estado }}</td>
+        </tr>
+        <tr *ngIf="prestamosFiltrados.length === 0">
+          <td colspan="6" class="text-center">No se encontraron resultados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

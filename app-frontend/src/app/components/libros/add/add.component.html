@@ -95,7 +95,11 @@
     <div *ngIf="fechaPublicacion.invalid && fechaPublicacion.touched" class="error-message">
       La fecha de publicación es obligatoria.
     </div>
+    <div *ngIf="!esFechaValida() && fechaPublicacion.touched" class="error-message">
+      La fecha no puede ser mayor a la fecha actual.
+    </div>
   </div>
+  
   <!-- Botones de acciones -->
   <div class="d-flex justify-content-center gap-2">
     <!-- Botón de Actualizar -->

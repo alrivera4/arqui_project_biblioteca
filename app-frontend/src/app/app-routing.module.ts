@@ -10,6 +10,7 @@ import { RegistroUsuarioComponent } from './components/usuarios/registro-usuario
 import { RegistroPrestamoComponent } from './components/prestamos/registro-prestamo/registro-prestamo.component';
 import { DevolucionLibroComponent } from './components/prestamos/devolucion-libro/devolucion-libro.component';
 import { ListarUsuariosComponent } from './components/usuarios/listar-usuarios/listar-usuarios.component';
+import { PrestamosActivosComponent } from './components/reportes/prestamos-activos/prestamos-activos.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -17,7 +18,7 @@ const routes: Routes = [
     path: 'modulos',
     component: ModulosComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['administrador'] },
+    data: { roles: ['administrador', 'estudiante', 'profesor'] },
   },
   {
     path: 'libros',
@@ -46,6 +47,14 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: '/usuarios', pathMatch: 'full' },
+  {
+    path: 'reportes',
+    children: [
+      { path: '', component: PrestamosActivosComponent }, // Para visualizar prestamos activos
+     
+    ]
+  },
+  { path: '', redirectTo: '/reportes', pathMatch: 'full' },
 ];
 
 

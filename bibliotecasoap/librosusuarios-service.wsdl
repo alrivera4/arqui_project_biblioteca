@@ -24,8 +24,11 @@
     </message>
     
     <message name="GenerarReportePrestamosActivosRequest">
+        <part name="usuarioId" type="xsd:int" minOccurs="0"/>
+        <part name="libroTitulo" type="xsd:string" minOccurs="0"/>
         <part name="fechaInicio" type="xsd:string" minOccurs="0"/>
         <part name="fechaFin" type="xsd:string" minOccurs="0"/>
+        <part name="estado" type="xsd:string" minOccurs="0"/>
     </message>
     
     <message name="GenerarReportePrestamosActivosResponse">

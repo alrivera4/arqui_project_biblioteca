@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,20 +12,25 @@ import { AuthService } from 'src/app/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
   loading: boolean = false;
-  username= '';
-  password= '';
+  username = '';
+  password = '';
 
   notification: { message: string; type: string } | null = null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder, 
+    private http: HttpClient, 
+    private router: Router, 
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
       usuario: ['', Validators.required],
       contrasenia: ['', Validators.required],
     });
   }
 
-   // Método para mostrar notificaciones
-   showNotification(message: string, type: string): void {
+  // Método para mostrar notificaciones
+  showNotification(message: string, type: string): void {
     this.notification = { message, type };
 
     // La notificación desaparece después de 3 segundos
@@ -32,7 +38,6 @@ export class LoginComponent {
       this.notification = null;
     }, 3000);
   }
-
 
   onLogin() {
     if (this.loginForm.valid) {
@@ -58,11 +63,8 @@ export class LoginComponent {
       this.http.post('http://localhost:8000/soap', soapBody, { headers, responseType: 'text' })
         .subscribe({
           next: (response: any) => {
-            //console.log('Respuesta SOAP completa:', response);
-
-             // Procesar respuesta y guardar datos
+            // Procesar la respuesta y guardar los datos
             const usuarioDatos = this.authService.parseSoapResponse(response);
-            //console.log('Datos completos del usuario:', usuarioDatos);
 
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(response, 'text/xml');
@@ -71,24 +73,34 @@ export class LoginComponent {
             const mensaje = xmlDoc.querySelector('mensaje')?.textContent || xmlDoc.querySelector('web\\:mensaje')?.textContent;
             const usuarioValidado = xmlDoc.querySelector('usuario')?.textContent || xmlDoc.querySelector('web\\:usuario')?.textContent;
             const tipoUsuario = xmlDoc.querySelector('tipoUsuario')?.textContent || xmlDoc.querySelector('web\\:tipoUsuario')?.textContent;
-            
 
-            if (estado == 'Exitoso' && usuarioValidado == usuario) {
+            if (estado === 'Exitoso' && usuarioValidado === usuario) {
               this.showNotification(`Login exitoso. Tipo de usuario: ${tipoUsuario}`, 'success');
+              
+              // Acceder a los datos completos del usuario
+              const usuarioId = usuarioDatos.usuarioId;
+              const nombre = usuarioDatos.nombre;
+              const correo = usuarioDatos.correo;
+              console.log('Usuario ID:', usuarioId);
+              console.log('Nombre del usuario:', nombre);
+              console.log('Correo del usuario:', correo);
 
+              // Guardar el tipo de usuario en el almacenamiento local
+              this.authService.setUsuario(usuario);
+              this.authService.setUsuarioDatos(usuarioDatos); // Guardar datos adicionales
+
+              // Redirigir según el tipo de usuario
               if (tipoUsuario) {
-                // Guardar el tipo de usuario en el almacenamiento local
-                this.authService.setTipoUsuario(tipoUsuario);
                 setTimeout(() => {
                   this.router.navigate(['/modulos']);
                 }, 3000);
               }
-          } else if (estado == 'ContraseniaIncorrecta') {
-            this.showNotification(`Credenciales inválidas: ${mensaje || 'Error desconocido'}`, 'error');
-          } else if (estado == 'UsuarioNoExiste') {
-            this.showNotification(`El usuario ${usuario} no está registrado`, 'error');
-          }
-        },
+            } else if (estado === 'ContraseniaIncorrecta') {
+              this.showNotification(`Credenciales inválidas: ${mensaje || 'Error desconocido'}`, 'error');
+            } else if (estado === 'UsuarioNoExiste') {
+              this.showNotification(`El usuario ${usuario} no está registrado`, 'error');
+            }
+          },
           error: (err) => {
             console.error('Error en el login: ', err);
             this.showNotification('Error en el login: ' + err.message || 'Error desconocido', 'error');
@@ -101,4 +113,3 @@ export class LoginComponent {
     this.router.navigate(['/usuarios/registro']);
   }
 }
-

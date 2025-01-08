@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LibroService } from 'src/app/services/libro.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth.service'; // Asegúrate de usar la ruta correcta
 
 @Component({
   selector: 'app-list',
@@ -11,12 +12,25 @@ export class ListComponent implements OnInit {
   libros: any[] = []; // Todos los libros
   searchQuery: string = ''; // Término de búsqueda
   notification: { message: string, type: string } | null = null; // Notificación de éxito o error
-  
-  constructor(private libroService: LibroService, private router: Router) {}
+  esAdministrador: boolean = false; // Propiedad para determinar si el usuario es administrador
+
+  // Inyecta AuthService como público para acceder en la plantilla
+  constructor(
+    private libroService: LibroService,
+    private router: Router,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     // Inicialmente cargamos los libros
     this.getLibros();
+    console.log('Tipo de usuario:', this.authService.getTipoUsuario());
+
+    // Determina si el usuario es administrador
+    const tipoUsuario = this.authService.getTipoUsuario(); // Asegúrate de que este método existe en AuthService
+    this.esAdministrador = tipoUsuario === 'administrador';
+    console.log('Tipo de usuario:', tipoUsuario, 'Es administrador:', this.esAdministrador);
+
   }
 
   // Método para obtener los libros desde el servicio
