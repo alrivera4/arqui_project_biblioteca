@@ -1,0 +1,59 @@
+<app-navbar></app-navbar>
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Registrar Biblioteca</h2>
+    <form (ngSubmit)="registrarBiblioteca()" class="container mt-4 border p-4 rounded form">
+      <!-- Nombre -->
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre de la Biblioteca</label>
+        <input
+          type="text"
+          id="nombre"
+          class="form-control"
+          [(ngModel)]="biblioteca.nombre"
+          name="nombre"
+          required
+        />
+      </div>
+  
+      <!-- Plan -->
+      <div class="mb-3">
+        <label for="plan" class="form-label">Plan</label>
+        <select
+          id="plan"
+          class="form-select"
+          [(ngModel)]="biblioteca.plan"
+          name="plan"
+          required
+        >
+          <option value="basico">Básico</option>
+          <option value="premium">Premium</option>
+          <option value="vip">VIP</option>
+        </select>
+      </div>
+  
+      <!-- Estado
+      <div class="mb-3">
+        <label for="estado" class="form-label">Estado</label>
+        <select
+          id="estado"
+          class="form-select"
+          [(ngModel)]="biblioteca.estado"
+          name="estado"
+          required
+        >
+          <option value="activo">Activo</option>
+          <option value="suspendido">Suspendido</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>-->
+      
+      <div class="d-flex justify-content-center gap-3">
+        <!-- Botón de envío -->
+        <button type="submit" class="btn btn-primary  w-45">Registrar</button>
+        <!-- Botón para cancelar envío-->
+        <button type="button" class="btn btn-secondary w-45" (click)="cancelar()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+  

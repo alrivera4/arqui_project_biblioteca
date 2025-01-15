@@ -19,7 +19,7 @@ public interface LibroService {
     List<Libro> listarLibros();
     List<Libro> filtrarLibrosPorCategoria(String categoria);
     List<Libro> buscarLibroPorTitulo(String titulo);
-    Libro guardarLibro(Libro libro);
+    Libro guardarLibro(Libro libro, Long bibliotecaId);
     Libro buscarLibro(Long id);
     void eliminarLibro(Long id);
 

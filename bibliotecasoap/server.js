@@ -10,7 +10,7 @@ const db = new Client({
     host: 'localhost', // Dirección del servidor PostgreSQL
     user: 'postgres', // Usuario de la base de datos
     password: 'admin', // Contraseña del usuario
-    database: 'biblioteca', // Nombre de la base de datos
+    database: 'biblioteca2', // Nombre de la base de datos
     port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
     statement_timeout: 5000, // Tiempo límite para las consultas (5 segundos)
 });
@@ -374,7 +374,7 @@ const loanService = {
   },
   
 
-  RegistrarUsuario: (args, callback) => {
+  /*RegistrarUsuario: (args, callback) => {
     console.log("Datos recibidos:", args);
     
     const { nombre, usuario, correo, contrasenia, tipoUsuario } = args;
@@ -405,7 +405,63 @@ const loanService = {
             });
         }
     );
+},*/
+
+RegistrarUsuario: (args, callback) => {
+  console.log("Datos recibidos:", args);
+  
+  const { nombre, usuario, correo, contrasenia, tipoUsuario, bibliotecaId } = args;
+
+  // Consulta SQL para registrar el usuario
+  db.query(
+      'INSERT INTO usuarios (nombre, usuario, correo, contrasenia, tipo_usuario, biblioteca_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING usuario_id, biblioteca_id', 
+      [nombre, usuario, correo, contrasenia, tipoUsuario, bibliotecaId], 
+      (err, results) => {
+          if (err) {
+              console.error("Error al registrar usuario:", err);
+
+              // Llamar al callback con un error
+              return callback({
+                  success: false,
+                  message: "Error al registrar usuario",
+                  error: err.message
+              });
+          }
+
+          const usuarioId = results.rows[0].usuario_id;
+          const bibliotecaId = results.rows[0].biblioteca_id;
+
+          // Recuperar el nombre de la biblioteca usando su ID
+          db.query(
+              'SELECT nombre FROM bibliotecas WHERE biblioteca_id = $1',
+              [bibliotecaId],
+              (err, bibliotecaResults) => {
+                  if (err) {
+                      console.error("Error al recuperar el nombre de la biblioteca:", err);
+                      return callback({
+                          success: false,
+                          message: "Error al recuperar el nombre de la biblioteca",
+                          error: err.message
+                      });
+                  }
+
+                  const bibliotecaNombre = bibliotecaResults.rows[0]?.nombre || 'Desconocida';
+
+                  console.log("Usuario registrado con ID:", usuarioId);
+
+                  // Llamar al callback con la respuesta de éxito
+                  callback(null, {
+                      estado: 'Registrado',
+                      mensaje: 'Usuario registrado correctamente',
+                      usuarioId,
+                      bibliotecaNombre
+                  });
+              }
+          );
+      }
+  );
 },
+
 
 
 SuspenderUsuario :async (args) => {

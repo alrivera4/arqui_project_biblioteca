@@ -25,6 +25,11 @@ public class Libro {
     private int cantidadDisponible;
     private String fechaPublicacion;
     //private Date fecha_publicacion;
+    // Relación con la entidad Biblioteca
+    @ManyToOne
+    @JoinColumn(name = "biblioteca_id", nullable = false)
+    private Biblioteca biblioteca;
+
     
     // Getters y setters
 
@@ -84,6 +89,15 @@ public class Libro {
     public void setFechaPublicacion(String fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
+
+    public Biblioteca getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(Biblioteca biblioteca) {
+        this.biblioteca = biblioteca;
+    }
+    
     
 }
 

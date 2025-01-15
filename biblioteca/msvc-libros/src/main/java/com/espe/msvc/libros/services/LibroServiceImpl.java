@@ -4,8 +4,11 @@
  */
 package com.espe.msvc.libros.services;
 
+import com.espe.msvc.libros.models.Biblioteca;
 import com.espe.msvc.libros.models.Libro;
+import com.espe.msvc.libros.repositories.BibliotecaRepository;
 import com.espe.msvc.libros.repositories.LibroRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ import org.springframework.stereotype.Service;
 public class LibroServiceImpl implements LibroService {
     @Autowired
     private LibroRepository libroRepository;
+    
+    @Autowired
+    private BibliotecaRepository bibliotecaRepository;
 
     @Override
     public List<Libro> listarLibros() {
@@ -30,10 +36,24 @@ public class LibroServiceImpl implements LibroService {
          return libroRepository.findByCategoriaContainingIgnoreCase(categoria);
     }
 
+    /*@Override
+    public Libro guardarLibro(Libro libro, Long bibliotecaId) {
+        return libroRepository.save(libro);
+    }*/
     @Override
-    public Libro guardarLibro(Libro libro) {
+    @Transactional
+    public Libro guardarLibro(Libro libro, Long bibliotecaId) {
+        // Validar si la biblioteca existe
+        Biblioteca biblioteca = bibliotecaRepository.findById(bibliotecaId)
+                .orElseThrow(() -> new IllegalArgumentException("Biblioteca no encontrada"));
+
+        // Asociar el libro con la biblioteca
+        libro.setBiblioteca(biblioteca);
+
+        // Guardar libro en el repositorio
         return libroRepository.save(libro);
     }
+
 
     @Override
     public Libro buscarLibro(Long id) {

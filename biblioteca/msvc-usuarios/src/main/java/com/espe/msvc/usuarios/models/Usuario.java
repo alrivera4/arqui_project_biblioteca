@@ -13,10 +13,11 @@ import jakarta.persistence.*;
  */
 
 @Entity
-@Table (name = "usuarios")
+@Table(name = "usuarios")
 public class Usuario {
 
-    //Atributos
+    //Atributos 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long usuarioId;
@@ -28,6 +29,10 @@ public class Usuario {
     private String tipoUsuario;  // estudiante, profesor, administrador
     private String estado;  // activo, inactivo
 
+    @ManyToOne
+    @JoinColumn(name = "biblioteca_id", nullable = false)
+    private Biblioteca biblioteca;  // Relación con la tabla bibliotecas
+    
     // Getters y setters
 
     public Long getUsuarioId() {
@@ -38,7 +43,6 @@ public class Usuario {
         this.usuarioId = usuarioId;
     }
 
-
     public String getNombre() {
         return nombre;
     }
@@ -46,7 +50,7 @@ public class Usuario {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public String getUsuario() {
         return usuario;
     }
@@ -62,8 +66,8 @@ public class Usuario {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-    
-     public String getContrasenia() {
+
+    public String getContrasenia() {
         return contrasenia;
     }
 
@@ -87,4 +91,11 @@ public class Usuario {
         this.estado = estado;
     }
 
+    public Biblioteca getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(Biblioteca biblioteca) {
+        this.biblioteca = biblioteca;
+    }
 }

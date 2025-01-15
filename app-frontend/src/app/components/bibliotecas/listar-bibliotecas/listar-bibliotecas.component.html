@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+<br><br><br>
+<div class="d-grid gap-2 d-md-block">
+  <button
+    type="button"
+    class="btn btn-primary mt-3 mb-3 ms-3 me-3"
+    [routerLink]="['/bibliotecas/registro']"
+    *ngIf="esAdministrador"
+  >
+    Registrar biblioteca
+  </button>
+</div>
+<div class="container mt-4">
+  <h2>Listado de Bibliotecas</h2>
+  <p *ngIf="mensaje" class="text-danger">{{ mensaje }}</p>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Fecha de Registro</th>
+        <th>Plan</th>
+        <th>Fecha de Vencimiento</th>
+        <th>Estado</th>
+        <th *ngIf="esAdministrador">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let biblioteca of bibliotecas">
+        <td>{{ biblioteca.nombre }}</td>
+        <td>{{ biblioteca.fechaRegistro | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ biblioteca.plan }}</td>
+        <td>{{ biblioteca.fechaVencimiento | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ biblioteca.estado }}</td>
+        <td *ngIf="esAdministrador">
+          <div class="d-flex justify-content-center">
+            <!-- Botón para editar -->
+            <a
+              class="btn btn-primary btn-sm me-2"
+              [routerLink]="['/bibliotecas/editar-biblioteca', biblioteca.bibliotecaId]"
+              style="min-width: 75px;"
+            >
+              Editar
+            </a>
+            <!-- Botón para eliminar -->
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="deleteBiblioteca(biblioteca.bibliotecaId)"
+              style="min-width: 75px;"
+            >
+              Eliminar
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

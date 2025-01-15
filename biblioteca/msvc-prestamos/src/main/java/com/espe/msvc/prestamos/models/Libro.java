@@ -5,7 +5,6 @@
 package com.espe.msvc.prestamos.models;
 
 import jakarta.persistence.*;
-import java.util.Date;
 
 /**
  *
@@ -25,7 +24,10 @@ public class Libro {
     private String categoria;
     private int cantidadDisponible;
     private String fechaPublicacion;
-    //private Date fecha_publicacion;
+    @ManyToOne
+    @JoinColumn(name = "biblioteca_id", nullable = false)
+    private Biblioteca biblioteca;
+
     
     // Getters y setters
 
@@ -37,7 +39,7 @@ public class Libro {
         this.libroId = libroId;
     }
 
-  
+    
     public String getTitulo() {
         return titulo;
     }
@@ -86,5 +88,14 @@ public class Libro {
         this.fechaPublicacion = fechaPublicacion;
     }
 
+    public Biblioteca getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(Biblioteca biblioteca) {
+        this.biblioteca = biblioteca;
+    }
+    
+    
 }
 

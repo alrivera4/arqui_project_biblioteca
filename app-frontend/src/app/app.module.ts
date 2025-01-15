@@ -15,6 +15,9 @@ import { DevolucionLibroComponent } from './components/prestamos/devolucion-libr
 import { RegistroUsuarioComponent } from './components/usuarios/registro-usuario/registro-usuario.component';
 import { ListarUsuariosComponent } from './components/usuarios/listar-usuarios/listar-usuarios.component';
 import { PrestamosActivosComponent } from './components/reportes/prestamos-activos/prestamos-activos.component';
+import { RegistrarBibliotecaComponent } from './components/bibliotecas/registrar-biblioteca/registrar-biblioteca.component';
+import { ListarBibliotecasComponent } from './components/bibliotecas/listar-bibliotecas/listar-bibliotecas.component';
+import { EditarBibliotecaComponent } from './components/bibliotecas/editar-biblioteca/editar-biblioteca.component';
 
 
 
@@ -32,7 +35,10 @@ import { PrestamosActivosComponent } from './components/reportes/prestamos-activ
     DevolucionLibroComponent,
     RegistroUsuarioComponent,
     ListarUsuariosComponent,
-    PrestamosActivosComponent
+    PrestamosActivosComponent,
+    RegistrarBibliotecaComponent,
+    ListarBibliotecasComponent,
+    EditarBibliotecaComponent
   
   ],
   imports: [

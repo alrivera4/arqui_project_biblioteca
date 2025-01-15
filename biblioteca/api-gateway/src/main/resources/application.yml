@@ -24,6 +24,10 @@ spring:
           predicates:
             #- Path=/api/usuario/{id}/prestamos/**
             - Path=/api/usuario/prestamos/**
+        - id: biblotecas-service
+          uri: lb://msvc-bibliotecas
+          predicates:
+            - Path=/api/bibliotecas/**
           
   eureka:
     client:

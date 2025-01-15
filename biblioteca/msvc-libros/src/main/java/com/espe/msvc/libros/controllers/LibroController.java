@@ -85,14 +85,54 @@ public class LibroController {
 
 
     // Crear un nuevo libro
+    // Crear un nuevo libro asociado a una biblioteca
     @PostMapping
+    public ResponseEntity<Libro> crearLibro(@RequestBody Libro libro, @RequestParam Long bibliotecaId) {
+        try {
+            Libro nuevoLibro = libroService.guardarLibro(libro, bibliotecaId);
+            return new ResponseEntity<>(nuevoLibro, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /*@PostMapping
     public ResponseEntity<Libro> crearLibro(@RequestBody Libro libro) {
         Libro nuevoLibro = libroService.guardarLibro(libro);
         return new ResponseEntity<>(nuevoLibro, HttpStatus.CREATED);
-    }
+    }*/
     
-    // Endpoint para editar un usuario
+   
+    // Endpoint para editar un libro
     @PutMapping("/{id}")
+    public ResponseEntity<String> editarLibro(
+            @PathVariable Long id,
+            @RequestBody Libro libroActualizado,
+            @RequestParam(required = false) Long bibliotecaId) {
+
+        Libro libroExistente = libroService.buscarLibro(id);
+
+        if (libroExistente == null) {
+            return new ResponseEntity<>("Libro no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        // Actualizar los campos del libro
+        libroExistente.setTitulo(libroActualizado.getTitulo());
+        libroExistente.setAutor(libroActualizado.getAutor());
+        libroExistente.setIsbn(libroActualizado.getIsbn());
+        libroExistente.setCategoria(libroActualizado.getCategoria());
+        libroExistente.setCantidadDisponible(libroActualizado.getCantidadDisponible());
+        libroExistente.setFechaPublicacion(libroActualizado.getFechaPublicacion());
+
+        // Usar el bibliotecaId proporcionado o mantener el actual
+        Long bibliotecaIdFinal = bibliotecaId != null ? bibliotecaId : libroExistente.getBiblioteca().getBibliotecaId();
+
+        libroService.guardarLibro(libroExistente, bibliotecaIdFinal);
+
+        return new ResponseEntity<>("Libro actualizado con éxito", HttpStatus.OK);
+    }
+
+    /*@PutMapping("/{id}")
     public ResponseEntity<String> editarLibro(@PathVariable Long id, @RequestBody Libro libroActualizado) {
         // Buscar el usuario en la base de datos
         Libro libroExistente = libroService.buscarLibro(id);
@@ -115,7 +155,7 @@ public class LibroController {
 
         // Devolver mensaje de éxito
         return new ResponseEntity<>("Libro actualizado con éxito", HttpStatus.OK);
-    }
+    }*/
 
     // Eliminar un libro por ID
     @DeleteMapping("/{id}")

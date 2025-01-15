@@ -16,6 +16,7 @@
     <div class="navbar">
       <div class="logo menu-links"><a [routerLink]="['/modulos']">Mi Biblioteca</a></div>
       <div class="menu-links">
+        <a [routerLink]="['/bibliotecas']">Bibliotecas</a>
         <a [routerLink]="['/libros']">Libros</a>
         <a routerLink="/usuarios" *ngIf="esAdministrador">Usuarios </a>
         <a routerLink="/prestamos">Préstamos y Devoluciones</a>

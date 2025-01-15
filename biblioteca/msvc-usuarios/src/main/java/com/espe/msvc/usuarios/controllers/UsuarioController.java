@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.espe.msvc.usuarios.controllers;
 
 import com.espe.msvc.usuarios.models.Usuario;
@@ -9,13 +5,6 @@ import com.espe.msvc.usuarios.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-/**
- *
- * @author USER
- */
-
-
 
 import java.util.List;
 
@@ -44,50 +33,66 @@ public class UsuarioController {
         }
     }
 
-    // Crear un nuevo usuario
+    // Crear un nuevo usuario asociado a una biblioteca
     @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-        Usuario nuevoUsuario = usuarioService.guardarUsuario(usuario);
-        return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario, @RequestParam Long bibliotecaId) {
+        try {
+            Usuario nuevoUsuario = usuarioService.guardarUsuario(usuario, bibliotecaId);
+            return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
-    
+
     // Endpoint para editar un usuario
     @PutMapping("/{id}")
-    public ResponseEntity<String> editarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
-        // Buscar el usuario en la base de datos
+    public ResponseEntity<String> editarUsuario(
+            @PathVariable Long id,
+            @RequestBody Usuario usuarioActualizado,
+            @RequestParam(required = false) Long bibliotecaId) {
+
         Usuario usuarioExistente = usuarioService.buscarUsuario(id);
 
-        // Si el usuario no existe, devolver un mensaje de error
+        if (usuarioExistente == null) {
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        }
+        usuarioExistente.setNombre(usuarioActualizado.getNombre());
+        usuarioExistente.setCorreo(usuarioActualizado.getCorreo());
+        usuarioExistente.setTipoUsuario(usuarioActualizado.getTipoUsuario());
+
+        // Usar el bibliotecaId proporcionado o mantener el actual
+        Long bibliotecaIdFinal = bibliotecaId != null ? bibliotecaId : usuarioExistente.getBiblioteca().getBibliotecaId();
+
+        usuarioService.guardarUsuario(usuarioExistente, bibliotecaIdFinal);
+
+        return new ResponseEntity<>("Usuario actualizado con éxito", HttpStatus.OK);
+    }
+
+    /*@PutMapping("/{id}")
+    public ResponseEntity<String> editarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
+        Usuario usuarioExistente = usuarioService.buscarUsuario(id);
+
         if (usuarioExistente == null) {
             return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         }
 
-        // Actualizar los datos del usuario
         usuarioExistente.setNombre(usuarioActualizado.getNombre());
         usuarioExistente.setCorreo(usuarioActualizado.getCorreo());
         usuarioExistente.setTipoUsuario(usuarioActualizado.getTipoUsuario());
-        //usuarioExistente.setEstado(usuarioActualizado.getEstado());
-
-        // Guardar los cambios
+        
         usuarioService.guardarUsuario(usuarioExistente);
 
-        // Devolver mensaje de éxito
         return new ResponseEntity<>("Usuario actualizado con éxito", HttpStatus.OK);
-    }
+    }*/
 
     // Eliminar un usuario por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
         Usuario usuario = usuarioService.buscarUsuario(id);
         if (usuario == null) {
-            // Si el usuario no se encuentra, se devuelve un mensaje con un código de estado 404
             return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         }
-        
-        // Si el usuario existe, se procede a eliminarlo
         usuarioService.eliminarUsuario(id);
-        
-        // Devolvemos un mensaje personalizado junto con el código de estado 200 OK
         return new ResponseEntity<>("Usuario eliminado con éxito", HttpStatus.OK);
     }
 }

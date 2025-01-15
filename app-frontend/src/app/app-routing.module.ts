@@ -11,6 +11,9 @@ import { RegistroPrestamoComponent } from './components/prestamos/registro-prest
 import { DevolucionLibroComponent } from './components/prestamos/devolucion-libro/devolucion-libro.component';
 import { ListarUsuariosComponent } from './components/usuarios/listar-usuarios/listar-usuarios.component';
 import { PrestamosActivosComponent } from './components/reportes/prestamos-activos/prestamos-activos.component';
+import { RegistrarBibliotecaComponent } from './components/bibliotecas/registrar-biblioteca/registrar-biblioteca.component';
+import { ListarBibliotecasComponent } from './components/bibliotecas/listar-bibliotecas/listar-bibliotecas.component';
+import { EditarBibliotecaComponent } from './components/bibliotecas/editar-biblioteca/editar-biblioteca.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -55,6 +58,15 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: '/reportes', pathMatch: 'full' },
+  {
+    path: 'bibliotecas',
+    children: [
+      { path: 'registro', component: RegistrarBibliotecaComponent }, // Para registrar un préstamo
+      { path: '', component: ListarBibliotecasComponent }, // Para registrar la devolución de un libro
+      { path: 'editar-biblioteca/:id', component: EditarBibliotecaComponent }, // Para editar un libro
+    ]
+  },
+  { path: '', redirectTo: '/bibliotecas', pathMatch: 'full' },
 ];
 
 

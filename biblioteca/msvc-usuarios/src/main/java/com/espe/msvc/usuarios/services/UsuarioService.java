@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface UsuarioService {
     List<Usuario> listarUsuarios();
-    Usuario guardarUsuario(Usuario usuario);
+    Usuario guardarUsuario(Usuario usuario, Long bibliotecaId);
     Usuario buscarUsuario(Long id);
     void eliminarUsuario(Long id);
 }

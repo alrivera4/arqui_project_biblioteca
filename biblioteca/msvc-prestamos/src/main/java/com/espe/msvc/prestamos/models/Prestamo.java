@@ -38,6 +38,10 @@ public class Prestamo {
     private String estado;
 
     private Double multa;
+    
+    @ManyToOne
+    @JoinColumn(name = "biblioteca_id", nullable = false)
+    private Biblioteca biblioteca;
 
     // Getters y setters
 
@@ -97,6 +101,16 @@ public class Prestamo {
     public void setMulta(Double multa) {
         this.multa = multa;
     }
+
+    public Biblioteca getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(Biblioteca biblioteca) {
+        this.biblioteca = biblioteca;
+    }
+    
+    
     
    
 }
