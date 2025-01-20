@@ -140,10 +140,13 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 
         // Establecer la fecha de vencimiento calculada
         biblioteca.setFechaVencimiento(fechaVencimiento);
-
-        // **Lógica para cambiar el estado a "suspendido" aunque la fecha no haya pasado**
-        /*Después de que hayas verificado el funcionamiento en Postman, elimina el || true en la condición de suspensión para que el estado se actualice solo cuando la fecha de vencimiento haya pasado realmente.*/
-        if (biblioteca.getFechaVencimiento().before(new Date())) { // FORZAMOS SUSPENSION
+        
+        
+        // Cambiar el estado en función del pago o la fecha
+        if (biblioteca.getPago() != null && biblioteca.getPago()) {
+            biblioteca.setEstado("activo"); // Estado activo si el pago fue realizado
+        } else if (biblioteca.getFechaVencimiento().before(new Date()) || true) {   // **Lógica para cambiar el estado a "suspendido" aunque la fecha no haya pasado**
+                                                                                    /*Después de que hayas verificado el funcionamiento en Postman, elimina el || true en la condición de suspensión para que el estado se actualice solo cuando la fecha de vencimiento haya pasado realmente.*/// FORZAMOS SUSPENSION
             biblioteca.setEstado("suspendido");  // Cambiar el estado a "suspendido"
         }
 

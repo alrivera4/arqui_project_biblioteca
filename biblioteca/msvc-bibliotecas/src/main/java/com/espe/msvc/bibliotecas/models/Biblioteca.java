@@ -7,7 +7,7 @@ package com.espe.msvc.bibliotecas.models;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import java.util.List;
+
 
 
 /**
@@ -27,6 +27,7 @@ public class Biblioteca {
     private String plan; // basico
     private Date fechaVencimiento;  // Calculado en el backend
     private String estado;  // activo, suspendido, cancelado
+    private Boolean pago = false;
 
     
     // Getters y Setters
@@ -80,5 +81,13 @@ public class Biblioteca {
         this.estado = estado;
     }
 
-   
+    public Boolean getPago() {
+        return pago;
+    }
+
+    public void setPago(Boolean pago) {
+        this.pago = pago;
+    }
+    
+    
 }

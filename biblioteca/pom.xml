@@ -18,6 +18,7 @@
     <modules>
         <module>msvc-libros</module>
         <module>msvc-usuarios</module>
+        <module>PetNet</module>
     </modules>
     
     <properties>
