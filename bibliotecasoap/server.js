@@ -10,7 +10,7 @@ const db = new Client({
     host: 'localhost', // Dirección del servidor PostgreSQL
     user: 'postgres', // Usuario de la base de datos
     password: 'admin', // Contraseña del usuario
-    database: 'biblioteca2', // Nombre de la base de datos
+    database: 'biblioteca', // Nombre de la base de datos
     port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
     statement_timeout: 5000, // Tiempo límite para las consultas (5 segundos)
 });

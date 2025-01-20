@@ -12,7 +12,10 @@ export class ModulosComponent implements OnInit {
 
   usuarioDatos: any;
   notification: { message: string; type: string } | null = null;
-  esAdministrador: boolean = false;
+  esAdministrador: boolean = false; // Propiedad para verificar si es administrador
+  esBibliotecario: boolean = false; // Propiedad para verificar si es bibliotecario
+  esEstudiante: boolean = false; // Propiedad para verificar si es estudiante
+  esProfesor: boolean = false; // Propiedad para verificar si es profesor
 
   constructor(
     private router: Router,
@@ -22,10 +25,21 @@ export class ModulosComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarUsuarioDatos();
-    // Determina si el usuario es administrador
-    const tipoUsuario = this.authService.getTipoUsuario(); // Asegúrate de que este método existe en AuthService
+
+    // Determina el tipo de usuario
+    const tipoUsuario = this.authService.getTipoUsuario(); // Método para obtener el rol desde AuthService
     this.esAdministrador = tipoUsuario === 'administrador';
-    console.log('Tipo de usuario:', tipoUsuario, 'Es administrador:', this.esAdministrador);
+    this.esBibliotecario = tipoUsuario === 'bibliotecario';
+    this.esEstudiante = tipoUsuario === 'estudiante';
+    this.esProfesor = tipoUsuario === 'profesor';
+
+    console.log(
+      'Tipo de usuario:', tipoUsuario,
+      'Es administrador:', this.esAdministrador,
+      'Es bibliotecario:', this.esBibliotecario,
+      'Es estudiante:', this.esEstudiante,
+      'Es profesor:', this.esProfesor
+    );
   }
 
   // Método para cargar los datos del usuario

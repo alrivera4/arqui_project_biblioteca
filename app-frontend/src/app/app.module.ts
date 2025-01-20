@@ -19,6 +19,7 @@ import { RegistrarBibliotecaComponent } from './components/bibliotecas/registrar
 import { ListarBibliotecasComponent } from './components/bibliotecas/listar-bibliotecas/listar-bibliotecas.component';
 import { EditarBibliotecaComponent } from './components/bibliotecas/editar-biblioteca/editar-biblioteca.component';
 
+import { Error404Component } from './components/error404/error404.component';
 
 
 
@@ -38,7 +39,8 @@ import { EditarBibliotecaComponent } from './components/bibliotecas/editar-bibli
     PrestamosActivosComponent,
     RegistrarBibliotecaComponent,
     ListarBibliotecasComponent,
-    EditarBibliotecaComponent
+    EditarBibliotecaComponent,
+    Error404Component
   
   ],
   imports: [

@@ -11,6 +11,8 @@ export class ListarBibliotecasComponent implements OnInit {
   bibliotecas: any[] = []; // Lista de bibliotecas
   mensaje: string = '';
   esAdministrador: boolean = false; // Determina si el usuario es administrador
+  esBibliotecario: boolean = false; // Determina si el usuario es bibliotecario
+  bibliotecarioId: number | null = null; // ID del bibliotecario
 
   constructor(
     private bibliotecaService: BibliotecaService,
@@ -20,14 +22,22 @@ export class ListarBibliotecasComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerBiblioteca();
 
-    // Determina si el usuario es administrador
+    // Determina si el usuario es administrador o bibliotecario
     const tipoUsuario = this.authService.getTipoUsuario();
     this.esAdministrador = tipoUsuario === 'administrador';
-    console.log('Tipo de usuario:', tipoUsuario, 'Es administrador:', this.esAdministrador);
+    this.esBibliotecario = tipoUsuario === 'bibliotecario';
+
+    // Si es bibliotecario, obtenemos su ID
+    if (this.esBibliotecario) {
+      this.bibliotecarioId = this.authService.getUsuarioDatos().usuarioId;
+    }
+
+    console.log('Tipo de usuario:', tipoUsuario, 'Es administrador:', this.esAdministrador, 'Es bibliotecario:', this.esBibliotecario);
   }
 
   obtenerBiblioteca(): void {
-    this.bibliotecaService.listarBibliotecas().subscribe({
+    // Si es bibliotecario, pasamos el ID del bibliotecario al servicio para filtrar las bibliotecas
+    this.bibliotecaService.listarBibliotecas(this.bibliotecarioId).subscribe({
       next: (data) => {
         // Ordenamos las bibliotecas por nombre
         this.bibliotecas = data.sort((a, b) => a.nombre.localeCompare(b.nombre));

@@ -13,8 +13,16 @@ export class BibliotecaService {
 
   constructor(private http: HttpClient) {}
 
-  listarBibliotecas(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  // Modificamos la función para aceptar un parámetro bibliotecarioId
+  listarBibliotecas(bibliotecarioId: number | null = null): Observable<any[]> {
+    let url = this.apiUrl;
+    
+    // Si el bibliotecarioId está presente, lo añadimos como parámetro de consulta
+    if (bibliotecarioId) {
+      url = `${this.apiUrl}?bibliotecarioId=${bibliotecarioId}`;
+    }
+
+    return this.http.get<any[]>(url);
   }
 
   obtenerBiblioteca(bibliotecaId: number): Observable<any> {

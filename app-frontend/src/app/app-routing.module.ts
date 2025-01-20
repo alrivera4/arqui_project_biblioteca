@@ -14,47 +14,53 @@ import { PrestamosActivosComponent } from './components/reportes/prestamos-activ
 import { RegistrarBibliotecaComponent } from './components/bibliotecas/registrar-biblioteca/registrar-biblioteca.component';
 import { ListarBibliotecasComponent } from './components/bibliotecas/listar-bibliotecas/listar-bibliotecas.component';
 import { EditarBibliotecaComponent } from './components/bibliotecas/editar-biblioteca/editar-biblioteca.component';
+import { Error404Component } from './components/error404/error404.component';
+
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent }, 
+  { path: 'registro', component: RegistroUsuarioComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+
   {
     path: 'modulos',
     component: ModulosComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['administrador', 'estudiante', 'profesor'] },
+    data: { roles: ['administrador', 'estudiante', 'profesor', 'bibliotecario'] },
   },
+
   {
     path: 'libros',
+    canActivate: [AuthGuard],
     children: [
-      { path: '', component: ListComponent },  // Para mostrar la lista de libros
-      { path: 'add', component: AddComponent }, // Para agregar un libro
-      { path: 'edit/:id', component: EditComponent }, // Para editar un libro
+      { path: '', component: ListComponent },
+      { path: 'add', component: AddComponent },
+      { path: 'edit/:id', component: EditComponent },
     ]
   },
-  { path: '', redirectTo: '/libros', pathMatch: 'full' },
 
   {
     path: 'prestamos',
+    canActivate: [AuthGuard],
     children: [
-      { path: 'registro', component: RegistroPrestamoComponent }, // Para registrar un préstamo
-      { path: '', component: DevolucionLibroComponent }, // Para registrar la devolución de un libro
+      { path: 'registro', component: RegistroPrestamoComponent },
+      { path: '', component: DevolucionLibroComponent },
     ]
   },
-  { path: '', redirectTo: '/prestamos', pathMatch: 'full' },
 
   {
     path: 'usuarios',
+    canActivate: [AuthGuard],
     children: [
-      { path: 'registro', component: RegistroUsuarioComponent }, // Para registrar un préstamo
-      { path: '', component: ListarUsuariosComponent }, // Para registrar la devolución de un libro
+      { path: 'registro', component: RegistroUsuarioComponent },
+      { path: '', component: ListarUsuariosComponent },
     ]
   },
-  { path: '', redirectTo: '/usuarios', pathMatch: 'full' },
+
   {
     path: 'reportes',
+    canActivate: [AuthGuard],
     children: [
-      { path: '', component: PrestamosActivosComponent }, // Para visualizar prestamos activos
-     
+      { path: '', component: PrestamosActivosComponent },
     ]
   },
   { path: '', redirectTo: '/reportes', pathMatch: 'full' },
@@ -67,6 +73,8 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: '/bibliotecas', pathMatch: 'full' },
+  { path: '404', component: Error404Component },
+  { path: '**', redirectTo: '/404' },
 ];
 
 

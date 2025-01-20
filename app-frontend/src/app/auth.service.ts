@@ -120,10 +120,20 @@ export class AuthService {
     return this.getTipoUsuario() === 'profesor';
   }
 
-  // Comprobar si el usuario está autenticado
-  estaAutenticado(): boolean {
-    return this.getUsuario() !== '' && this.getTipoUsuario() !== '';
+  esBibliotecario(): boolean {
+    return this.getTipoUsuario() === 'bibliotecario';
   }
+
+  
+
+ // Comprobar si el usuario está autenticado
+  estaAutenticado(): boolean {
+    // Verifica si hay usuario y tipoUsuario en localStorage
+    return localStorage.getItem('usuario') !== null && localStorage.getItem('tipo_usuario') !== null;
+  }
+
+
+
 
   // Procesar respuesta SOAP
   parseSoapResponse(soapResponse: string): { usuario: string; tipoUsuario: string, usuarioId: string, nombre: string, correo: string } {
