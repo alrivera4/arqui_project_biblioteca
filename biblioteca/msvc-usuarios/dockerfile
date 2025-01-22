@@ -1,0 +1,11 @@
+# Usar una imagen base de Java
+FROM openjdk:17-jdk
+
+# Copiar el archivo JAR generado al contenedor
+COPY target/msvc-usuarios-1.0.0.jar msvc-usuarios.jar
+
+# Exponer el puerto del microservicio
+EXPOSE 8002
+
+# Comando para ejecutar el microservicio
+ENTRYPOINT ["java", "-jar", "/msvc-usuarios.jar"]
