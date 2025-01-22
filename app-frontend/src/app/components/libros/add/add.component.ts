@@ -1,6 +1,8 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { LibroService } from 'src/app/services/libro.service';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-add',
@@ -16,6 +18,19 @@ export class AddComponent {
     cantidadDisponible: '',
     fechaPublicacion: '',
   };
+
+  usuario = {
+    nombre: '',
+    usuario: '',
+    correo: '',
+    contrasenia: '',
+    tipoUsuario: '',
+    bibliotecaId: null
+  };
+  
+  bibliotecas: any[] = [];
+
+
   
   notification: { message: string; type: string } | null = null;
 
@@ -38,8 +53,12 @@ export class AddComponent {
   constructor(
     private libroService: LibroService,
     private router: Router,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private http: HttpClient
   ) {}
+
+ 
+
 
   ngOnInit(): void {
     // Cargar todos los libros al inicio
@@ -49,10 +68,22 @@ export class AddComponent {
         this.filteredLibros = libros;
       },
       (error) => {
-        console.error('Error al cargar los libros', error);
-        this.errorMessage = 'Hubo un error al cargar los libros.';
-      }
+        console.error('Error al cargar los libros', error);      }
+      
     );
+    this.cargarBibliotecas();
+  }
+  
+
+  // Método para cargar bibliotecas desde el backend
+  cargarBibliotecas() {
+    this.http.get<any[]>('http://localhost:8004/api/bibliotecas')
+      .subscribe(data => {
+        this.bibliotecas = data;
+        //console.log("Usuarios cargados", data);
+      }, error => {
+        console.error('Error al cargar usuarios', error);
+      });
   }
 
   // Método para verificar si la fecha ingresada es válida
@@ -77,45 +108,43 @@ export class AddComponent {
       !this.libro.isbn ||
       !this.libro.categoria ||
       !this.libro.cantidadDisponible ||
-      !this.libro.fechaPublicacion
+      !this.libro.fechaPublicacion||
+      !this.usuario.bibliotecaId 
     ) {
       this.errorMessage = 'Todos los campos son obligatorios.';
       return;
     }
+
+    this.libro.bibliotecaId = this.usuario.bibliotecaId;
   
     
+   // Llamada al servicio con bibliotecaId como parámetro
+   this.http
+   .post(
+     `http://localhost:8001/api/libros?bibliotecaId=${this.usuario.bibliotecaId}`,
+     this.libro
+   )
+   .subscribe(
+     (response) => {
+       console.log('Libro agregado correctamente: ', response);
+       this.showNotification('Libro agregado con éxito.', 'success');
+       this.errorMessage = '';
+       setTimeout(() => {
+         this.router.navigate(['/libros']);
+       }, 700);
+     },
+     (error) => {
+       console.error('Error al guardar el libro', error);
+       this.showNotification('Hubo un error al agregar el libro.', 'danger');
+     }
+   );
+}
+
+
   
-    // Llamada al servicio para agregar el libro
-    console.log('Intentando agregar libro: ', this.libro);
-    this.libroService.createLibro(this.libro).subscribe(
-      (response) => {
-        console.log('Libro agregado correctamente: ', response);
-        
-        // Mostrar mensaje de éxito
-        this.showNotification('Libro agregado con éxito.', 'success');
-        this.errorMessage = ''; // Limpiar mensaje de error en caso de éxito
-       
-        // Forzar la detección de cambios
-        setTimeout(() => {
-          this.cdRef.detectChanges(); // Forzar la detección de cambios para actualizar la vista
-        }, 400);
-  
-        // Redirigir a la lista de libros después de un pequeño retraso
-        setTimeout(() => {
-          this.router.navigate(['/libros']);
-        }, 700); // Asegura que el mensaje se muestre antes de redirigir
-      },
-      (error) => {
-        console.error('Error al guardar el libro', error);
-        this.showNotification('Hubo un error al agregar el libro.', 'danger');
-        this.successMessage = ''; // Limpiar mensaje de éxito en caso de error
-      }
-    );
-  }
 
   cancelarAgregar(): void {
     this.router.navigate(['/libros']); // Redirige al listado de libros
   }
 
- 
 }

@@ -99,6 +99,27 @@
       La fecha no puede ser mayor a la fecha actual.
     </div>
   </div>
+
+  <!-- Nuevo campo para seleccionar biblioteca -->
+  <div class="mb-3">
+    <label for="bibliotecaId" class="form-label">Biblioteca:</label>
+    <select
+      id="bibliotecaId"
+      [(ngModel)]="usuario.bibliotecaId"
+      name="bibliotecaId"
+      class="form-select"
+      required
+    >
+      <option value="" disabled>Seleccione una biblioteca</option>
+      <option *ngFor="let biblioteca of bibliotecas" [value]="biblioteca.bibliotecaId">
+        {{ biblioteca.nombre }}
+      </option>
+    </select>
+
+    <div *ngIf="libroForm.controls['bibliotecaId']?.invalid && libroForm.controls['bibliotecaId']?.touched" class="text-danger">
+      Seleccione una biblioteca.
+    </div>
+  </div>
   
   <!-- Botones de acciones -->
   <div class="d-flex justify-content-center gap-2">

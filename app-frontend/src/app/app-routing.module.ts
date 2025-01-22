@@ -17,17 +17,16 @@ import { EditarBibliotecaComponent } from './components/bibliotecas/editar-bibli
 import { Error404Component } from './components/error404/error404.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent }, 
+  { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroUsuarioComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-
+  
+  // Rutas protegidas por AuthGuard
   {
     path: 'modulos',
     component: ModulosComponent,
     canActivate: [AuthGuard],
     data: { roles: ['administrador', 'estudiante', 'profesor', 'bibliotecario'] },
   },
-
   {
     path: 'libros',
     canActivate: [AuthGuard],
@@ -35,7 +34,7 @@ const routes: Routes = [
       { path: '', component: ListComponent },
       { path: 'add', component: AddComponent },
       { path: 'edit/:id', component: EditComponent },
-    ]
+    ],
   },
 
   {
@@ -44,7 +43,7 @@ const routes: Routes = [
     children: [
       { path: 'registro', component: RegistroPrestamoComponent },
       { path: '', component: DevolucionLibroComponent },
-    ]
+    ],
   },
 
   {
@@ -53,7 +52,7 @@ const routes: Routes = [
     children: [
       { path: 'registro', component: RegistroUsuarioComponent },
       { path: '', component: ListarUsuariosComponent },
-    ]
+    ],
   },
 
   {
@@ -61,22 +60,28 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: PrestamosActivosComponent },
-    ]
+    ],
   },
-  { path: '', redirectTo: '/reportes', pathMatch: 'full' },
+
   {
     path: 'bibliotecas',
     children: [
-      { path: 'registro', component: RegistrarBibliotecaComponent }, // Para registrar un préstamo
-      { path: '', component: ListarBibliotecasComponent }, // Para registrar la devolución de un libro
-      { path: 'editar-biblioteca/:id', component: EditarBibliotecaComponent }, // Para editar un libro
-    ]
+      { path: 'registro', component: RegistrarBibliotecaComponent },
+      { path: '', component: ListarBibliotecasComponent },
+      { path: 'editar-biblioteca/:id', component: EditarBibliotecaComponent },
+      
+    ],
+    data: { roles: ['administrador'] },
   },
-  { path: '', redirectTo: '/bibliotecas', pathMatch: 'full' },
+
   { path: '404', component: Error404Component },
+
+  // Ruta para redirigir a la página principal si no se encuentra ninguna ruta
+  { path: '', redirectTo: '/modulos', pathMatch: 'full' },
+
+  // Captura de rutas no encontradas
   { path: '**', redirectTo: '/404' },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

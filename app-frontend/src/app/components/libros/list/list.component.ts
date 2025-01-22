@@ -180,7 +180,6 @@ export class ListComponent implements OnInit {
   }
 }*/
 
-
 import { Component, OnInit } from '@angular/core';
 import { LibroService } from 'src/app/services/libro.service';
 import { Router } from '@angular/router';
@@ -193,10 +192,11 @@ import { AuthService } from 'src/app/auth.service'; // Asegúrate de usar la rut
 })
 export class ListComponent implements OnInit {
   libros: any[] = []; // Todos los libros
-  bibliotecaId: number = 0; // Aquí es donde guardaremos el ID de la biblioteca del usuario
+  bibliotecaId: number = 0; // ID de la biblioteca del usuario
   searchQuery: string = ''; // Término de búsqueda
   notification: { message: string, type: string } | null = null; // Notificación de éxito o error
-  esAdministrador: boolean = false; // Propiedad para determinar si el usuario es administrador
+  esAdministrador: boolean = false; // Determina si el usuario es administrador
+  esBibliotecario: boolean = false; // Determina si el usuario es bibliotecario
 
   constructor(
     private libroService: LibroService,
@@ -208,12 +208,16 @@ export class ListComponent implements OnInit {
     // Inicialmente cargamos los libros
     this.bibliotecaId = this.authService.getBibliotecaId(); // Método para obtener el ID de la biblioteca del bibliotecario
     this.getLibrosPorBiblioteca();
+
     console.log('Tipo de usuario:', this.authService.getTipoUsuario());
 
     // Determina si el usuario es administrador
     const tipoUsuario = this.authService.getTipoUsuario();
     this.esAdministrador = tipoUsuario === 'administrador';
-    console.log('Tipo de usuario:', tipoUsuario, 'Es administrador:', this.esAdministrador);
+
+    // Determina si el usuario es bibliotecario
+    this.esBibliotecario = tipoUsuario === 'bibliotecario';
+    console.log('Tipo de usuario:', tipoUsuario, 'Es administrador:', this.esAdministrador, 'Es bibliotecario:', this.esBibliotecario);
   }
 
   getLibrosPorBiblioteca(): void {
@@ -268,5 +272,3 @@ export class ListComponent implements OnInit {
     }, 2000);
   }
 }
-
-

@@ -3,7 +3,7 @@
 
 <!-- Botón para agregar nuevo libro -->
 <div class="text-start mb-3 ms-3">
-  <a class="btn btn-success" routerLink="/libros/add" *ngIf="esAdministrador">Agregar nuevo libro</a>
+  <a class="btn btn-success" routerLink="/libros/add" *ngIf="esAdministrador || esBibliotecario" >Agregar nuevo libro</a>
 </div>
 
 <div class="container mt-5">
@@ -44,7 +44,7 @@
             <th>Categoría</th>
             <th>Cantidad Disponible</th>
             <th>Fecha de Publicación</th>
-            <th *ngIf="esAdministrador">Acciones </th>
+            <th *ngIf="esAdministrador || esBibliotecario">Acciones </th>
           </tr>
         </thead>
         <tbody>
@@ -56,7 +56,7 @@
             <td>{{ libro.categoria }}</td>
             <td>{{ libro.cantidadDisponible }}</td>
             <td>{{ libro.fechaPublicacion | date:'dd/MM/yyyy' }}</td>
-            <td *ngIf="esAdministrador">
+            <td *ngIf="esAdministrador || esBibliotecario">
               <div class="d-flex justify-content-center">
                 <!-- Botón para editar -->
                 <a

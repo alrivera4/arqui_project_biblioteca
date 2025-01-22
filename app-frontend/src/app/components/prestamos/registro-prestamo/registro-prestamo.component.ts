@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-registro-prestamo',
@@ -19,22 +20,26 @@ export class RegistroPrestamoComponent implements OnInit {
   mensaje: string = '';
   notification: { message: string; type: string } | null = null;
 
+  bibliotecaId: number = 0;
+
   constructor(private http: HttpClient
     , private router: Router
+    , public authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.bibliotecaId = this.authService.getBibliotecaId(); // Método para obtener el ID de la biblioteca del bibliotecario
     this.cargarLibros();
     this.cargarUsuarios();
   }
 
   cargarLibros() {
-    this.http.get<any[]>('http://localhost:8001/api/libros')
+    this.http.get<any[]>(`http://localhost:8001/api/libros?bibliotecaId=${this.bibliotecaId}`)
       .subscribe(data => this.libros = data);
   }
 
   cargarUsuarios() {
-    this.http.get<any[]>('http://localhost:8002/api/usuarios')
+    this.http.get<any[]>(`http://localhost:8002/api/usuarios?bibliotecaId=${this.bibliotecaId}`)
       .subscribe(data => {
         this.usuarios = data;
         //console.log("Usuarios cargados", data);
