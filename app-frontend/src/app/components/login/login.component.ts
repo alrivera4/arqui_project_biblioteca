@@ -81,9 +81,11 @@ export class LoginComponent {
               const usuarioId = usuarioDatos.usuarioId;
               const nombre = usuarioDatos.nombre;
               const correo = usuarioDatos.correo;
+              const bibliotecaId = usuarioDatos.bibliotecaId;
               console.log('Usuario ID:', usuarioId);
               console.log('Nombre del usuario:', nombre);
               console.log('Correo del usuario:', correo);
+              console.log('Biblioteca ID:', bibliotecaId);
 
               // Guardar el tipo de usuario en el almacenamiento local
               this.authService.setUsuario(usuario);
@@ -93,7 +95,7 @@ export class LoginComponent {
               if (tipoUsuario) {
                 setTimeout(() => {
                   this.router.navigate(['/modulos']);
-                }, 3000);
+                }, 1000);
               }
             } else if (estado === 'ContraseniaIncorrecta') {
               this.showNotification(`Credenciales inválidas: ${mensaje || 'Error desconocido'}`, 'error');

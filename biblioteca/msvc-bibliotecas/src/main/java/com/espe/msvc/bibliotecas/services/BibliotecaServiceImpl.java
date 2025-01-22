@@ -124,6 +124,12 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     public List<Biblioteca> listarBibliotecas() {
         return bibliotecaRepository.findAll();
     }
+    
+    @Override
+    public List<Biblioteca> listarBibliotecasPorBibliotecario(Long bibliotecaId) {
+        return bibliotecaRepository.findAllByBibliotecaId(bibliotecaId);
+    }
+
 
     @Override
     public Biblioteca guardarBiblioteca(Biblioteca biblioteca) {

@@ -17,4 +17,6 @@ import org.springframework.stereotype.Repository;
 public interface LibroRepository extends JpaRepository<Libro, Long> {
     List<Libro> findByCategoriaContainingIgnoreCase(String categoria);
     List<Libro> findByTituloContainingIgnoreCase(String titulo);
+    List<Libro> findByBiblioteca_BibliotecaId(Long bibliotecaId);
+
 }

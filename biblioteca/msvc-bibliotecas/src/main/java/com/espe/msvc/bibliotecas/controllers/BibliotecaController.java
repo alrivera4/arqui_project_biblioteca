@@ -27,10 +27,21 @@ public class BibliotecaController {
 
     // Listar todas las bibliotecas
     @GetMapping
+    public ResponseEntity<List<Biblioteca>> listarBibliotecas(@RequestParam(required = false) Long bibliotecaId) {
+        List<Biblioteca> bibliotecas;
+        if (bibliotecaId != null) {
+            bibliotecas = bibliotecaService.listarBibliotecasPorBibliotecario(bibliotecaId);
+        } else {
+            bibliotecas = bibliotecaService.listarBibliotecas();
+        }
+        return new ResponseEntity<>(bibliotecas, HttpStatus.OK);
+    }
+
+    /*@GetMapping
     public ResponseEntity<List<Biblioteca>> listarBibliotecas() {
         List<Biblioteca> bibliotecas = bibliotecaService.listarBibliotecas();
         return new ResponseEntity<>(bibliotecas, HttpStatus.OK);
-    }
+    }*/
 
     // Obtener una biblioteca por ID
     @GetMapping("/{id}")

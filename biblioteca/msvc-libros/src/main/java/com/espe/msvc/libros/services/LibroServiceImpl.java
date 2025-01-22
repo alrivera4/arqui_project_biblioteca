@@ -32,6 +32,12 @@ public class LibroServiceImpl implements LibroService {
     }
     
     @Override
+    public List<Libro> listarLibrosPorBiblioteca(Long bibliotecaId) {
+        return libroRepository.findByBiblioteca_BibliotecaId(bibliotecaId);
+    }
+    
+    
+    @Override
     public List<Libro> filtrarLibrosPorCategoria(String categoria) {
          return libroRepository.findByCategoriaContainingIgnoreCase(categoria);
     }

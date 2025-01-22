@@ -16,9 +16,16 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     // Listar todos los usuarios
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         List<Usuario> usuarios = usuarioService.listarUsuarios();
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    }*/
+    
+    // Listar usuarios por biblioteca
+    @GetMapping
+    public ResponseEntity<List<Usuario>> listarUsuariosPorBiblioteca(@RequestParam Long bibliotecaId) {
+        List<Usuario> usuarios = usuarioService.listarUsuariosPorBiblioteca(bibliotecaId);
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 

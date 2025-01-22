@@ -29,12 +29,12 @@ export class RegistroPrestamoComponent implements OnInit {
   }
 
   cargarLibros() {
-    this.http.get<any[]>('http://localhost:8080/api/libros')
+    this.http.get<any[]>('http://localhost:8001/api/libros')
       .subscribe(data => this.libros = data);
   }
 
   cargarUsuarios() {
-    this.http.get<any[]>('http://localhost:8080/api/usuarios')
+    this.http.get<any[]>('http://localhost:8002/api/usuarios')
       .subscribe(data => {
         this.usuarios = data;
         //console.log("Usuarios cargados", data);

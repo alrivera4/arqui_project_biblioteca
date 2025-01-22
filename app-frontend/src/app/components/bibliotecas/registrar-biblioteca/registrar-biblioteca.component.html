@@ -2,7 +2,11 @@
 <br><br><br>
 <div class="container mt-4">
   <h2 class="text-center mb-4">Registrar Biblioteca</h2>
-  <form (ngSubmit)="registrarBiblioteca()" class="container mt-4 border p-4 rounded form">
+  <form 
+    #bibliotecaForm="ngForm" 
+    (ngSubmit)="registrarBiblioteca()" 
+    class="container mt-4 border p-4 rounded form"
+  >
     <!-- Nombre -->
     <div class="mb-3">
       <label for="nombre" class="form-label">Nombre de la Biblioteca</label>
@@ -12,8 +16,17 @@
         class="form-control"
         [(ngModel)]="biblioteca.nombre"
         name="nombre"
+        #nombre="ngModel"
         required
+        pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+"
       />
+      <!-- Mensaje de error -->
+      <div 
+        *ngIf="nombre.invalid && nombre.touched" 
+        class="text-danger mt-1"
+      >
+        El nombre solo puede contener letras y espacios.
+      </div>
     </div>
 
     <!-- Plan -->
@@ -38,7 +51,7 @@
         type="button" 
         class="btn btn-success w-45" 
         (click)="simularPago()">
-        Simular Pago
+        Pagar
       </button>
     </div>
     <p *ngIf="biblioteca.pago" class="text-success mt-2">
@@ -50,7 +63,7 @@
       <button 
         type="submit" 
         class="btn btn-primary w-45" 
-        [disabled]="!biblioteca.nombre || !biblioteca.plan">
+        [disabled]="!bibliotecaForm.valid || !biblioteca.nombre || !biblioteca.plan">
         Registrar
       </button>
       <button type="button" class="btn btn-secondary w-45" (click)="cancelar()">Cancelar</button>

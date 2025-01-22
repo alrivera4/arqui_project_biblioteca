@@ -26,9 +26,16 @@ public class LibroController {
     private LibroService libroService;
 
     // Listar todos los libros
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<Libro>> listarLibros() {
         List<Libro> libros = libroService.listarLibros();
+        return new ResponseEntity<>(libros, HttpStatus.OK);
+    }*/
+    
+    // Listar libros por biblioteca
+    @GetMapping
+    public ResponseEntity<List<Libro>> listarLibrosPorBiblioteca(@RequestParam Long bibliotecaId) {
+        List<Libro> libros = libroService.listarLibrosPorBiblioteca(bibliotecaId);
         return new ResponseEntity<>(libros, HttpStatus.OK);
     }
     

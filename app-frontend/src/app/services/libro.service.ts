@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LibroService {
-  private apiUrl = 'http://localhost:8080/api/libros'; // Cambia la URL si es necesario
+  private apiUrl = 'http://localhost:8001/api/libros'; // Cambia la URL si es necesario
 
   private librosSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); // BehaviorSubject para manejar el estado
   libros$: Observable<any[]> = this.librosSubject.asObservable(); // Observable para exponer la lista
@@ -50,8 +50,16 @@ export class LibroService {
       })
     );
   }
+
   
-  
+  // Obtener libros filtrados por bibliotecaId
+  listarLibrosPorBiblioteca(bibliotecaId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?bibliotecaId=${bibliotecaId}`).pipe(
+      tap((data) => {
+        this.librosSubject.next(data); // Actualiza el estado con los libros filtrados
+      })
+    );
+  }
   
 
 }

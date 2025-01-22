@@ -14,6 +14,7 @@ import java.util.List;
 public interface BibliotecaService {
     
     List<Biblioteca> listarBibliotecas();
+    List<Biblioteca> listarBibliotecasPorBibliotecario(Long bibliotecaId);
     Biblioteca guardarBiblioteca(Biblioteca biblioteca);
     Biblioteca buscarBiblioteca(Long id);
     void eliminarBiblioteca(Long id);

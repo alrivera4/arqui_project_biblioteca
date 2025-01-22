@@ -2,7 +2,7 @@ const express = require('express');
 const soap = require('soap');
 const fs = require('fs');
 const cors = require('cors');  // Importar el paquete cors
-
+const bcrypt = require('bcrypt');
 
 const { Client } = require('pg'); // Importar el cliente de PostgreSQL
 
@@ -10,7 +10,7 @@ const db = new Client({
     host: 'localhost', // Dirección del servidor PostgreSQL
     user: 'postgres', // Usuario de la base de datos
     password: 'admin', // Contraseña del usuario
-    database: 'biblioteca', // Nombre de la base de datos
+    database: 'biblioteca2', // Nombre de la base de datos
     port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
     statement_timeout: 5000, // Tiempo límite para las consultas (5 segundos)
 });
@@ -118,7 +118,7 @@ const loanService = {
             }
           },*/
       
-          ValidarUsuario: async (args) => {
+          /*ValidarUsuario: async (args) => {
             try {
               console.log("Datos recibidos para validación de usuario:", args);
           
@@ -126,7 +126,7 @@ const loanService = {
           
               // Verificar si el usuario existe en la base de datos
               const usuarioQuery = `
-                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario
+                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario, biblioteca_id
                 FROM usuarios
                 WHERE usuario = $1
               `;
@@ -143,7 +143,7 @@ const loanService = {
           
               // Verificar si la contraseña es correcta
               const contraseniaCorrectaQuery = `
-                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario
+                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario, biblioteca_id
                 FROM usuarios
                 WHERE usuario = $1 AND contrasenia = $2
               `;
@@ -168,6 +168,66 @@ const loanService = {
                 nombre: user.nombre,
                 correo: user.correo,
                 tipoUsuario: user.tipo_usuario,
+                bibliotecaId: user.biblioteca_id,
+              };
+            } catch (err) {
+              console.error('Error al validar el usuario:', err.message || 'Error desconocido');
+              return {
+                estado: 'Error',
+                mensaje: 'Error al validar el usuario.',
+                usuario: '',
+              };
+            }
+          },*/
+
+          ValidarUsuario: async (args) => {
+            try {
+              console.log("Datos recibidos para validación de usuario:", args);
+          
+              const { usuario, contrasenia } = args;
+          
+              // Verificar si el usuario existe en la base de datos
+              const usuarioQuery = `
+                SELECT usuario_id, nombre, usuario, correo, contrasenia, tipo_usuario, biblioteca_id
+                FROM usuarios
+                WHERE usuario = $1
+              `;
+              const usuarioResult = await db.query(usuarioQuery, [usuario]);
+          
+              if (usuarioResult.rows.length === 0) {
+                // Usuario no existe
+                return {
+                  estado: 'UsuarioNoExiste',
+                  mensaje: 'El usuario no está registrado.',
+                  usuario: '',
+                };
+              }
+          
+              // Usuario encontrado, extraer datos
+              const user = usuarioResult.rows[0];
+          
+              // Verificar si la contraseña es correcta usando bcrypt
+              const isMatch = await bcrypt.compare(contrasenia, user.contrasenia);
+          
+              if (!isMatch) {
+                // Contraseña incorrecta
+                return {
+                  estado: 'ContraseniaIncorrecta',
+                  mensaje: 'La contraseña es incorrecta.',
+                  usuario: '',
+                };
+              }
+          
+              // Usuario y contraseña correctos
+              return {
+                estado: 'Exitoso',
+                mensaje: 'Usuario validado con éxito.',
+                usuarioId: user.usuario_id,
+                usuario: user.usuario,
+                nombre: user.nombre,
+                correo: user.correo,
+                tipoUsuario: user.tipo_usuario,
+                bibliotecaId: user.biblioteca_id,
               };
             } catch (err) {
               console.error('Error al validar el usuario:', err.message || 'Error desconocido');
@@ -178,9 +238,7 @@ const loanService = {
               };
             }
           },
-          
-          
-          
+              
     
       RegistrarPrestamo: async (args) => {
         try {
@@ -407,7 +465,7 @@ const loanService = {
     );
 },*/
 
-RegistrarUsuario: (args, callback) => {
+/*RegistrarUsuario: (args, callback) => {
   console.log("Datos recibidos:", args);
   
   const { nombre, usuario, correo, contrasenia, tipoUsuario, bibliotecaId } = args;
@@ -460,6 +518,74 @@ RegistrarUsuario: (args, callback) => {
           );
       }
   );
+},*/
+
+
+RegistrarUsuario: (args, callback) => {
+  console.log("Datos recibidos:", args);
+
+  const { nombre, usuario, correo, contrasenia, tipoUsuario, bibliotecaId } = args;
+
+  // Encriptamos la contraseña antes de guardarla
+  bcrypt.hash(contrasenia, 10, (err, hashedPassword) => {
+    if (err) {
+      console.error("Error al encriptar la contraseña:", err);
+      return callback({
+        success: false,
+        message: "Error al encriptar la contraseña",
+        error: err.message,
+      });
+    }
+
+    // Consulta SQL para registrar el usuario con la contraseña encriptada
+    db.query(
+      'INSERT INTO usuarios (nombre, usuario, correo, contrasenia, tipo_usuario, biblioteca_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING usuario_id, biblioteca_id',
+      [nombre, usuario, correo, hashedPassword, tipoUsuario, bibliotecaId],
+      (err, results) => {
+        if (err) {
+          console.error("Error al registrar usuario:", err);
+
+          // Llamar al callback con un error
+          return callback({
+            success: false,
+            message: "Error al registrar usuario",
+            error: err.message,
+          });
+        }
+
+        const usuarioId = results.rows[0].usuario_id;
+        const bibliotecaId = results.rows[0].biblioteca_id;
+
+        // Recuperar el nombre de la biblioteca usando su ID
+        db.query(
+          'SELECT nombre FROM bibliotecas WHERE biblioteca_id = $1',
+          [bibliotecaId],
+          (err, bibliotecaResults) => {
+            if (err) {
+              console.error("Error al recuperar el nombre de la biblioteca:", err);
+              return callback({
+                success: false,
+                message: "Error al recuperar el nombre de la biblioteca",
+                error: err.message,
+              });
+            }
+
+            const bibliotecaNombre = bibliotecaResults.rows[0]?.nombre || 'Desconocida';
+
+            console.log("Usuario registrado con ID:", usuarioId);
+
+            // Llamar al callback con la respuesta de éxito
+            callback(null, {
+              estado: 'Registrado',
+              mensaje: 'Usuario registrado correctamente',
+              usuarioId,
+              bibliotecaNombre,
+            });
+          }
+        );
+      }
+    );
+  });
 },
 
 

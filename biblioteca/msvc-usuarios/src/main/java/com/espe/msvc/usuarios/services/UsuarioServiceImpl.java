@@ -31,6 +31,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
     }
+    
+     @Override
+    public List<Usuario> listarUsuariosPorBiblioteca(Long bibliotecaId) {
+        return usuarioRepository.findByBiblioteca_BibliotecaId(bibliotecaId);
+    }
 
      @Override
      @Transactional

@@ -5,6 +5,7 @@
 package com.espe.msvc.bibliotecas.repositories;
 
 import com.espe.msvc.bibliotecas.models.Biblioteca;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface BibliotecaRepository extends JpaRepository<Biblioteca, Long> {
+    List<Biblioteca> findAllByBibliotecaId(Long bibliotecaId);
 }
