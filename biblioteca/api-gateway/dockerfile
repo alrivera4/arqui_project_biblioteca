@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk
 
 # Copiar el archivo JAR generado al contenedor
-COPY target/api-gateway-1.0.0.jar api-gateway.jar
+COPY target/api-gateway-0.0.1-SNAPSHOT.jar api-gateway.jar
 
 # Exponer el puerto del API Gateway
 EXPOSE 8080

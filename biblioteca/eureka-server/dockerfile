@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk-slim
 
 # Copiar el archivo JAR generado al contenedor
-COPY target/eureka-server-1.0.0.jar eureka-server.jar
+COPY target/eureka-server-0.0.1-SNAPSHOT.jar eureka-server.jar
 
 # Exponer el puerto 8761
 EXPOSE 8761

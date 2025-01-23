@@ -5,10 +5,10 @@ FROM openjdk:17-jdk
 WORKDIR /app
 
 # Copiar el archivo JAR generado
-COPY target/msvc-usuarios-0.0.1-SNAPSHOT.jar app.jar
+COPY target/msvc-reservas-0.0.1-SNAPSHOT.jar app.jar
 
 # Exponer el puerto correspondiente
-EXPOSE 8002
+EXPOSE 8005
 
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

@@ -1,0 +1,29 @@
+# Etapa 1: Construcción de la aplicación
+FROM node:16 AS build
+
+# Definir el directorio de trabajo
+WORKDIR /app
+
+# Copiar los archivos de package.json y package-lock.json para instalar las dependencias
+COPY package*.json ./
+
+# Instalar las dependencias
+RUN npm install
+
+# Copiar todos los archivos de la aplicación Angular
+COPY . .
+
+# Compilar la aplicación Angular para producción
+RUN npm run build --prod
+
+# Etapa 2: Servir la aplicación con un servidor web
+FROM nginx:alpine
+
+# Copiar los archivos compilados desde la etapa anterior al directorio de NGINX
+COPY --from=build /app/dist/app-frontend /usr/share/nginx/html
+
+# Exponer el puerto 80
+EXPOSE 80
+
+# Iniciar NGINX en primer plano
+CMD ["nginx", "-g", "daemon off;"]
