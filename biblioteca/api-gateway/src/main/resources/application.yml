@@ -32,7 +32,7 @@ spring:
         cors-configurations:
           '[/**]': # Aplica CORS a todas las rutas
             allowedOrigins:
-              - "http://34.23.70.244:4200"  # Reemplaza con el dominio que necesites
+              - "http://35.196.129.220:4200"  # Reemplaza con el dominio que necesites
             allowedMethods:
               - GET
               - POST
