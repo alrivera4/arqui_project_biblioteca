@@ -12,19 +12,19 @@ spring:
     gateway:
       routes:
         - id: libros-service
-          uri: lb://msvc-libros:8001
+          uri: lb://msvc-libros
           predicates:
             - Path=/api/libros/**
         - id: usuarios-service
-          uri: lb://msvc-usuarios:8002
+          uri: lb://msvc-usuarios
           predicates:
             - Path=/api/usuarios/**
         - id: prestamos-service
-          uri: lb://msvc-prestamos:8003
+          uri: lb://msvc-prestamos
           predicates:
             - Path=/api/usuario/prestamos/**
-        - id: biblotecas-service
-          uri: lb://msvc-bibliotecas:8004
+        - id: bibliotecas-service
+          uri: lb://msvc-bibliotecas
           predicates:
             - Path=/api/bibliotecas/**
 
@@ -32,7 +32,7 @@ spring:
         cors-configurations:
           '[/**]': # Aplica CORS a todas las rutas
             allowedOrigins:
-              - "http://35.196.129.220:4200"  # Reemplaza con el dominio que necesites
+              - "*" # Temporalmente permite cualquier origen
             allowedMethods:
               - GET
               - POST
@@ -45,6 +45,8 @@ spring:
 
   eureka:
     client:
+      service-url:
+        defaultZone: http://eureka-server:8761/eureka # Dirección del Eureka Server
       register-with-eureka: true
       fetch-registry: true
     instance:

@@ -26,7 +26,7 @@ export class DevolucionLibroComponent implements OnInit {
   }
 
   cargarPrestamos() {
-    this.http.get<any[]>('http://localhost:8080/api/usuario/prestamos')
+    this.http.get<any[]>('http://api-gateway.local:8080/api/usuario/prestamos')
       .subscribe(data => {
         this.prestamos = data;
         this.prestamosFiltrados = [...this.prestamos]; // Inicialmente, mostrar todos los préstamos
@@ -76,7 +76,7 @@ export class DevolucionLibroComponent implements OnInit {
       </soapenv:Envelope>
     `;
 
-    this.http.post('http://localhost:8000/soap', soapRequest, {
+    this.http.post('http://bibliotecasoap.local:8000/soap', soapRequest, {
       headers: { 'Content-Type': 'text/xml' },
       responseType: 'text'
     }).subscribe(response => {

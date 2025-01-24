@@ -7,6 +7,6 @@ spec:
     app: msvc-usuarios
   ports:
   - protocol: TCP
-    port: 8002
+    port: 80
     targetPort: 8002
   type: LoadBalancer

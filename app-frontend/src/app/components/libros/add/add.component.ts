@@ -77,7 +77,7 @@ export class AddComponent {
 
   // Método para cargar bibliotecas desde el backend
   cargarBibliotecas() {
-    this.http.get<any[]>('http://localhost:8080/api/bibliotecas')
+    this.http.get<any[]>('http://bibliotecasoap.local:8080/api/bibliotecas')
       .subscribe(data => {
         this.bibliotecas = data;
         //console.log("Usuarios cargados", data);
@@ -121,7 +121,7 @@ export class AddComponent {
    // Llamada al servicio con bibliotecaId como parámetro
    this.http
    .post(
-     `http://localhost:8001/api/libros?bibliotecaId=${this.usuario.bibliotecaId}`,
+     `http://api-gateway.local:8080/api/libros?bibliotecaId=${this.usuario.bibliotecaId}`,
      this.libro
    )
    .subscribe(

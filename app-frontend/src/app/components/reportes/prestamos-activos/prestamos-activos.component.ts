@@ -42,7 +42,7 @@ export class PrestamosActivosComponent implements OnInit {
       </soapenv:Envelope>
     `;
   
-    this.http.post('http://localhost:8000/soap', soapRequest, {
+    this.http.post('http://bibliotecasoap.local:8000/soap', soapRequest, {
       headers: { 'Content-Type': 'text/xml' },
       responseType: 'text'
     }).subscribe(response => {

@@ -27,9 +27,9 @@ CREATE TABLE libros (
 CREATE TABLE usuarios (
     usuario_id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    usuario VARCHAR(10) NOT NULL,
+    usuario VARCHAR(50) NOT NULL, -- Aumentado a 50 caracteres
     correo VARCHAR(150) UNIQUE NOT NULL,
-    contrasenia VARCHAR(20) NOT NULL,
+    contrasenia VARCHAR(100) NOT NULL, -- Aumentado a 100 caracteres
     tipo_usuario VARCHAR(50) NOT NULL CHECK (tipo_usuario IN ('estudiante', 'profesor', 'administrador', 'bibliotecario')),
     estado VARCHAR(50) NOT NULL DEFAULT 'activo',
     biblioteca_id INT NOT NULL REFERENCES bibliotecas(biblioteca_id) ON DELETE CASCADE
@@ -76,8 +76,7 @@ CREATE TABLE reservas (
     biblioteca_id INT NOT NULL REFERENCES bibliotecas(biblioteca_id) ON DELETE CASCADE
 );
 
-
-
+-- Insertar datos de prueba
 INSERT INTO bibliotecas (nombre, plan, estado)
 VALUES ('Biblioteca Central', 'premium', 'activo');
 

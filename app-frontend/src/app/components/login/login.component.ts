@@ -60,7 +60,7 @@ export class LoginComponent {
         'Content-Type': 'text/xml',
       });
 
-      this.http.post('http://localhost:8000/soap', soapBody, { headers, responseType: 'text' })
+      this.http.post('http://bibliotecasoap.local:8000/soap', soapBody, { headers, responseType: 'text' })
         .subscribe({
           next: (response: any) => {
             // Procesar la respuesta y guardar los datos
