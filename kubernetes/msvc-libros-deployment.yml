@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msvc-libros
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msvc-libros
+  template:
+    metadata:
+      labels:
+        app: msvc-libros
+    spec:
+      containers:
+      - name: msvc-libros
+        image: gcr.io/proyecto-kubernetes-448423/msvc-libros
+        ports:
+        - containerPort: 8001
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-db:5432/biblioteca2
+        - name: SPRING_DATASOURCE_USERNAME
+          value: postgres
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          value: http://eureka-server:8761/eureka

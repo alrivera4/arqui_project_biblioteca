@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bibliotecasoap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bibliotecasoap
+  template:
+    metadata:
+      labels:
+        app: bibliotecasoap
+    spec:
+      containers:
+      - name: bibliotecasoap
+        image: gcr.io/proyecto-kubernetes-448423/bibliotecasoap
+        ports:
+        - containerPort: 8000

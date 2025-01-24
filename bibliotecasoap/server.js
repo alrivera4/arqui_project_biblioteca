@@ -2,7 +2,7 @@ const express = require('express');
 const soap = require('soap');
 const fs = require('fs');
 const cors = require('cors');  // Importar el paquete cors
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const { Client } = require('pg'); // Importar el cliente de PostgreSQL
 

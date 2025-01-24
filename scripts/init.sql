@@ -75,3 +75,14 @@ CREATE TABLE reservas (
     estado VARCHAR(50) DEFAULT 'disponible' CHECK (estado IN ('disponible', 'reservado')),
     biblioteca_id INT NOT NULL REFERENCES bibliotecas(biblioteca_id) ON DELETE CASCADE
 );
+
+
+
+INSERT INTO bibliotecas (nombre, plan, estado)
+VALUES ('Biblioteca Central', 'premium', 'activo');
+
+-- Insertar el usuario admin con la contraseña encriptada
+INSERT INTO usuarios (nombre, usuario, correo, contrasenia, tipo_usuario, biblioteca_id)
+VALUES 
+('Administrador', 'admin5', 'admin5@gmail.com', '$2a$10$wqbUeJIG6pHLZur37vRhoOpTJyyQDcI2sbapmakbuMjJv9Bzype4q', 'administrador', 1);
+

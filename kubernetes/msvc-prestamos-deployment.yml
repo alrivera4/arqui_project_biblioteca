@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msvc-prestamos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msvc-prestamos
+  template:
+    metadata:
+      labels:
+        app: msvc-prestamos
+    spec:
+      containers:
+      - name: msvc-prestamos
+        image: gcr.io/proyecto-kubernetes-448423/msvc-prestamos
+        ports:
+        - containerPort: 8003
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-db:5432/biblioteca2
+        - name: SPRING_DATASOURCE_USERNAME
+          value: postgres
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          value: http://eureka-server:8761/eureka
