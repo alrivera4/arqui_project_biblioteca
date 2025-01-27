@@ -11,7 +11,7 @@ COPY . .
 RUN npm install
 
 # Exponer el puerto 8000, que es el puerto donde el servidor SOAP está funcionando
-EXPOSE 8000
+EXPOSE 8080
 
 # Comando para ejecutar el servidor SOAP
 CMD ["node", "server.js"]

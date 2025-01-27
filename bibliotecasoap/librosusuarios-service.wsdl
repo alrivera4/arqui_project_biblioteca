@@ -48,6 +48,7 @@
         <part name="usuario" type="xsd:string"/>
         <part name="correo" type="xsd:string"/>
         <part name="tipoUsuario" type="xsd:string"/>
+        <part name="bibliotecaId" type="xsd:string"/>
     </message>
     
     <message name="RegistrarUsuarioResponse">
@@ -65,7 +66,7 @@
 
     <message name="ValidarUsuarioRequest">
         <part name="usuario" type="xsd:string"/>
-        <part name="contraseña" type="xsd:string"/>
+        <part name="contrasenia" type="xsd:string"/>
     </message>
     
     <message name="ValidarUsuarioResponse">
@@ -214,7 +215,7 @@
     <!-- Servicio -->
     <service name="LoanService">
         <port name="LoanServicePort" binding="web:LoanServiceBinding">
-            <soap:address location="http://bibliotecasoap.local:8000/soap"/>
+            <soap:address location="https://bibliotecasoap-874053420933.us-central1.run.app/soap"/>
         </port>
     </service>
 

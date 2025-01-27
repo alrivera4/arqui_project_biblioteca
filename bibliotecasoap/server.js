@@ -27,7 +27,7 @@ module.exports = db; // Exportar la conexión para usarla en otros archivos
 
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 // Habilitar CORS en todas las rutas
 app.use(cors());  
