@@ -7,11 +7,12 @@ const bcrypt = require('bcryptjs');
 const { Client } = require('pg'); // Importar el cliente de PostgreSQL
 
 const db = new Client({
-    user: 'postgres', // Usuario de la base de datos
-    password: 'admin', // Contraseña del usuario
-    database: 'biblioteca2', // Nombre de la base de datos
-    port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
-    statement_timeout: 5000, // Tiempo límite para las consultas (5 segundos)
+  host: '34.41.158.161', // Dirección IP pública de tu instancia en Google Cloud SQL
+  user: 'postgres', // Usuario de la base de datos
+  password: 'admin', // Contraseña del usuario
+  database: 'biblioteca2', // Nombre de la base de datos
+  port: 5432, // Puerto (5432 es el predeterminado para PostgreSQL)
+  statement_timeout: 5000, // Tiempo límite para las consultas (5 segundos)
 });
 
 db.connect((err) => {
@@ -26,7 +27,7 @@ module.exports = db; // Exportar la conexión para usarla en otros archivos
 
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 // Habilitar CORS en todas las rutas
 app.use(cors());  
@@ -413,7 +414,9 @@ SuspenderUsuario :async (args) => {
 
 // Crear el servidor SOAP
 soap.listen(app, '/soap', loanService, wsdlFile, () => {
-  console.log('Servicio SOAP corriendo en http://bibliotecasoap.local:8000/soap');
+  //console.log('Servicio SOAP corriendo en http://34.41.15:8000/soap');
+  console.log(`Servicio SOAP corriendo en /soap`);
+
 });
 
 // Iniciar el servidor

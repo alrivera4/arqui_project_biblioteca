@@ -137,7 +137,7 @@ export class RegistroUsuarioComponent implements OnInit {
 
   // Método para cargar bibliotecas desde el backend
   cargarBibliotecas() {
-    this.http.get<any[]>('http://api-gateway.local:8080/api/bibliotecas')
+    this.http.get<any[]>('http://localhost:8080/api/bibliotecas')
       .subscribe(data => {
         this.bibliotecas = data;
         //console.log("Usuarios cargados", data);
