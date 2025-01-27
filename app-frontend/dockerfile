@@ -16,16 +16,20 @@ COPY . .
 # Compilar la aplicación Angular para producción
 RUN npm run build --prod
 
-# Etapa 2: Servir la aplicación con un servidor web
-FROM nginx:alpine
+# Etapa 2: Ejecutar la aplicación con http-server
+FROM node:16
 
-# Copiar los archivos compilados desde la etapa anterior al directorio de NGINX
-COPY --from=build /app/dist/app-frontend /usr/share/nginx/html
+# Instalar el paquete http-server globalmente
+RUN npm install -g http-server
 
-# Exponer el puerto 80
-EXPOSE 80
+# Definir el directorio de trabajo
+WORKDIR /app
 
-# Iniciar NGINX en primer plano
-CMD ["nginx", "-g", "daemon off;"]
+# Copiar los archivos compilados desde la etapa anterior
+COPY --from=build /app/dist/app-frontend .
 
+# Exponer el puerto 8080 (necesario para Cloud Run)
+EXPOSE 8080
 
+# Comando para iniciar el servidor
+CMD ["http-server", "-p", "8080"]
