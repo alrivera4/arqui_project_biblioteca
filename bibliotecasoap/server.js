@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 const { Client } = require('pg'); // Importar el cliente de PostgreSQL
 
 const db = new Client({
-    host: 'postgres-db', // Dirección del servidor PostgreSQL
+    host: 'localhost', // Dirección del servidor PostgreSQL
     user: 'postgres', // Usuario de la base de datos
     password: 'admin', // Contraseña del usuario
     database: 'biblioteca2', // Nombre de la base de datos

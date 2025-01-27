@@ -26,7 +26,7 @@ export class DevolucionLibroComponent implements OnInit {
   }
 
   cargarPrestamos() {
-    this.http.get<any[]>('http://localhost:8080/api/usuario/prestamos')
+    this.http.get<any[]>('http://localhost:8002/api/usuario/prestamos')
       .subscribe(data => {
         this.prestamos = data;
         this.prestamosFiltrados = [...this.prestamos]; // Inicialmente, mostrar todos los préstamos

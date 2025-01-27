@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class BibliotecaService {
-  private apiUrl = 'http://api-gateway:8080/api/bibliotecas';
+  private apiUrl = 'http://api-gateway:8004/api/bibliotecas';
   private bibliotecaActualizadaSource = new Subject<any>(); // Evento para emitir la biblioteca actualizada
   bibliotecaActualizada$ = this.bibliotecaActualizadaSource.asObservable(); // Exponemos el observable
 
