@@ -34,12 +34,20 @@ export class RegistroPrestamoComponent implements OnInit {
   }
 
   cargarLibros() {
+<<<<<<< HEAD
     this.http.get<any[]>(`http://localhost:8001/api/libros?bibliotecaId=${this.bibliotecaId}`)
+=======
+    this.http.get<any[]>(`http://api-gateway.local:8080/api/libros?bibliotecaId=${this.bibliotecaId}`)
+>>>>>>> 35b3c250ab820e4d02fc65c4d00b99f93e5507e8
       .subscribe(data => this.libros = data);
   }
 
   cargarUsuarios() {
+<<<<<<< HEAD
     this.http.get<any[]>(`http://localhost:8002/api/usuarios?bibliotecaId=${this.bibliotecaId}`)
+=======
+    this.http.get<any[]>(`http://api-gateway.local:8080/api/usuarios?bibliotecaId=${this.bibliotecaId}`)
+>>>>>>> 35b3c250ab820e4d02fc65c4d00b99f93e5507e8
       .subscribe(data => {
         this.usuarios = data;
         //console.log("Usuarios cargados", data);
@@ -124,7 +132,7 @@ export class RegistroPrestamoComponent implements OnInit {
       </soapenv:Envelope>
     `;
   
-    this.http.post('http://localhost:8000/soap', soapRequest, {
+    this.http.post('http://bibliotecasoap.local:8000/soap', soapRequest, {
       headers: { 'Content-Type': 'text/xml' },
       responseType: 'text'
     }).subscribe(response => {

@@ -23,7 +23,11 @@ import { tap } from 'rxjs/operators';  // Importa tap si vas a usarlo
   providedIn: 'root'
 })
 export class UsuarioService {
+<<<<<<< HEAD
   private apiUrl = 'http://localhost:8002/api/usuarios';
+=======
+  private apiUrl = 'http://api-gateway.local:8080/api/usuarios';
+>>>>>>> 35b3c250ab820e4d02fc65c4d00b99f93e5507e8
    private usuariosSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); // BehaviorSubject para manejar el estado
   usuarios$: Observable<any[]> = this.usuariosSubject.asObservable(); // Observable para exponer la lista
 

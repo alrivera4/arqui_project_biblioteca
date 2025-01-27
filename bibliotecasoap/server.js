@@ -7,7 +7,11 @@ const bcrypt = require('bcryptjs');
 const { Client } = require('pg'); // Importar el cliente de PostgreSQL
 
 const db = new Client({
+<<<<<<< HEAD
     host: 'localhost', // Dirección del servidor PostgreSQL
+=======
+    host: '34.66.108.140', // Dirección del servidor PostgreSQL
+>>>>>>> 35b3c250ab820e4d02fc65c4d00b99f93e5507e8
     user: 'postgres', // Usuario de la base de datos
     password: 'admin', // Contraseña del usuario
     database: 'biblioteca2', // Nombre de la base de datos
@@ -414,7 +418,7 @@ SuspenderUsuario :async (args) => {
 
 // Crear el servidor SOAP
 soap.listen(app, '/soap', loanService, wsdlFile, () => {
-  console.log('Servicio SOAP corriendo en http://localhost:8000/soap');
+  console.log('Servicio SOAP corriendo en http://bibliotecasoap.local:8000/soap');
 });
 
 // Iniciar el servidor
