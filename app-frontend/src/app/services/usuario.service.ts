@@ -23,7 +23,7 @@ import { tap } from 'rxjs/operators';  // Importa tap si vas a usarlo
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:8002/api/usuarios';
+  private apiUrl = 'https://msvc-usuarios-874053420933.us-central1.run.app/api/usuarios';
 
    private usuariosSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); // BehaviorSubject para manejar el estado
   usuarios$: Observable<any[]> = this.usuariosSubject.asObservable(); // Observable para exponer la lista

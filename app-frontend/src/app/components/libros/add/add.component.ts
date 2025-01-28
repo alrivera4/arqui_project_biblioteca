@@ -77,7 +77,7 @@ export class AddComponent {
 
  // Método para cargar bibliotecas desde el backend
  cargarBibliotecas() {
-  this.http.get<any[]>('http://localhost:8080/api/bibliotecas')
+  this.http.get<any[]>('https://msvc-bibliotecas-874053420933.us-central1.run.app/api/bibliotecas')
     .subscribe(data => {
       this.bibliotecas = data;
       //console.log("Usuarios cargados", data);
@@ -122,7 +122,7 @@ export class AddComponent {
    // Llamada al servicio con bibliotecaId como parámetro
    this.http
    .post(
-     `http://api-gateway.local:8080/api/libros?bibliotecaId=${this.usuario.bibliotecaId}`,
+     `https://msvc-libros-874053420933.us-central1.run.app/api/libros?bibliotecaId=${this.usuario.bibliotecaId}`,
      this.libro
    )
    .subscribe(

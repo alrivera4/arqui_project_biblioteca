@@ -137,7 +137,7 @@ export class RegistroUsuarioComponent implements OnInit {
 
   // Método para cargar bibliotecas desde el backend
   cargarBibliotecas() {
-    this.http.get<any[]>('http://localhost:8080/api/bibliotecas')
+    this.http.get<any[]>('https://msvc-bibliotecas-874053420933.us-central1.run.app/api/bibliotecas') //aqui puse url bibliotec antes estaba:http://localhost:8080/api/bibliotecas 
       .subscribe(data => {
         this.bibliotecas = data;
         //console.log("Usuarios cargados", data);
@@ -206,7 +206,7 @@ export class RegistroUsuarioComponent implements OnInit {
     `;
 
     // Enviar la solicitud SOAP
-    this.http.post('http://bibliotecasoap.local:8000/soap', soapRequest, {
+    this.http.post('https://bibliotecasoap-874053420933.us-central1.run.app/soap', soapRequest, {
       headers: { 'Content-Type': 'text/xml' },
       responseType: 'text'
     }).subscribe({

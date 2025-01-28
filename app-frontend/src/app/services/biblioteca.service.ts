@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class BibliotecaService {
-  private apiUrl = 'http://localhost:8003/api/bibliotecas';
+  private apiUrl = 'https://msvc-bibliotecas-874053420933.us-central1.run.app/api/bibliotecas'; //prestamos http://localhost:8003/api/bibliotecas
   private bibliotecaActualizadaSource = new Subject<any>(); // Evento para emitir la biblioteca actualizada
   bibliotecaActualizada$ = this.bibliotecaActualizadaSource.asObservable(); // Exponemos el observable
 

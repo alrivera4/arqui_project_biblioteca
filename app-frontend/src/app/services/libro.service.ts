@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LibroService {
-  private apiUrl = 'http://localhost:8001/api/libros'; // Cambia la URL si es necesario
+  private apiUrl = 'https://msvc-libros-874053420933.us-central1.run.app/api/libros'; // Cambia la URL si es necesario
 
   private librosSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); // BehaviorSubject para manejar el estado
   libros$: Observable<any[]> = this.librosSubject.asObservable(); // Observable para exponer la lista
