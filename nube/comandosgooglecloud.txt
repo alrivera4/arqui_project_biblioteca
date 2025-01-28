@@ -1,0 +1,61 @@
+id del proyecto: proyecto-kubernetes-448423
+---Comandos para la construcción de las imagenes para Google cloud-------
+docker build -t gcr.io/proyecto-kubernetes-448423/msvc-usuarios ./biblioteca/msvc-usuarios
+docker build -t gcr.io/proyecto-kubernetes-448423/eureka-server ./biblioteca/eureka-server
+docker build -t gcr.io/proyecto-kubernetes-448423/msvc-bibliotecas ./biblioteca/msvc-bibliotecas
+docker build -t gcr.io/proyecto-kubernetes-448423/msvc-libros ./biblioteca/msvc-libros
+docker build -t gcr.io/proyecto-kubernetes-448423/msvc-prestamos ./biblioteca/msvc-prestamos
+docker build -t gcr.io/proyecto-kubernetes-448423/msvc-reservas ./biblioteca/msvc-reservas
+docker build -t gcr.io/proyecto-kubernetes-448423/api-gateway ./biblioteca/api-gateway
+docker build -t gcr.io/proyecto-kubernetes-448423/bibliotecasoap ./bibliotecasoap
+docker build -t gcr.io/proyecto-kubernetes-448423/app-frontend ./app-frontend
+docker tag postgres:14 gcr.io/proyecto-kubernetes-448423/postgres-db
+
+
+---Comandos para la construcción de las imagenes para Google cloud-------
+docker push gcr.io/proyecto-kubernetes-448423/msvc-usuarios
+docker push gcr.io/proyecto-kubernetes-448423/eureka-server
+docker push gcr.io/proyecto-kubernetes-448423/msvc-bibliotecas
+docker push gcr.io/proyecto-kubernetes-448423/msvc-libros
+docker push gcr.io/proyecto-kubernetes-448423/msvc-prestamos
+docker push gcr.io/proyecto-kubernetes-448423/msvc-reservas
+docker push gcr.io/proyecto-kubernetes-448423/api-gateway
+docker push gcr.io/proyecto-kubernetes-448423/bibliotecasoap
+docker push gcr.io/proyecto-kubernetes-448423/app-frontend
+docker push gcr.io/proyecto-kubernetes-448423/postgres-db
+
+
+--- conifguramos la zona para el proyecto y creamos el kluster de acuerdo a la zona--------
+gcloud config set compute/zone us-east1-b
+gcloud config get-value compute/zone
+gcloud container clusters create biblioteca-cluster --num-nodes=3 --zone=us-east1-b --disk-type=pd-standard
+
+---comandos para desplegar todos los microservicios en Kubernetes, incluyendo bases de datos, servicios de aplicaciones y la API Gateway---
+kubectl apply -f eureka-server-deployment.yml
+kubectl apply -f eureka-server-service.yml
+kubectl apply -f msvc-usuarios-deployment.yml
+kubectl apply -f msvc-usuarios-service.yml
+kubectl apply -f msvc-bibliotecas-deployment.yml
+kubectl apply -f msvc-bibliotecas-service.yml
+kubectl apply -f msvc-libros-deployment.yml
+kubectl apply -f msvc-libros-service.yml
+kubectl apply -f msvc-prestamos-deployment.yml
+kubectl apply -f msvc-prestamos-service.yml
+kubectl apply -f msvc-reservas-deployment.yml
+kubectl apply -f msvc-reservas-service.yml
+kubectl apply -f api-gateway-deployment.yml
+kubectl apply -f api-gateway-service.yml
+kubectl apply -f postgres-db-deployment.yml
+kubectl apply -f postgres-db-service.yml
+kubectl apply -f bibliotecasoap-deployment.yml
+kubectl apply -f bibliotecasoap-service.yml
+kubectl apply -f app-frontend-deployment.yml
+kubectl apply -f app-frontend-service.yml
+
+---comando para borrar todo services y deployment---
+kubectl delete all --all
+
+---visualizar todo-----
+kubectl get all
+
+

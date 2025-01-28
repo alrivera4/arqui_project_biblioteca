@@ -1,0 +1,15 @@
+minikube start --driver=Docker
+minikube dashboard
+kubectl apply -f .\load-balancer.yml
+kubectl get pods --namespace=taller
+kubectl get svc --namespace=taller 
+kubectl port-forward svc/taller-react-service 3000:80 -n taller   
+
+full-stack
+kubectl apply -f .\01-database.yml 
+minikube addons enable ingress
+
+kubectl apply -f .\02-backend.yml   
+minikube ip
+kubectl apply -f .\03-frontend.yml
+minikube tunnel
