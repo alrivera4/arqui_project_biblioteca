@@ -1,0 +1,11 @@
+<div class="navbar">
+  <div class="logo menu-links"><a [routerLink]="['/modulos']">Mi Biblioteca</a></div>
+  <div class="menu-links">
+    <a routerLink="/bibliotecas" *ngIf="esAdministrador">Bibliotecas</a>
+    <a [routerLink]="['/libros']" *ngIf="esAdministrador || esBibliotecario || esEstudiante || esProfesor">Libros</a>
+    <a routerLink="/usuarios" *ngIf="esAdministrador || esBibliotecario">Usuarios</a>
+    <a routerLink="/prestamos" *ngIf="esAdministrador || esBibliotecario || esEstudiante || esProfesor">Préstamos y Devoluciones</a>
+    <a routerLink="/reportes" *ngIf="esAdministrador || esBibliotecario">Reportes</a>
+    <button class="logout-btn" type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+  </div>
+</div>

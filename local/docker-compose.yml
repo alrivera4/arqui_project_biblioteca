@@ -1,0 +1,151 @@
+version: '3.8'
+services:
+  eureka-server:
+    build:
+      context: ./biblioteca/eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - app-network
+
+  msvc-usuarios:
+    build:
+      context: ./biblioteca/msvc-usuarios
+    container_name: msvc-usuarios
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/biblioteca2
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-db
+    ports:
+      - "8002:8002"
+    networks:
+      - app-network
+
+  msvc-bibliotecas:
+    build:
+      context: ./biblioteca/msvc-bibliotecas
+    container_name: msvc-bibliotecas
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/biblioteca2
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-db
+    ports:
+      - "8004:8004"
+    networks:
+      - app-network
+
+  msvc-libros:
+    build:
+      context: ./biblioteca/msvc-libros
+    container_name: msvc-libros
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/biblioteca2
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-db
+    ports:
+      - "8001:8001"
+    networks:
+      - app-network
+
+  msvc-prestamos:
+    build:
+      context: ./biblioteca/msvc-prestamos
+    container_name: msvc-prestamos
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/biblioteca2
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-db
+    ports:
+      - "8003:8003"
+    networks:
+      - app-network
+
+  msvc-reservas:
+    build:
+      context: ./biblioteca/msvc-reservas
+    container_name: msvc-reservas
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/biblioteca2
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-db
+    ports:
+      - "8005:8005"
+    networks:
+      - app-network
+
+  api-gateway:
+    build:
+      context: ./biblioteca/api-gateway
+    container_name: api-gateway
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - msvc-usuarios
+      - msvc-bibliotecas
+      - msvc-libros
+      - msvc-prestamos
+      - msvc-reservas
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  postgres-db:
+    image: postgres:14
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: biblioteca2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  bibliotecasoap:
+    build:
+      context: ./bibliotecasoap
+    container_name: bibliotecasoap
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+  app-frontend:
+    build:
+      context: ./app-frontend
+    container_name: app-frontend
+    ports:
+      - "4200:4200"  # Cambia este puerto según sea necesario
+    depends_on:
+      - api-gateway
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

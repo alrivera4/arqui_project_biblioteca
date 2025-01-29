@@ -1,0 +1,161 @@
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Estilos para el Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0066cc;
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed; /* Fijo en la parte superior */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Asegura que el navbar esté encima de otros elementos */
+  }
+  
+  /* Estilo para el logo (izquierda) */
+  .navbar .logo {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Estilos para los enlaces del menú */
+  .navbar .menu-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar .menu-links a,
+  .navbar .menu-links .logout-btn {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar .menu-links a:hover {
+    background-color: #005bb5; /* Color cuando el mouse pasa por encima */
+  }
+  
+  .navbar .menu-links .logout-btn {
+    background-color: #ff4d4d;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .navbar .menu-links .logout-btn:hover {
+    background-color: #e60000; /* Cambio de color en hover */
+  }
+  
+  /* Estilo para la sección del usuario */
+  .user-section {
+    margin-top: 30px; /* Deja espacio debajo del navbar */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centrado vertical y horizontal */
+    height: 100vh; /* Usamos toda la altura de la pantalla */
+    padding: 0 20px; /* Un poco de espacio en los laterales */
+    overflow: hidden; /* Elimina el scroll externo */
+  }
+  
+  /* Contenedor principal para la información del usuario */
+  .user-info {
+    width: 100%;
+    max-width: 600px; /* Hacemos el formulario más pequeño */
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row; /* Alineación en fila (ícono + campos) */
+    justify-content: flex-start; /* Alineación hacia la izquierda */
+    gap: 15px; /* Espacio entre ícono y campos */
+    height: auto; /* El formulario se ajusta al contenido */
+    max-height: 80vh; /* Limita la altura máxima para que el contenido no sea muy largo */
+    overflow-y: hidden; /* Elimina el scroll dentro del formulario */
+  }
+  
+  /* Estilo para el avatar del usuario */
+  .user-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px; /* Tamaño ajustado del avatar */
+    height: 90px; /* Tamaño ajustado del avatar */
+    background-color: #0066cc;
+    border-radius: 50%;
+    margin-right: 20px; /* Espacio a la derecha del ícono */
+  }
+  
+  .user-avatar i {
+    font-size: 50px; /* Tamaño del ícono ajustado */
+    color: white;
+  }
+  
+  /* Estilo para el nombre debajo del ícono */
+  .user-name {
+    text-align: left;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px; /* Espacio entre el nombre y los campos */
+  }
+  
+  /* Estilos para los campos del formulario */
+  .user-info label {
+    font-size: 1.1em; /* Tamaño de fuente más grande */
+    margin-bottom: 8px;
+    display: block;
+    font-weight: bold;
+  }
+  
+  .user-info input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em; /* Fuente más grande */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botón de enviar */
+  .user-info button {
+    width: 100%;
+    padding: 15px;
+    background-color: #0066cc;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1em; /* Tamaño de fuente más grande */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-info button:hover {
+    background-color: #005bb5;
+  }
+  
+  .notification {
+    position: fixed; /* Fija la posición en la pantalla */
+    top: 20px; /* Distancia desde la parte superior */
+    right: 20px; /* Distancia desde la derecha */
+    z-index: 1050; /* Asegura que se muestre encima de otros elementos */
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  

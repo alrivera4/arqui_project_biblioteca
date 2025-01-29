@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/">
+    
+    <!-- Mensajes para las operaciones -->
+    <message name="RegistrarPrestamoRequest">
+        <part name="usuarioId" type="xsd:int"/>
+        <part name="libroId" type="xsd:int"/>
+        <part name="fechaPrestamo" type="xsd:string"/>
+        <part name="fechaDevolucion" type="xsd:string"/>
+        <part name="bibliotecaId" type="xsd:int"/>
+
+    </message>
+    
+    <message name="RegistrarPrestamoResponse">
+        <part name="estado" type="xsd:string"/>
+        <part name="transaccionId" type="xsd:int"/>
+        <part name="fecha" type="xsd:string"/>
+    </message>
+    
+    <message name="RegistrarDevolucionRequest">
+        <part name="transaccionId" type="xsd:int"/>
+    </message>
+    
+    <message name="RegistrarDevolucionResponse">
+        <part name="estado" type="xsd:string"/>
+    </message>
+    
+    <message name="GenerarReportePrestamosActivosRequest">
+        <part name="usuarioId" type="xsd:int" minOccurs="0"/>
+        <part name="libroTitulo" type="xsd:string" minOccurs="0"/>
+        <part name="fechaInicio" type="xsd:string" minOccurs="0"/>
+        <part name="fechaFin" type="xsd:string" minOccurs="0"/>
+        <part name="estado" type="xsd:string" minOccurs="0"/>
+    </message>
+    
+    <message name="GenerarReportePrestamosActivosResponse">
+        <part name="reportes" type="xsd:string"/>
+    </message>
+    
+    <message name="GenerarHistorialUsuarioRequest">
+        <part name="usuarioId" type="xsd:int"/>
+    </message>
+    
+    <message name="GenerarHistorialUsuarioResponse">
+        <part name="historial" type="xsd:string"/>
+    </message>
+    
+    <message name="RegistrarUsuarioRequest">
+        <part name="nombre" type="xsd:string"/>
+        <part name="usuario" type="xsd:string"/>
+        <part name="correo" type="xsd:string"/>
+        <part name="tipoUsuario" type="xsd:string"/>
+    </message>
+    
+    <message name="RegistrarUsuarioResponse">
+        <part name="usuarioId" type="xsd:int"/>
+        <part name="estado" type="xsd:string"/>
+    </message>
+    
+    <message name="SuspenderUsuarioRequest">
+        <part name="usuarioId" type="xsd:int"/>
+    </message>
+    
+    <message name="SuspenderUsuarioResponse">
+        <part name="estado" type="xsd:string"/>
+    </message>
+
+    <message name="ValidarUsuarioRequest">
+        <part name="usuario" type="xsd:string"/>
+        <part name="contraseña" type="xsd:string"/>
+    </message>
+    
+    <message name="ValidarUsuarioResponse">
+        <part name="estado" type="xsd:string"/>
+    </message>
+
+    <!-- Nueva operación para obtener datos del usuario -->
+    <message name="ObtenerDatosUsuarioRequest">
+        <part name="usuarioId" type="xsd:int"/>
+    </message>
+    
+    <message name="ObtenerDatosUsuarioResponse">
+        <part name="usuario" type="xsd:string"/>
+        <part name="nombre" type="xsd:string"/>
+        <part name="correo" type="xsd:string"/>
+        <part name="tipoUsuario" type="xsd:string"/>
+    </message>
+    
+    <!-- Operaciones del servicio -->
+    <portType name="LoanServicePortType">
+        <operation name="RegistrarPrestamo">
+            <input message="web:RegistrarPrestamoRequest"/>
+            <output message="web:RegistrarPrestamoResponse"/>
+        </operation>
+        
+        <operation name="RegistrarDevolucion">
+            <input message="web:RegistrarDevolucionRequest"/>
+            <output message="web:RegistrarDevolucionResponse"/>
+        </operation>
+        
+        <operation name="GenerarReportePrestamosActivos">
+            <input message="web:GenerarReportePrestamosActivosRequest"/>
+            <output message="web:GenerarReportePrestamosActivosResponse"/>
+        </operation>
+        
+        <operation name="GenerarHistorialUsuario">
+            <input message="web:GenerarHistorialUsuarioRequest"/>
+            <output message="web:GenerarHistorialUsuarioResponse"/>
+        </operation>
+        
+        <operation name="RegistrarUsuario">
+            <input message="web:RegistrarUsuarioRequest"/>
+            <output message="web:RegistrarUsuarioResponse"/>
+        </operation>
+        
+        <operation name="SuspenderUsuario">
+            <input message="web:SuspenderUsuarioRequest"/>
+            <output message="web:SuspenderUsuarioResponse"/>
+        </operation>
+
+        <operation name="ValidarUsuario">
+            <input message="web:ValidarUsuarioRequest"/>
+            <output message="web:ValidarUsuarioResponse"/>
+        </operation>
+
+        <operation name="ObtenerDatosUsuario">
+            <input message="web:ObtenerDatosUsuarioRequest"/>
+            <output message="web:ObtenerDatosUsuarioResponse"/>
+        </operation>
+    </portType>
+    
+    <!-- Binding (cómo se comunica el servicio con SOAP) -->
+    <binding name="LoanServiceBinding" type="web:LoanServicePortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <operation name="RegistrarPrestamo">
+            <soap:operation soapAction="RegistrarPrestamo"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="RegistrarDevolucion">
+            <soap:operation soapAction="RegistrarDevolucion"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="GenerarReportePrestamosActivos">
+            <soap:operation soapAction="GenerarReportePrestamosActivos"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="GenerarHistorialUsuario">
+            <soap:operation soapAction="GenerarHistorialUsuario"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="RegistrarUsuario">
+            <soap:operation soapAction="RegistrarUsuario"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="SuspenderUsuario">
+            <soap:operation soapAction="SuspenderUsuario"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+         <operation name="ValidarUsuario">
+            <soap:operation soapAction="ValidarUsuario"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="ObtenerDatosUsuario">
+            <soap:operation soapAction="ObtenerDatosUsuario"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    
+    <!-- Servicio -->
+    <service name="LoanService">
+        <port name="LoanServicePort" binding="web:LoanServiceBinding">
+            <soap:address location="http://localhost:8000/soap"/>
+        </port>
+    </service>
+
+</definitions>

@@ -1,0 +1,68 @@
+------------------------------------------------OPERACIONES CON SOAP-----------------------------------------------
+
+Registrar préstamo 
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:RegistrarPrestamo>
+         <usuarioId>1</usuarioId>
+         <libroId>1</libroId>
+         <fechaPrestamo>2024-12-01</fechaPrestamo>
+         <fechaDevolucion>2024-12-10</fechaDevolucion>
+      </web:RegistrarPrestamo>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+Registrar devolución 
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:RegistrarDevolucion>
+         <prestamoId>6</prestamoId>
+         <fechaDevolucion>2024-12-11</fechaDevolucion>
+      </web:RegistrarDevolucion>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+Generar reporte prestamos activos:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:GenerarReportePrestamosActivos/>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+Generar historial usuarios:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:GenerarHistorialUsuario>
+         <usuarioId>1</usuarioId>
+      </web:GenerarHistorialUsuario>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+Registrar usuario:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:RegistrarUsuario>
+         <nombre>Juan Pérez</nombre>
+         <usuario>jperez</usuario>
+         <correo>juan.perez@example.com</correo>
+         <contrasenia>password123</contrasenia>
+         <tipoUsuario>estudiante</tipoUsuario>
+      </web:RegistrarUsuario>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+Suspender usuario:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:SuspenderUsuario>
+         <usuarioId>4</usuarioId>
+      </web:SuspenderUsuario>
+   </soapenv:Body>
+</soapenv:Envelope>

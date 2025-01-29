@@ -1,0 +1,108 @@
+<app-navbar></app-navbar>
+<br><br><br>
+
+<!-- Lista desplegable para seleccionar biblioteca -->
+<div class="text-start mb-3 ms-3 col-md-4">
+  <label for="bibliotecaSelect" class="form-label">Selecciona la biblioteca:</label>
+  <select 
+    id="bibliotecaSelect"
+    class="form-control"
+    [(ngModel)]="bibliotecaId"
+    (change)="onBibliotecaChange()">
+    <option value="0">Seleccione una biblioteca</option>
+    <option *ngFor="let biblioteca of bibliotecas" [value]="biblioteca.bibliotecaId">
+      {{ biblioteca.nombre }}
+    </option>
+  </select>
+</div>
+
+
+
+<!-- Botón para agregar nuevo libro -->
+<div class="text-start mb-3 ms-3">
+  <a class="btn btn-success" routerLink="/libros/add" *ngIf="esAdministrador || esBibliotecario" >Agregar nuevo libro</a>
+</div>
+
+<div class="container mt-5">
+  <!-- Formulario de búsqueda -->
+  <div class="d-flex align-items-center mb-3">
+    <label for="searchQuery" class="form-label me-2">Buscar por Título, Autor, ISBN o Categoría:</label>
+    <input
+      type="text"
+      id="searchQuery"
+      [(ngModel)]="searchQuery"
+      name="searchQuery"
+      class="form-control"
+      placeholder="Buscar..."
+      style="max-width: 300px;"
+    />
+  </div>
+
+  <!-- Mensaje cuando no hay resultados -->
+  <div *ngIf="filteredLibros.length === 0 && searchQuery.length > 0" class="text-center">
+    <p>No se encontraron libros que coincidan con tu búsqueda.</p>
+  </div>
+
+  <!-- Mostrar todos los libros si no hay búsqueda -->
+  <div *ngIf="filteredLibros.length === 0 && searchQuery.length === 0" class="text-center">
+    <p>No hay libros disponibles.</p>
+  </div>
+
+  <!-- Tabla de libros -->
+  <div *ngIf="filteredLibros.length > 0" class="d-flex justify-content-center">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Categoría</th>
+            <th>Cantidad Disponible</th>
+            <th>Fecha de Publicación</th>
+            <th *ngIf="esAdministrador || esBibliotecario">Acciones </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let libro of filteredLibros; let i = index">
+            <td>{{ libro.libroId}}</td>
+            <td>{{ libro.titulo }}</td>
+            <td>{{ libro.autor }}</td>
+            <td>{{ libro.isbn }}</td>
+            <td>{{ libro.categoria }}</td>
+            <td>{{ libro.cantidadDisponible }}</td>
+            <td>{{ libro.fechaPublicacion | date:'dd/MM/yyyy' }}</td>
+            <td *ngIf="esAdministrador || esBibliotecario">
+              <div class="d-flex justify-content-center">
+                <!-- Botón para editar -->
+                <a
+                  class="btn btn-primary btn-sm me-2"
+                  [routerLink]="['/libros/edit', libro.libroId]"
+                  style="min-width: 75px;"
+                >
+                  Editar
+                </a>
+                <!-- Botón para eliminar -->
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="deleteLibro(libro.libroId)"
+                  style="min-width: 75px;"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Notificación flotante -->
+<div *ngIf="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+  <div [ngClass]="'alert alert-' + notification.type" role="alert">
+    {{ notification.message }}
+  </div>
+</div>

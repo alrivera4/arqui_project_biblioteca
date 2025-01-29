@@ -1,0 +1,119 @@
+<!--<app-navbar></app-navbar>
+<br><br>
+<form (ngSubmit)="registrarPrestamo()" class="container mt-4">
+    <div class="mb-3">
+      <label for="usuarioId" class="form-label">Usuario:</label>
+      <select id="usuarioId" [(ngModel)]="prestamo.usuarioId" name="usuarioId" class="form-select" required>
+        <option *ngFor="let usuario of usuarios" [value]="usuario.usuarioId">{{ usuario.nombre }}</option>
+      </select>
+    </div>
+  
+    <div class="mb-3">
+      <label for="libroId" class="form-label">Libro:</label>
+      <select id="libroId" [(ngModel)]="prestamo.libroId" name="libroId" class="form-select" required>
+        <option *ngFor="let libro of libros" [value]="libro.id">{{ libro.titulo }}</option>
+      </select>
+    </div>
+  
+    <div class="mb-3">
+      <label for="fechaPrestamo" class="form-label">Fecha Préstamo:</label>
+      <input type="date" id="fechaPrestamo" [(ngModel)]="prestamo.fechaPrestamo" name="fechaPrestamo" class="form-control" required />
+    </div>
+  
+    <div class="mb-3">
+      <label for="fechaDevolucion" class="form-label">Fecha Devolución:</label>
+      <input type="date" id="fechaDevolucion" [(ngModel)]="prestamo.fechaDevolucion" name="fechaDevolucion" class="form-control" required />
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Registrar Préstamo</button>
+  </form>
+  
+  <p class="mt-3">{{ mensaje }}</p>-->
+
+<app-navbar></app-navbar>
+<br><br><br>
+
+<!-- Título del formulario -->
+<h2 class="text-center mb-4">Registrar Préstamo</h2>
+
+<!-- Formulario con borde -->
+<form (ngSubmit)="registrarPrestamo()" class="container mt-4 border p-4 rounded form">
+  <div class="mb-3">
+    <label for="usuarioId" class="form-label">Usuario:</label>
+    <!-- Mostrar solo el nombre del usuario autenticado -->
+    <input 
+      type="text" 
+      id="usuarioId" 
+      [(ngModel)]="prestamo.nombreUsuario" 
+      name="usuarioId" 
+      class="form-control" 
+      [readonly]="true" />
+  </div>
+
+  <!-- Libro -->
+<div class="mb-3">
+  <label for="libroId" class="form-label">Libro:</label>
+  <select id="libroId" [(ngModel)]="prestamo.libroId" name="libroId" class="form-select" required (change)="onLibroChange(prestamo.libroId)">
+    <option [value]="-1" disabled>Seleccione un libro</option> <!-- Opción predeterminada -->
+    <option *ngFor="let libro of libros" [value]="libro.libroId">{{ libro.titulo }}</option>
+  </select>      
+</div>
+
+<div class="mb-3">
+  <label for="bibliotecaId" class="form-label">Biblioteca:</label>
+  <input type="text" id="bibliotecaId" [(ngModel)]="prestamo.nombreBiblioteca" name="bibliotecaId" class="form-control" [readonly]="true" />
+</div>
+
+
+  <div class="mb-3">
+    <label for="fechaPrestamo" class="form-label">Fecha Préstamo:</label>
+    <input
+      type="date"
+      id="fechaPrestamo"
+      [(ngModel)]="prestamo.fechaPrestamo"
+      name="fechaPrestamo"
+      class="form-control"
+      required
+      #fechaPrestamo="ngModel"
+    />
+    <div *ngIf="!esFechaPrestamoValida() && fechaPrestamo.touched" class="error-message">
+      La fecha no es válida.
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="fechaDevolucion" class="form-label">Fecha Devolución:</label>
+    <input
+      type="date"
+      id="fechaDevolucion"
+      [(ngModel)]="prestamo.fechaDevolucion"
+      name="fechaDevolucion"
+      class="form-control"
+      required
+      #fechaDevolucion="ngModel"
+    />
+    <div *ngIf="!esFechaDevolucionValida() && fechaDevolucion.touched" class="error-message">
+      La Fecha no es válida
+    </div>
+  </div>
+
+  <!-- Contenedor para los botones de registrar y cancelar -->
+  <div class="d-flex justify-content-center gap-3">
+    <button type="submit" class="btn btn-primary w-45">Guardar Préstamo</button>
+    <button type="button" class="btn btn-secondary w-45" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>
+
+<p class="mt-3">{{ mensaje }}</p>
+
+<!-- Notificación dinámica -->
+<div 
+  *ngIf="notification" 
+  [ngClass]="{
+    'alert': true,
+    'alert-success': notification.type === 'success',
+    'alert-danger': notification.type === 'error'
+  }" 
+  class="notification">
+  {{ notification.message }}
+</div>
