@@ -1,0 +1,7 @@
+com\espe\msvc\bibliotecas\models\Biblioteca.class
+com\espe\msvc\bibliotecas\services\BibliotecaService.class
+com\espe\msvc\bibliotecas\repositories\BibliotecaRepository.class
+com\espe\msvc\bibliotecas\controllers\BibliotecaController.class
+com\espe\msvc\bibliotecas\MsvcBibliotecasApplication.class
+com\espe\msvc\bibliotecas\services\BibliotecaServiceImpl.class
+com\espe\msvc\bibliotecas\config\WebConfig.class

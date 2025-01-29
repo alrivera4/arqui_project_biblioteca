@@ -1,0 +1,9 @@
+com\espe\msvc\usuarios\controllers\UsuarioController.class
+com\espe\msvc\usuarios\models\Biblioteca.class
+com\espe\msvc\usuarios\repositories\BibliotecaRepository.class
+com\espe\msvc\usuarios\models\Usuario.class
+com\espe\msvc\usuarios\services\UsuarioService.class
+com\espe\msvc\usuarios\config\WebConfig.class
+com\espe\msvc\usuarios\repositories\UsuarioRepository.class
+com\espe\msvc\usuarios\MsvcUsuariosApplication.class
+com\espe\msvc\usuarios\services\UsuarioServiceImpl.class

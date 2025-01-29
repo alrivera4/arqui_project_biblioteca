@@ -74,13 +74,15 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public void cancelarReserva(Long id) {
-        // Cambiar estado de la reserva a DISPONIBLE antes de eliminarla
+        // Buscar la reserva en la base de datos
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
-        
-        reserva.setEstado(Reserva.EstadoReserva.disponible); // Cambiar estado a DISPONIBLE
-        reservaRepository.save(reserva); // Guardar la actualización de estado
-        reservaRepository.deleteById(id); // Eliminar la reserva
+
+        // Cambiar el estado de la reserva a DISPONIBLE
+        reserva.setEstado(Reserva.EstadoReserva.disponible);
+
+        // Guardar la reserva actualizada en la base de datos
+        reservaRepository.save(reserva);
     }
 
     // Método adicional para cambiar el estado de la reserva a DISPONIBLE

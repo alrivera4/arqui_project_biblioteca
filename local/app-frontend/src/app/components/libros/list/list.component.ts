@@ -278,6 +278,7 @@ import { LibroService } from 'src/app/services/libro.service';
 import { BibliotecaService } from 'src/app/services/biblioteca.service'; // Añadir servicio para bibliotecas
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
+import { ReservaService } from 'src/app/services/reserva.service';
 
 @Component({
   selector: 'app-list',
@@ -295,7 +296,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private libroService: LibroService,
-    private bibliotecaService: BibliotecaService, // Inyectar el servicio de bibliotecas
+    private bibliotecaService: BibliotecaService,
+    private reservaService: ReservaService, // Inyectar el servicio de reservas
     private router: Router,
     public authService: AuthService
   ) {}
@@ -373,6 +375,53 @@ export class ListComponent implements OnInit {
   onBibliotecaChange() {
     this.getLibrosPorBiblioteca();
   }
+
+  reservasActivas: { [key: number]: boolean } = {}; // Almacena libroId -> true/false
+
+  reservarLibro(libroId: number): void {
+    if (!this.authService.estaAutenticado()) {
+      this.showNotification('Debes iniciar sesión para reservar un libro.', 'danger');
+      return;
+    }
+  
+    const usuarioId = this.authService.getUsuarioId();
+    const bibliotecaId = this.bibliotecaId;
+  
+    if (!bibliotecaId) {
+      this.showNotification('Selecciona una biblioteca antes de reservar.', 'warning');
+      return;
+    }
+  
+    this.reservaService.crearReserva(libroId, usuarioId, bibliotecaId).subscribe({
+      next: () => {
+        this.reservasActivas[libroId] = true; // Marcar el libro como reservado
+        this.showNotification('Reserva realizada con éxito.', 'success');
+      },
+      error: (error) => {
+        console.error('Error al reservar el libro:', error);
+        this.showNotification('No se pudo realizar la reserva. Inténtalo de nuevo.', 'danger');
+      }
+    });
+  }
+  
+  cancelarReserva(libroId: number): void {
+    if (!this.reservasActivas[libroId]) return; // Si no está reservado, salir
+  
+    this.reservaService.cancelarReserva(libroId).subscribe({
+      next: () => {
+        delete this.reservasActivas[libroId]; // Eliminar del estado de reservas activas
+        this.showNotification('Reserva cancelada con éxito.', 'success');
+      },
+      error: (error) => {
+        console.error('Error al cancelar la reserva:', error);
+        this.showNotification('No se pudo cancelar la reserva. Inténtalo de nuevo.', 'danger');
+      }
+    });
+  }
+  
+  
+
+
 }
 
 

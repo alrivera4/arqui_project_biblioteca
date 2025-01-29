@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.espe.msvc.prestamos.MsvcPrestamosApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 26.25 s -- in com.espe.msvc.prestamos.MsvcPrestamosApplicationTests

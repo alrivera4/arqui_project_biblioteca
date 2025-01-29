@@ -1,0 +1,9 @@
+com\espe\msvc\libros\MsvcLibrosApplication.class
+com\espe\msvc\libros\config\WebConfig.class
+com\espe\msvc\libros\models\Libro.class
+com\espe\msvc\libros\models\Biblioteca.class
+com\espe\msvc\libros\repositories\LibroRepository.class
+com\espe\msvc\libros\repositories\BibliotecaRepository.class
+com\espe\msvc\libros\services\LibroService.class
+com\espe\msvc\libros\services\LibroServiceImpl.class
+com\espe\msvc\libros\controllers\LibroController.class

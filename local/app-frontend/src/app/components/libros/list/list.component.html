@@ -61,7 +61,8 @@
             <th>Categoría</th>
             <th>Cantidad Disponible</th>
             <th>Fecha de Publicación</th>
-            <th *ngIf="esAdministrador || esBibliotecario">Acciones </th>
+            <th> Accion</th>
+            <th *ngIf="esAdministrador || esBibliotecario ">Acciones </th>
           </tr>
         </thead>
         <tbody>
@@ -90,6 +91,29 @@
                   style="min-width: 75px;"
                 >
                   Eliminar
+                </button>
+              </div>
+            </td>
+            <!-- Botón de Reservar para Estudiantes y Profesores -->
+            <td *ngIf="!esAdministrador && !esBibliotecario">
+              <div class="d-flex justify-content-center">
+                <!-- Botón Reservar (solo aparece si el libro NO está reservado) -->
+                <button 
+                  *ngIf="!reservasActivas[libro.libroId]" 
+                  class="btn btn-warning btn-sm" 
+                  (click)="reservarLibro(libro.libroId)"
+                  [disabled]="libro.cantidadDisponible <= 0"
+                  style="min-width: 75px;">
+                  Reservar
+                </button>
+            
+                <!-- Botón Cancelar (solo aparece si el libro ESTÁ reservado) -->
+                <button 
+                  *ngIf="reservasActivas[libro.libroId]" 
+                  class="btn btn-danger btn-sm" 
+                  (click)="cancelarReserva(libro.libroId)"
+                  style="min-width: 75px;">
+                  Cancelar
                 </button>
               </div>
             </td>

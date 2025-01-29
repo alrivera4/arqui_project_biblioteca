@@ -192,6 +192,12 @@ export class AuthService {
     return parseInt(localStorage.getItem(this.bibliotecaIdKey) || '0', 10);
   }
 
+  getUsuarioId(): number {
+    const usuarioDatos = this.getUsuarioDatos(); // Obtener datos desde localStorage
+    return usuarioDatos ? parseInt(usuarioDatos.usuarioId, 10) : 0;
+  }
+  
+
   // Guardar datos en localStorage
   setTipoUsuario(tipoUsuario: string): void {
     localStorage.setItem(this.tipoUsuarioKey, tipoUsuario);

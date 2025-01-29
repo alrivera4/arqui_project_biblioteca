@@ -1,0 +1,10 @@
+com\espe\msvc\prestamos\config\WebConfig.class
+com\espe\msvc\prestamos\models\Libro.class
+com\espe\msvc\prestamos\services\PrestamoService.class
+com\espe\msvc\prestamos\controllers\PrestamoController.class
+com\espe\msvc\prestamos\models\Prestamo.class
+com\espe\msvc\prestamos\MsvcPrestamosApplication.class
+com\espe\msvc\prestamos\models\Usuario.class
+com\espe\msvc\prestamos\repositories\PrestamoRepository.class
+com\espe\msvc\prestamos\models\PrestamoSimplificadoDTO.class
+com\espe\msvc\prestamos\models\Biblioteca.class
