@@ -29,6 +29,7 @@ public class Biblioteca {
     private String estado;  // activo, suspendido, cancelado
     private Boolean pago = false;
 
+
     
     // Getters y Setters
 
